@@ -3,7 +3,17 @@ import { Mail, PackageCheck, ShieldCheck, Stamp, Check, ArrowRight, Clock, Shiel
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/pricing")({ component: PricingPage });
+export const Route = createFileRoute("/pricing")({
+  head: () => ({
+    meta: [
+      { title: "Pricing — Immigration Mail" },
+      { name: "description", content: "Simple per-mailing pricing. First-Class $3.99, Certified $8.99, Certified with Return Receipt $12.99, Registered $15.99. No subscription." },
+      { property: "og:title", content: "Pricing — Immigration Mail" },
+      { property: "og:description", content: "Pay per mailing. No subscription. Prices include printing, paper, envelope, and postage." },
+    ],
+  }),
+  component: PricingPage,
+});
 
 const tiers = [
   {

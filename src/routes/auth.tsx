@@ -4,7 +4,16 @@ import { FileText, ArrowRight, Mail, CheckCircle2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/auth")({ component: AuthPage });
+export const Route = createFileRoute("/auth")({
+  head: () => ({
+    meta: [
+      { title: "Sign In — Immigration Mail" },
+      { name: "description", content: "Create an account or sign in to Immigration Mail." },
+      { name: "robots", content: "noindex,nofollow" },
+    ],
+  }),
+  component: AuthPage,
+});
 
 function AuthPage() {
   const [tab, setTab] = useState<"signin" | "signup">("signup");

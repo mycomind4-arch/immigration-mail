@@ -3,7 +3,15 @@ import { FileText, ShieldAlert } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/terms")({ component: TermsPage });
+export const Route = createFileRoute("/terms")({
+  head: () => ({
+    meta: [
+      { title: "Terms of Service — Immigration Mail" },
+      { name: "description", content: "Terms of service for Immigration Mail, including user responsibilities, payment, and limitations." },
+    ],
+  }),
+  component: TermsPage,
+});
 
 const sections = [
   { title: "Acceptance of Terms", body: "By using Immigration Mail, you agree to these Terms of Service. If you do not agree, do not use the service." },

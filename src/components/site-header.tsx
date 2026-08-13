@@ -23,6 +23,7 @@ export function SiteHeader({ variant = "default" }: { variant?: "default" | "tra
             { label: "How it works", href: "/#how" },
             { label: "What you can send", href: "/#workflows" },
             { label: "Pricing", href: "/pricing" },
+            { label: "Resources", href: "/resources" },
             { label: "FAQ", href: "/faq" },
           ].map((item) => (
             <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${transparent ? "text-white/80 hover:text-white" : "text-navy-500 hover:text-navy-600"}`}>
@@ -32,8 +33,8 @@ export function SiteHeader({ variant = "default" }: { variant?: "default" | "tra
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/auth" className={`text-sm font-semibold ${transparent ? "text-white/90 hover:text-white" : "text-navy-500 hover:text-navy-600"}`}>
-            Sign In
+          <Link to="/dashboard" className={`text-sm font-semibold ${transparent ? "text-white/90 hover:text-white" : "text-navy-500 hover:text-navy-600"}`}>
+            My Mailings
           </Link>
           <Link to="/workflows/respond-to-notice" className="btn-gold">
             Start
@@ -52,8 +53,10 @@ export function SiteHeader({ variant = "default" }: { variant?: "default" | "tra
               { label: "How it works", href: "/#how" },
               { label: "What you can send", href: "/#workflows" },
               { label: "Pricing", href: "/pricing" },
+              { label: "Resources", href: "/resources" },
               { label: "FAQ", href: "/faq" },
-              { label: "Sign In", href: "/auth" },
+              { label: "My Mailings", href: "/dashboard" },
+              { label: "Contact", href: "/contact" },
             ].map((item) => (
               <a key={item.label} href={item.href} className="rounded-lg px-3 py-2.5 text-sm font-medium text-navy-500 hover:bg-navy-50" onClick={() => setOpen(false)}>
                 {item.label}

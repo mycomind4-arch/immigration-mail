@@ -5,7 +5,17 @@ import { workflows } from "../../domain/workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/workflows/respond-to-notice")({ component: RespondToNotice });
+export const Route = createFileRoute("/workflows/respond-to-notice")({
+  head: () => ({
+    meta: [
+      { title: "Respond to a Notice — Immigration Mail" },
+      { name: "description", content: "Guided workflow to organize a notice, prepare a response, and mail it with proof of delivery." },
+      { property: "og:title", content: "Respond to a Notice — Immigration Mail" },
+      { property: "og:description", content: "Organize your notice, prepare an editable draft, and send certified mail with tracking." },
+    ],
+  }),
+  component: RespondToNotice,
+});
 
 const stepLabels = ["Start", "Notice", "Facts", "Objective", "Draft", "Review", "Attachments", "Recipient", "Mailing", "Checkout", "Done"];
 

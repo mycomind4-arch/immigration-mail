@@ -1,7 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
+import { HeadContent, Outlet, Scripts, createRootRouteWithContext, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { Home, ArrowRight, FileText } from "lucide-react";
 import appCss from "../styles.css?url";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -22,6 +25,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
+  notFoundComponent: NotFoundPage,
   shellComponent: RootShell,
   component: RootComponent,
 });
@@ -41,5 +45,28 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
     </QueryClientProvider>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <main className="min-h-screen bg-cream">
+      <SiteHeader />
+      <section className="py-20 md:py-32">
+        <div className="container max-w-lg text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-navy-50">
+            <FileText size={36} className="text-navy-300" />
+          </div>
+          <h1 className="mt-8 text-6xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>404</h1>
+          <h2 className="mt-2 text-xl font-semibold text-navy-500">This page must be in the mail</h2>
+          <p className="mt-3 text-sm text-navy-400">The page you're looking for doesn't exist or has moved. Let's get you back on track.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link to="/" className="btn-primary"><Home size={16} /> Back to home</Link>
+            <Link to="/workflows/respond-to-notice" className="btn-gold">Start a workflow <ArrowRight size={16} /></Link>
+          </div>
+        </div>
+      </section>
+      <SiteFooter />
+    </main>
   );
 }

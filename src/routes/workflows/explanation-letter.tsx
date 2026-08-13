@@ -5,7 +5,15 @@ import { workflows } from "../../domain/workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/workflows/explanation-letter")({ component: ExplanationLetter });
+export const Route = createFileRoute("/workflows/explanation-letter")({
+  head: () => ({
+    meta: [
+      { title: "Prepare an Explanation Letter — Immigration Mail" },
+      { name: "description", content: "Turn your facts and objective into a professional, editable explanation letter and mail it with tracking." },
+    ],
+  }),
+  component: ExplanationLetter,
+});
 
 const stepLabels = ["Start", "Facts", "Objective", "Draft", "Review", "Attachments", "Recipient", "Mailing", "Checkout", "Done"];
 

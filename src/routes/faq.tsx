@@ -4,7 +4,16 @@ import { useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/faq")({ component: FAQPage });
+export const Route = createFileRoute("/faq")({
+  head: () => ({
+    meta: [
+      { title: "FAQ — Immigration Mail" },
+      { name: "description", content: "Answers to common questions about Immigration Mail: how it works, mailing, privacy, legal scope, and pricing." },
+      { property: "og:title", content: "FAQ — Immigration Mail" },
+    ],
+  }),
+  component: FAQPage,
+});
 
 const categories = [
   {

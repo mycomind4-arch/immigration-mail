@@ -5,7 +5,15 @@ import { workflows } from "../../domain/workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/workflows/supporting-documents")({ component: SupportingDocuments });
+export const Route = createFileRoute("/workflows/supporting-documents")({
+  head: () => ({
+    meta: [
+      { title: "Submit Supporting Documents — Immigration Mail" },
+      { name: "description", content: "Prepare a cover letter and submit supporting documents by mail with tracking and proof of delivery." },
+    ],
+  }),
+  component: SupportingDocuments,
+});
 
 const stepLabels = ["Start", "Documents", "Draft", "Review", "Attachments", "Recipient", "Mailing", "Checkout", "Done"];
 

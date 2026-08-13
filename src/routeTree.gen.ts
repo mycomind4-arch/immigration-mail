@@ -12,10 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
+import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as WorkflowsExplanationLetterRouteImport } from './routes/workflows/explanation-letter'
 import { Route as WorkflowsRespondToNoticeRouteImport } from './routes/workflows/respond-to-notice'
 import { Route as WorkflowsSupportingDocumentsRouteImport } from './routes/workflows/supporting-documents'
@@ -33,6 +37,16 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -53,6 +67,16 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
+  id: '/resources/$slug',
+  path: '/resources/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkflowsExplanationLetterRoute =
@@ -78,38 +102,50 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/resources': typeof ResourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,50 +153,66 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/pricing'
     | '/privacy'
     | '/terms'
+    | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/resources/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/pricing'
     | '/privacy'
     | '/terms'
+    | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/resources'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/auth'
+    | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/pricing'
     | '/privacy'
     | '/terms'
+    | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/resources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
+  ResourcesSlugRoute: typeof ResourcesSlugRoute
   WorkflowsExplanationLetterRoute: typeof WorkflowsExplanationLetterRoute
   WorkflowsRespondToNoticeRoute: typeof WorkflowsRespondToNoticeRoute
   WorkflowsSupportingDocumentsRoute: typeof WorkflowsSupportingDocumentsRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -184,6 +236,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -214,6 +280,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/$slug': {
+      id: '/resources/$slug'
+      path: '/resources/$slug'
+      fullPath: '/resources/$slug'
+      preLoaderRoute: typeof ResourcesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workflows/explanation-letter': {
       id: '/workflows/explanation-letter'
       path: '/workflows/explanation-letter'
@@ -242,13 +322,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
+  ResourcesSlugRoute: ResourcesSlugRoute,
   WorkflowsExplanationLetterRoute: WorkflowsExplanationLetterRoute,
   WorkflowsRespondToNoticeRoute: WorkflowsRespondToNoticeRoute,
   WorkflowsSupportingDocumentsRoute: WorkflowsSupportingDocumentsRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

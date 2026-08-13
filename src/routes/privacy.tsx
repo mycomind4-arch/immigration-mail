@@ -3,7 +3,15 @@ import { ShieldCheck, Lock, FileText, Trash2, Mail } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/privacy")({ component: PrivacyPage });
+export const Route = createFileRoute("/privacy")({
+  head: () => ({
+    meta: [
+      { title: "Privacy Policy — Immigration Mail" },
+      { name: "description", content: "How Immigration Mail collects, uses, stores, and protects your data and documents." },
+    ],
+  }),
+  component: PrivacyPage,
+});
 
 const sections = [
   { title: "Information We Collect", body: "We collect information you provide directly: your name, email address, mailing addresses, correspondence content, and uploaded documents. We also collect usage data such as pages visited and actions taken, used to operate and improve the service." },

@@ -22,16 +22,19 @@ export function SiteFooter() {
               <li><a href="/#how" className="hover:text-gold-500">How it works</a></li>
               <li><a href="/#workflows" className="hover:text-gold-500">What you can send</a></li>
               <li><Link to="/pricing" className="hover:text-gold-500">Pricing</Link></li>
+              <li><Link to="/dashboard" className="hover:text-gold-500">My Mailings</Link></li>
               <li><Link to="/faq" className="hover:text-gold-500">FAQ</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-navy-600">Legal</h3>
+            <h3 className="text-sm font-semibold text-navy-600">Resources</h3>
             <ul className="mt-3 space-y-2 text-sm text-navy-400">
+              <li><Link to="/resources" className="hover:text-gold-500">Guides</Link></li>
+              <li><Link to="/about" className="hover:text-gold-500">About</Link></li>
+              <li><Link to="/contact" className="hover:text-gold-500">Contact</Link></li>
               <li><Link to="/privacy" className="hover:text-gold-500">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-gold-500">Terms of Service</Link></li>
-              <li><Link to="/about" className="hover:text-gold-500">About</Link></li>
             </ul>
           </div>
 

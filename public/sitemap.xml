@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://immigration-mail.com/</loc></url>
-  <url><loc>https://immigration-mail.com/workflows/respond-to-notice</loc></url>
-  <url><loc>https://immigration-mail.com/workflows/supporting-documents</loc></url>
-  <url><loc>https://immigration-mail.com/workflows/explanation-letter</loc></url>
+  <url><loc>https://immigration-mail.pages.dev/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/pricing</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/faq</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/resources</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/resources/how-to-respond-to-rfe</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/resources/writing-an-explanation-letter</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/resources/certified-mail-guide</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/workflows/respond-to-notice</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/workflows/supporting-documents</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://immigration-mail.pages.dev/workflows/explanation-letter</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 </urlset>

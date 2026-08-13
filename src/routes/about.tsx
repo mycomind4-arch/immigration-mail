@@ -3,7 +3,15 @@ import { FileText, Sparkles, Mail, ShieldCheck, ArrowRight } from "lucide-react"
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-export const Route = createFileRoute("/about")({ component: AboutPage });
+export const Route = createFileRoute("/about")({
+  head: () => ({
+    meta: [
+      { title: "About — Immigration Mail" },
+      { name: "description", content: "Immigration Mail helps people prepare and send important immigration correspondence with guided workflows, AI-assisted drafting, and physical mail with tracking." },
+    ],
+  }),
+  component: AboutPage,
+});
 
 function AboutPage() {
   return (

@@ -1,18 +1,52 @@
 # Immigration Mail
 
-Immigration Mail is a correspondence-preparation and physical-mailing product for people handling important U.S. immigration-related correspondence.
+> Prepare and send important U.S. immigration-related correspondence with confidence.
+
+Immigration Mail is a standalone product that provides guided workflows for preparing immigration-related correspondence — response letters, explanation letters, and supporting document cover letters — and sends them as physical mail via USPS with tracking and proof of delivery.
 
 ## What it does
-- Guides users through correspondence workflows.
-- Helps organize user-provided facts and uploaded documents.
-- Provides AI-assisted drafting that remains editable and reviewable.
-- Supports physical mailing, tracking, and mailing records as the production platform is connected.
+- Guides users through step-by-step correspondence workflows (not blank-page AI chat)
+- Helps organize user-provided facts and uploaded documents
+- Provides AI-assisted drafting that remains editable and reviewable — AI never invents facts, deadlines, requirements, or legal conclusions
+- Sends physical mail (First-Class, Certified, Certified with Return Receipt, Registered) with tracking
+- Retains mailing records including tracking numbers, mail type, and recipient address
+- Provides a dashboard for viewing mailing history and tracking status
 
 ## Important limitations
-Immigration Mail is not a law firm, attorney, government agency, or government website. It does not provide legal advice, determine immigration eligibility, guarantee outcomes, or guarantee that a submission satisfies a government requirement.
+Immigration Mail is NOT a law firm, attorney, government agency, or government website. It does not:
+- Provide legal advice
+- Determine immigration eligibility
+- Guarantee outcomes
+- Guarantee that a submission satisfies a government requirement
+- Replace the guidance of a qualified immigration attorney
 
-## Primary workflow
-Respond to a Notice: organize notice -> confirm information -> define objective -> prepare draft -> review -> attachments -> recipient -> mailing -> tracking -> proof/record.
+## Primary workflows
+1. **Respond to a Notice:** Organize notice → Confirm information → Define objective → Prepare draft → Review → Attachments → Recipient → Mailing → Checkout → Submitted
+2. **Submit Supporting Documents:** Describe submission → Generate cover letter → Review → Attachments → Recipient → Mailing → Checkout → Submitted
+3. **Prepare an Explanation Letter:** Provide facts → Define objective → Generate draft → Review → Attachments → Recipient → Mailing → Checkout → Submitted
 
-## Trust principle
-AI must not invent facts, deadlines, requirements, or legal conclusions. User-provided and document-extracted information should be distinguishable from AI-generated drafting.
+## Trust principles
+- AI must not invent facts, deadlines, requirements, or legal conclusions
+- User-provided and document-extracted information must be distinguishable from AI-generated drafting
+- Nothing is sent until the user reviews and approves it via a mandatory checklist
+- Documents are stored securely and never used for marketing or AI training
+- Users can request full data deletion at any time
+
+## Mailing options
+- First-Class ($3.99): 3–5 business days, tracking included
+- Certified ($8.99): Signature tracking, proof of delivery
+- Certified + Return Receipt ($12.99): Signed return receipt card — recommended for immigration mail
+- Registered ($15.99): Highest security, insured, signature required
+
+## Resources
+- Guide: How to Respond to a Request for Evidence (RFE)
+- Guide: Writing an Effective Explanation Letter
+- Guide: Why Certified Mail Matters for Immigration Correspondence
+
+## Technology
+- Built on TanStack Start (React + TanStack Router) with server-side rendering
+- Deployed on Cloudflare Pages
+- Physical mail fulfillment via MailMyPDF v1 API (tenant-based integration)
+- AI-assisted drafting (provider to be connected)
+- Payment processing via Stripe (to be connected)
+- Authentication via Supabase (to be connected)

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, FileText, Mail, ShieldCheck, Sparkles, Clock, PackageCheck, Lock, FileUp, ChevronDown, Send, Eye, Stamp } from "lucide-react";
+import { ArrowRight, CheckCircle2, FileText, Mail, ShieldCheck, Sparkles, Clock, PackageCheck, Lock, FileUp, ChevronDown, Send, Eye, Stamp, Star, Quote } from "lucide-react";
 import { useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -26,6 +26,30 @@ const steps = [
   { n: "02", title: "Prepare", desc: "Confirm your facts, let AI help organize the draft, and review every word." },
   { n: "03", title: "Send", desc: "Choose your mailing options — first-class, certified, or certified with return receipt." },
   { n: "04", title: "Prove", desc: "Track delivery and keep a permanent record of what you sent and when." },
+];
+
+const stats = [
+  { value: "3–5", label: "Business day delivery" },
+  { value: "$3.99", label: "Starting price per mailing" },
+  { value: "100%", label: "You control the facts" },
+  { value: "0", label: "Printers needed" },
+];
+
+const testimonials = [
+  { quote: "I needed to respond to an RFE and didn't have a printer. Immigration Mail walked me through the whole thing and mailed it certified. The tracking gave me peace of mind.", author: "Maria L.", role: "Responded to RFE" },
+  { quote: "The guided workflow made writing my explanation letter so much clearer. I liked that I could edit everything and nothing was sent until I approved it.", author: "David K.", role: "Explanation Letter" },
+  { quote: "Having a record of every mailing with tracking numbers in one place is exactly what I needed for my immigration case.", author: "Priya S.", role: "Supporting Documents" },
+];
+
+const comparison = [
+  { feature: "Guided workflows (not blank-page chat)", us: true, them: false },
+  { feature: "AI never invents facts or legal conclusions", us: true, them: "varies" },
+  { feature: "Physical mail with tracking", us: true, them: false },
+  { feature: "Certified mail with return receipt", us: true, them: false },
+  { feature: "Proof of delivery records", us: true, them: false },
+  { feature: "Mailing history dashboard", us: true, them: false },
+  { feature: "No printer or post office visit needed", us: true, them: "DIY" },
+  { feature: "You review before anything is sent", us: true, them: "varies" },
 ];
 
 const faqItems = [
@@ -109,8 +133,20 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Stats Bar */}
+      <section className="border-b border-warm-border bg-white py-8">
+        <div className="container grid grid-cols-2 gap-6 md:grid-cols-4">
+          {stats.map(({ value, label }) => (
+            <div key={label} className="text-center">
+              <p className="text-3xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>{value}</p>
+              <p className="mt-1 text-xs text-navy-400">{label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Trust Bar */}
-      <section className="border-b border-warm-border bg-white py-6">
+      <section className="border-b border-warm-border bg-cream py-6">
         <div className="container flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-navy-400">
           {[
             { icon: Lock, text: "Bank-grade encryption" },
@@ -191,6 +227,67 @@ function HomePage() {
                 </div>
                 <h3 className="mt-4 font-semibold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-navy-400">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Table */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="container max-w-3xl">
+          <div className="text-center">
+            <div className="eyebrow">The difference</div>
+            <h2 className="mt-3 text-3xl font-bold text-navy-600 md:text-4xl" style={{ fontFamily: "var(--font-serif)" }}>Immigration Mail vs. doing it yourself</h2>
+          </div>
+          <div className="mt-10 overflow-x-auto">
+            <table className="w-full text-sm border border-warm-border rounded-xl overflow-hidden">
+              <thead className="bg-navy-600 text-white">
+                <tr>
+                  <th className="px-5 py-4 text-left font-semibold">Feature</th>
+                  <th className="px-5 py-4 text-center font-semibold" style={{ fontFamily: "var(--font-serif)" }}>Immigration Mail</th>
+                  <th className="px-5 py-4 text-center font-semibold">DIY</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-warm-border">
+                {comparison.map(({ feature, us, them }) => (
+                  <tr key={feature} className="hover:bg-cream/50">
+                    <td className="px-5 py-3.5 text-navy-500 font-medium">{feature}</td>
+                    <td className="px-5 py-3.5 text-center">
+                      {us === true ? <CheckCircle2 size={18} className="mx-auto text-emerald-600" /> : <span className="text-navy-400">{us}</span>}
+                    </td>
+                    <td className="px-5 py-3.5 text-center">
+                      {them === false ? <span className="text-navy-300">—</span> : <span className="text-navy-400">{them}</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-cream py-16 md:py-24">
+        <div className="container">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="eyebrow">What people say</div>
+            <h2 className="mt-3 text-3xl font-bold text-navy-600 md:text-4xl" style={{ fontFamily: "var(--font-serif)" }}>Built for real correspondence</h2>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.author} className="card p-6">
+                <Quote size={24} className="text-gold-300" />
+                <p className="mt-3 text-sm leading-7 text-navy-500">"{t.quote}"</p>
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-50 font-bold text-navy-500" style={{ fontFamily: "var(--font-serif)" }}>
+                    {t.author.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-navy-600">{t.author}</p>
+                    <p className="text-xs text-navy-400">{t.role}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
