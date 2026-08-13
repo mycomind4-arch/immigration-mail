@@ -1,55 +1,47 @@
 import { Link } from "@tanstack/react-router";
-import { FileText } from "lucide-react";
+import { Logo } from "./site-header";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-warm-border bg-white">
-      <div className="container py-12">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div className="md:col-span-1">
+    <footer className="mt-16 border-t border-rule/60 sm:mt-24">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 md:grid-cols-4">
+          <div className="sm:col-span-2 md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-                <FileText size={16} className="text-gold-400" />
-              </div>
-              <span className="text-base font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Immigration Mail</span>
+              <Logo />
+              <span className="font-serif text-lg">Immigration Mail</span>
             </div>
-            <p className="mt-3 text-sm leading-6 text-navy-400">Prepare and send important immigration correspondence with confidence.</p>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-navy-600">Product</h3>
-            <ul className="mt-3 space-y-2 text-sm text-navy-400">
-              <li><a href="/#how" className="hover:text-gold-500">How it works</a></li>
-              <li><a href="/#workflows" className="hover:text-gold-500">What you can send</a></li>
-              <li><Link to="/pricing" className="hover:text-gold-500">Pricing</Link></li>
-              <li><Link to="/dashboard" className="hover:text-gold-500">My Mailings</Link></li>
-              <li><Link to="/faq" className="hover:text-gold-500">FAQ</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-navy-600">Resources</h3>
-            <ul className="mt-3 space-y-2 text-sm text-navy-400">
-              <li><Link to="/resources" className="hover:text-gold-500">Guides</Link></li>
-              <li><Link to="/about" className="hover:text-gold-500">About</Link></li>
-              <li><Link to="/contact" className="hover:text-gold-500">Contact</Link></li>
-              <li><Link to="/privacy" className="hover:text-gold-500">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-gold-500">Terms of Service</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-navy-600">Important</h3>
-            <p className="mt-3 text-xs leading-5 text-navy-400">
-              Immigration Mail is not a law firm or government agency and does not provide legal advice.
-              You remain in control of the facts and final document.
+            <p className="mt-3 max-w-sm text-sm text-muted-foreground">
+              Prepare, review, and mail important immigration correspondence with confidence.
+              Guided workflows — not blank-page AI chat.
             </p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground">Product</div>
+            <ul className="mt-3 space-y-2 text-sm">
+              <li><Link to="/workflows/respond-to-notice" className="text-ink-soft hover:text-stamp transition-colors">Respond to a Notice</Link></li>
+              <li><Link to="/workflows/supporting-documents" className="text-ink-soft hover:text-stamp transition-colors">Supporting Documents</Link></li>
+              <li><Link to="/workflows/explanation-letter" className="text-ink-soft hover:text-stamp transition-colors">Explanation Letter</Link></li>
+              <li><Link to="/pricing" className="text-ink-soft hover:text-stamp transition-colors">Pricing</Link></li>
+              <li><Link to="/dashboard" className="text-ink-soft hover:text-stamp transition-colors">My Mailings</Link></li>
+              <li><Link to="/faq" className="text-ink-soft hover:text-stamp transition-colors">FAQ</Link></li>
+            </ul>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground">Company</div>
+            <ul className="mt-3 space-y-2 text-sm">
+              <li><Link to="/about" className="text-ink-soft hover:text-stamp transition-colors">About</Link></li>
+              <li><Link to="/contact" className="text-ink-soft hover:text-stamp transition-colors">Contact</Link></li>
+              <li><Link to="/privacy" className="text-ink-soft hover:text-stamp transition-colors">Privacy</Link></li>
+              <li><Link to="/terms" className="text-ink-soft hover:text-stamp transition-colors">Terms</Link></li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-warm-border pt-6 text-xs text-navy-400 md:flex-row md:items-center md:justify-between">
-          <span>© 2026 Immigration Mail. Powered by MailMyPDF.</span>
-          <span>Information is educational and product-related, not legal advice.</span>
+        <div className="hairline mt-6 pt-6 text-xs text-muted-foreground sm:mt-8">
+          Immigration Mail provides document preparation and mailing tools. We do not provide legal advice
+          or representation. Users are responsible for reviewing their documents, addresses, deadlines, and
+          mailing requirements before submitting an order. Mailing fulfillment provided by MailMyPDF.
         </div>
       </div>
     </footer>

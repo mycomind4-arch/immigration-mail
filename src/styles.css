@@ -1,151 +1,258 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../src";
 
-@theme {
-  --color-navy-50: #f0f3f8;
-  --color-navy-100: #d9e0ed;
-  --color-navy-200: #b3c1db;
-  --color-navy-300: #8da2c9;
-  --color-navy-400: #4e6b9e;
-  --color-navy-500: #2d4a7a;
-  --color-navy-600: #1a2b4a;
-  --color-navy-700: #15223c;
-  --color-navy-800: #101a30;
-  --color-navy-900: #0b1224;
+/*
+ * Immigration Mail design system — "Government paper"
+ *
+ * Adapted from MailMyPDF's "Warm & postal" system.
+ * Cream paper background, deep navy ink, immigration gold accent.
+ * Editorial serif headings (Instrument Serif), grotesk body (Inter).
+ */
 
-  --color-gold-50: #fdf9ef;
-  --color-gold-100: #faf0d7;
-  --color-gold-200: #f4dfa7;
-  --color-gold-300: #ecc96e;
-  --color-gold-400: #d8aa3c;
-  --color-gold-500: #c8951d;
-  --color-gold-600: #b07d15;
-  --color-gold-700: #8f6413;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-  --color-cream: #faf8f5;
-  --color-warm-border: #e2e0db;
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-stamp: var(--stamp);
+  --color-stamp-soft: var(--stamp-soft);
+  --color-rule: var(--rule);
 
-  --font-serif: Georgia, "Source Serif Pro", "Times New Roman", serif;
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  --shadow-card: 0 1px 0 0 color-mix(in oklab, var(--ink) 8%, transparent),
+                 0 20px 40px -24px color-mix(in oklab, var(--ink) 18%, transparent);
+  --shadow-stamp: 0 8px 24px -12px color-mix(in oklab, var(--stamp) 45%, transparent);
+  --shadow-hover: 0 2px 0 0 color-mix(in oklab, var(--ink) 12%, transparent),
+                  0 28px 48px -20px color-mix(in oklab, var(--ink) 22%, transparent);
 }
 
 :root {
-  font-family: var(--font-sans);
-  color: #1a2b4a;
-  background: #faf8f5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  /* Paper palette — cream/off-white with warm undertone */
+  --paper: oklch(0.97 0.015 75);
+  --paper-deep: oklch(0.94 0.02 72);
+  --ink: oklch(0.25 0.05 260);
+  --ink-soft: oklch(0.43 0.04 258);
+  --stamp: oklch(0.62 0.14 75);
+  --stamp-soft: oklch(0.75 0.08 72);
+  --rule: oklch(0.87 0.015 75);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(0.99 0.005 75);
+  --card-foreground: var(--ink);
+  --popover: oklch(0.99 0.005 75);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--stamp);
+  --accent-foreground: oklch(0.99 0.005 75);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 75);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--ink);
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
-a { color: inherit; text-decoration: none; }
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  letter-spacing: -0.01em;
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  h1 { letter-spacing: -0.025em; }
+
+  /* Subtle paper grain */
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, color-mix(in oklab, var(--stamp) 4%, transparent) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, color-mix(in oklab, var(--ink) 5%, transparent) 0%, transparent 45%);
+    background-attachment: fixed;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: rotate(1deg) translateY(0); }
+    50% { transform: rotate(1deg) translateY(-6px); }
+  }
 }
 
-.container { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
-@media (max-width: 640px) {
-  .container { width: min(100% - 28px, 1180px); }
-}
-
-.card {
-  border: 1px solid #e2e0db;
-  border-radius: 18px;
-  background: white;
-  box-shadow: 0 4px 24px rgba(26, 43, 74, .05);
-}
-
-.eyebrow {
-  letter-spacing: .14em;
+@utility postmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px dashed color-mix(in oklab, var(--stamp) 55%, transparent);
+  color: var(--stamp);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-size: .72rem;
-  font-weight: 700;
-  color: #c8951d;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--stamp) 6%, transparent);
+}
+
+@utility envelope-card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+@utility envelope-card-hover {
+  &:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+}
+
+@utility hairline {
+  border-top: 1px solid var(--rule);
+}
+
+@utility postmark-circle {
+  position: absolute;
+  border: 2px solid color-mix(in oklab, var(--stamp) 30%, transparent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--stamp) 45%, transparent);
+  transform: rotate(-12deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Workflow progress bar */
+.progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ink);
+  transition: width 0.4s ease;
+}
+
+/* Upload zone */
+.upload-zone {
+  border: 2px dashed color-mix(in oklab, var(--stamp) 40%, transparent);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  background: color-mix(in oklab, var(--paper-deep) 50%, transparent);
+}
+.upload-zone:hover {
+  border-color: var(--stamp);
+  background: color-mix(in oklab, var(--stamp) 5%, transparent);
+}
+
+/* Review checklist cards */
+.check-card {
+  display: flex;
+  gap: 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.625rem;
+  padding: 0.875rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.check-card:hover {
+  border-color: var(--stamp);
+  background: color-mix(in oklab, var(--stamp) 4%, transparent);
+}
+.check-card input[type="checkbox"] { margin-top: 0.15rem; }
+
+/* Mail option cards */
+.mail-option {
+  border: 2px solid var(--rule);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--card);
+}
+.mail-option:hover { border-color: var(--ink); }
+.mail-option.selected {
+  border-color: var(--stamp);
+  background: color-mix(in oklab, var(--stamp) 5%, transparent);
+}
+
+/* Form inputs */
+.input-field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--input);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  background: var(--card);
+  color: var(--ink);
   font-family: var(--font-sans);
 }
-
-.btn-primary {
-  display: inline-flex; align-items: center; gap: .5rem;
-  border-radius: .75rem; background: #1a2b4a; padding: .7rem 1.5rem;
-  font-weight: 600; font-size: .9rem; color: white;
-  transition: all .2s; cursor: pointer; border: none;
+.input-field:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ink) 8%, transparent);
 }
-.btn-primary:hover { background: #15223c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,43,74,.2); }
-.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-
-.btn-gold {
-  display: inline-flex; align-items: center; gap: .5rem;
-  border-radius: .75rem; background: #c8951d; padding: .7rem 1.5rem;
-  font-weight: 600; font-size: .9rem; color: white;
-  transition: all .2s; cursor: pointer; border: none;
-}
-.btn-gold:hover { background: #b07d15; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,149,29,.25); }
-.btn-gold:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-
-.btn-outline {
-  display: inline-flex; align-items: center; gap: .5rem;
-  border-radius: .75rem; border: 1px solid #c5c8cc; background: white;
-  padding: .7rem 1.5rem; font-weight: 600; font-size: .9rem; color: #1a2b4a;
-  transition: all .2s; cursor: pointer;
-}
-.btn-outline:hover { border-color: #1a2b4a; background: #faf8f5; }
-
-.btn-ghost {
-  display: inline-flex; align-items: center; gap: .4rem;
-  font-weight: 600; font-size: .85rem; color: #1a2b4a;
-  transition: color .15s; cursor: pointer; background: none; border: none;
-}
-.btn-ghost:hover { color: #c8951d; }
-
-.input-field {
-  width: 100%; border-radius: .75rem; border: 1px solid #d1d5db;
-  padding: .65rem .9rem; font-size: .9rem; outline: none;
-  transition: border-color .15s; background: white; color: #1a2b4a;
-}
-.input-field:focus { border-color: #1a2b4a; box-shadow: 0 0 0 3px rgba(26,43,74,.08); }
-
 .input-label {
-  display: block; font-size: .82rem; font-weight: 600; color: #1a2b4a; margin-bottom: .4rem;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 0.35rem;
+  text-transform: none;
 }
-
-.badge {
-  display: inline-flex; align-items: center; gap: .3rem;
-  border-radius: 99px; padding: .2rem .6rem; font-size: .72rem; font-weight: 600;
-}
-.badge-gold { background: #faf0d7; color: #8f6413; }
-.badge-navy { background: #f0f3f8; color: #1a2b4a; }
-.badge-green { background: #ecfdf5; color: #047857; }
-.badge-amber { background: #fffbeb; color: #92400e; }
-
-.alert { border-radius: .75rem; padding: 1rem; font-size: .85rem; line-height: 1.6; }
-.alert-warning { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
-.alert-info { background: #f0f3f8; border: 1px solid #d9e0ed; color: #1a2b4a; }
-.alert-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #047857; }
-.alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
-
-.progress-track { height: 8px; border-radius: 99px; background: #e2e0db; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #1a2b4a, #2d4a7a); transition: width .4s ease; }
-
-.upload-zone {
-  border: 2px dashed #c5c8cc; border-radius: 1rem; padding: 2rem;
-  text-align: center; transition: all .2s; cursor: pointer; background: #faf8f5;
-}
-.upload-zone:hover { border-color: #c8951d; background: #fdf9ef; }
-
-.check-card {
-  display: flex; gap: .65rem; border: 1px solid #e2e0db; border-radius: .75rem;
-  padding: 1rem; font-size: .85rem; color: #374151; cursor: pointer; transition: all .15s;
-}
-.check-card:hover { border-color: #c8951d; background: #fdf9ef; }
-.check-card input[type="checkbox"] { margin-top: .15rem; }
-
-.mail-option {
-  border: 2px solid #e2e0db; border-radius: 1rem; padding: 1.25rem;
-  cursor: pointer; transition: all .2s; background: white;
-}
-.mail-option:hover { border-color: #1a2b4a; }
-.mail-option.selected { border-color: #c8951d; background: #fdf9ef; }

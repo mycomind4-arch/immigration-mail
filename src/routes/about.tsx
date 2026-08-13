@@ -1,73 +1,77 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { FileText, Sparkles, Mail, ShieldCheck, ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — Immigration Mail" },
-      { name: "description", content: "Immigration Mail helps people prepare and send important immigration correspondence with guided workflows, AI-assisted drafting, and physical mail with tracking." },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "About — Immigration Mail" },
+    { name: "description", content: "Immigration Mail helps people prepare and send important immigration correspondence with confidence." },
+  ] }),
   component: AboutPage,
 });
 
 function AboutPage() {
   return (
-    <main className="min-h-screen bg-cream">
+    <div className="min-h-screen">
       <SiteHeader />
-
-      <section style={{ background: "linear-gradient(135deg, #1a2b4a 0%, #15223c 100%)" }} className="py-16 md:py-24">
-        <div className="container max-w-2xl text-center">
-          <div className="badge badge-gold mb-4">About Immigration Mail</div>
-          <h1 className="text-4xl font-bold text-white md:text-5xl" style={{ fontFamily: "var(--font-serif)" }}>Immigration correspondence, made clearer.</h1>
-          <p className="mt-5 text-lg leading-8 text-white/60">We believe everyone deserves access to clear, professional tools for preparing and sending important correspondence — without confusion, without guesswork, and without a printer.</p>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20">
-        <div className="container max-w-3xl">
-          <h2 className="text-2xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Our mission</h2>
-          <p className="mt-4 text-sm leading-7 text-navy-400">Immigration processes involve important correspondence — responses to notices, explanation letters, and supporting document submissions. For many people, the hardest part isn't the content. It's the logistics: organizing information, writing a professional letter, printing it, and mailing it with proof of delivery.</p>
-          <p className="mt-3 text-sm leading-7 text-navy-400">Immigration Mail was built to solve that. We provide guided workflows that walk you through every step, AI that helps organize your facts into a draft (but never invents them), and physical mail delivery with tracking and proof — all from your phone or computer.</p>
-        </div>
-      </section>
-
-      <section className="bg-white py-16">
-        <div className="container max-w-3xl">
-          <h2 className="text-2xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>What we believe</h2>
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            <div className="card p-5"><Sparkles size={22} className="text-gold-500" /><h3 className="mt-3 font-semibold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Clarity over complexity</h3><p className="mt-2 text-sm text-navy-400">Correspondence tools should be easy to use, even for people who've never sent certified mail before.</p></div>
-            <div className="card p-5"><ShieldCheck size={22} className="text-gold-500" /><h3 className="mt-3 font-semibold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Your facts stay yours</h3><p className="mt-2 text-sm text-navy-400">AI assists but never invents. You review everything before it's sent. Your data is private.</p></div>
-            <div className="card p-5"><Mail size={22} className="text-gold-500" /><h3 className="mt-3 font-semibold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Physical mail matters</h3><p className="mt-2 text-sm text-navy-400">Some correspondence needs to be physical — with tracking and proof. We handle that end to end.</p></div>
+      <main>
+        <section className="border-b border-rule/60">
+          <div className="mx-auto max-w-4xl px-6 py-20">
+            <div className="postmark w-fit">About</div>
+            <h1 className="mt-4 font-serif text-4xl md:text-5xl">Every letter deserves clarity.</h1>
+            <p className="mt-5 max-w-2xl text-lg text-ink-soft">We believe everyone deserves a clear, professional tool for preparing and mailing important immigration correspondence — without confusion, without guesswork, and without a printer.</p>
           </div>
-        </div>
-      </section>
-
-      <section className="py-16">
-        <div className="container max-w-3xl">
-          <h2 className="text-2xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>Powered by MailMyPDF</h2>
-          <p className="mt-4 text-sm leading-7 text-navy-400">Immigration Mail is a standalone product built on the MailMyPDF mailing platform. MailMyPDF handles the physical fulfillment — printing, enveloping, USPS delivery, tracking, and proof of delivery — so Immigration Mail can focus on the immigration-specific experience: guided workflows, accurate drafting, and clear UX.</p>
-          <div className="mt-6 flex items-center gap-4 rounded-xl border border-warm-border bg-white p-5">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-50"><FileText size={22} className="text-navy-600" /></div>
-            <div>
-              <p className="font-semibold text-navy-600">MailMyPDF</p>
-              <p className="text-sm text-navy-400">The mailing infrastructure behind Immigration Mail</p>
+        </section>
+        <section className="border-b border-rule/60">
+          <div className="mx-auto max-w-3xl px-6 py-16">
+            <h2 className="font-serif text-2xl">Our mission</h2>
+            <p className="mt-4 text-muted-foreground leading-7">When you receive an immigration notice, the hardest part isn't knowing what to say. It's the logistics: identifying the issue, organizing your facts, writing a professional letter, printing it, and mailing it with proof of delivery — all before the deadline.</p>
+            <p className="mt-3 text-muted-foreground leading-7">Immigration Mail was built to solve that. We provide guided workflows that walk you through every step, AI that helps organize your facts into a draft (but never invents them), and physical mail delivery with tracking and proof — all from your phone or computer.</p>
+          </div>
+        </section>
+        <section className="border-b border-rule/60 bg-paper-deep/20">
+          <div className="mx-auto max-w-3xl px-6 py-16">
+            <h2 className="font-serif text-2xl">What we believe</h2>
+            <div className="mt-6 grid gap-5 md:grid-cols-3">
+              <div className="envelope-card p-5">
+                <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 2a5 5 0 0 1 5 5c0 1.5-.5 3-1.5 4 .5 1 1.5 1.5 1.5 3a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3c0-1.5 1-2 1.5-3-1-1-1.5-2.5-1.5-4a5 5 0 0 1 5-5z" /></svg>
+                <h3 className="mt-3 font-serif text-lg">Clarity over complexity</h3>
+                <p className="mt-2 text-sm text-muted-foreground">Correspondence tools should be easy to use, even for first-timers.</p>
+              </div>
+              <div className="envelope-card p-5">
+                <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 3l8 4v6c0 5-3.5 7-8 8-4.5-1-8-3-8-8V7l8-4zM9 12l2 2 4-4" /></svg>
+                <h3 className="mt-3 font-serif text-lg">Your facts stay yours</h3>
+                <p className="mt-2 text-sm text-muted-foreground">AI assists but never invents. You review everything before it's sent.</p>
+              </div>
+              <div className="envelope-card p-5">
+                <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+                <h3 className="mt-3 font-serif text-lg">Proof matters</h3>
+                <p className="mt-2 text-sm text-muted-foreground">Immigration correspondence needs proof of delivery. We handle that.</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section style={{ background: "linear-gradient(135deg, #1a2b4a 0%, #15223c 100%)" }} className="py-16">
-        <div className="container text-center">
-          <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-serif)" }}>Ready to start?</h2>
-          <p className="mx-auto mt-3 max-w-md text-white/60">Prepare and send your first piece of correspondence today.</p>
-          <Link to="/workflows/respond-to-notice" className="btn-gold mt-6 text-base">Start a workflow <ArrowRight size={18} /></Link>
-        </div>
-      </section>
-
+        </section>
+        <section className="border-b border-rule/60">
+          <div className="mx-auto max-w-3xl px-6 py-16">
+            <h2 className="font-serif text-2xl">Powered by MailMyPDF</h2>
+            <p className="mt-4 text-muted-foreground leading-7">Immigration Mail is a standalone product built on the MailMyPDF mailing platform, which handles printing, enveloping, USPS delivery, tracking, and proof of delivery.</p>
+            <div className="mt-6 flex items-center gap-4 rounded-lg border border-rule/60 bg-paper-deep/30 p-5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-card">
+                <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4" /></svg>
+              </div>
+              <div><p className="font-medium text-foreground">MailMyPDF</p><p className="text-sm text-muted-foreground">The mailing infrastructure behind Immigration Mail</p></div>
+            </div>
+          </div>
+        </section>
+        <section className="border-b border-rule/60">
+          <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+            <div className="postmark mx-auto w-fit">Ready to mail</div>
+            <h2 className="mt-4 font-serif text-4xl">Prepare and send your letter today.</h2>
+            <Link to="/workflows/respond-to-notice" className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5">Start your letter <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></Link>
+          </div>
+        </section>
+      </main>
       <SiteFooter />
-    </main>
+    </div>
   );
 }
