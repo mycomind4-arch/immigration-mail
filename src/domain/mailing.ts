@@ -17,6 +17,19 @@ export interface MailingOrderDraft {
   method: MailingMethod;
   stripePaymentId?: string;
   providerOrderId?: string;
+  /** Stable key used to make physical-mail submission safe to retry. */
+  idempotencyKey?: string;
+  /** Immigration-specific context passed to the shared mailing platform. */
+  matterReference?: string;
+  matterType?: string;
+  legalReference?: {
+    type: "statute" | "lease_clause" | "contract_term" | "regulation" | "ordinance" | "other";
+    citation: string;
+    description: string;
+    responseWindowDays?: number | null;
+    notes?: string;
+  };
+  metadata?: Record<string, unknown>;
 }
 
 export interface MailingStatus {
