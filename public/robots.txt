@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://immigration-mail.com/sitemap.xml
