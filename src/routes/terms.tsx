@@ -6,7 +6,8 @@ export const Route = createFileRoute("/terms")({
   head: () => ({ meta: [
     { title: "Terms of Service — Immigration Mail" },
     { name: "description", content: "Terms of service for Immigration Mail." },
-  ] }),
+  ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/terms" }],  }),
   component: TermsPage,
 });
 

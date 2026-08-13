@@ -6,7 +6,8 @@ export const Route = createFileRoute("/privacy")({
   head: () => ({ meta: [
     { title: "Privacy Policy — Immigration Mail" },
     { name: "description", content: "How Immigration Mail collects, uses, stores, and protects your data and documents." },
-  ] }),
+  ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/privacy" }],  }),
   component: PrivacyPage,
 });
 

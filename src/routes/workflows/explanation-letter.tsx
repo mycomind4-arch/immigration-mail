@@ -10,6 +10,7 @@ export const Route = createFileRoute("/workflows/explanation-letter")({
       { title: "Prepare an Explanation Letter — Immigration Mail" },
       { name: "description", content: "Turn your own facts and instructions into a professional, editable correspondence draft." },
     ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/workflows/explanation-letter" }],
   }),
   component: ExplanationLetter,
 });
@@ -51,6 +52,7 @@ function ExplanationLetter() {
   const [mailType, setMailType] = useState("certified");
   const [recipient, setRecipient] = useState({ name: "", org: "", address1: "", address2: "", city: "", state: "", zip: "" });
   const [done, setDone] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number }[]>([]);
 
   const allChecked = checks.every(Boolean);
 
@@ -161,8 +163,22 @@ Sincerely,
                 <svg className="mx-auto text-muted-foreground" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
                 <span className="mt-3 block font-medium text-foreground">Add attachments</span>
                 <span className="mt-1 block text-xs text-muted-foreground">Evidence, references, supporting documents</span>
-                <input type="file" accept="application/pdf,image/jpeg,image/png" multiple className="sr-only" />
+                <input type="file" accept="application/pdf,image/jpeg,image/png" multiple className="sr-only" onChange={(e) => { const files = Array.from(e.target.files ?? []); if (files.length) { setUploadedFiles(prev => [...prev, ...files.map(f => ({ name: f.name, size: f.size }))] ); } }} />
               </label>
+
+              {uploadedFiles.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {uploadedFiles.map((file, i) => (
+                    <div key={i} className="flex items-center justify-between rounded-md border border-rule/70 bg-paper-deep/40 px-3 py-2 text-sm">
+                      <span className="flex items-center gap-2 text-ink-soft">
+                        <svg className="h-4 w-4 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                        {file.name}
+                      </span>
+                      <button type="button" onClick={() => setUploadedFiles(prev => prev.filter((_, j) => j !== i))} className="text-muted-foreground hover:text-destructive text-xs">Remove</button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

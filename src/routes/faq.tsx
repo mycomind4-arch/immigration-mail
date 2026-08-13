@@ -8,6 +8,7 @@ export const Route = createFileRoute("/faq")({
       { title: "FAQ — Immigration Mail" },
       { name: "description", content: "Answers to common questions about Immigration Mail: how it works, mailing, privacy, legal scope, and pricing." },
     ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/faq" }],
   }),
   component: FAQPage,
 });

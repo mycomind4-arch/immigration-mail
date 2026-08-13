@@ -8,7 +8,7 @@ Immigration Mail is a standalone product that provides guided workflows for prep
 - Guides users through step-by-step correspondence workflows (not blank-page AI chat)
 - Helps organize user-provided facts and uploaded documents
 - Provides AI-assisted drafting that remains editable and reviewable — AI never invents facts, deadlines, requirements, or legal conclusions
-- Sends physical mail (First-Class, Certified, Certified with Return Receipt, Registered) with tracking
+- Sends physical mail (Standard, Certified, Registered) with tracking
 - Retains mailing records including tracking numbers, mail type, and recipient address
 - Provides a dashboard for viewing mailing history and tracking status
 
@@ -33,10 +33,9 @@ Immigration Mail is NOT a law firm, attorney, government agency, or government w
 - Users can request full data deletion at any time
 
 ## Mailing options
-- First-Class ($3.99): 3–5 business days, tracking included
-- Certified ($8.99): Signature tracking, proof of delivery
-- Certified + Return Receipt ($12.99): Signed return receipt card — recommended for immigration mail
-- Registered ($15.99): Highest security, insured, signature required
+- Standard ($4.99): 3–7 business days, USPS tracking included
+- Certified ($14.94): Delivery tracking + confirmation, proof of delivery, 3–7 days
+- Registered ($32.49): Secure handling + tracking, insured, signature required, 5–10 days
 
 ## Resources
 - Guide: How to Respond to a Request for Evidence (RFE)

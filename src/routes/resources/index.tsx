@@ -11,6 +11,7 @@ export const Route = createFileRoute("/resources/")({
       { property: "og:title", content: "Resources & Guides — Immigration Mail" },
       { property: "og:description", content: "Guides for preparing immigration correspondence." },
     ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/resources" }],
   }),
   component: ResourcesIndex,
 });
@@ -44,32 +45,32 @@ const guides = [
 
 function ResourcesIndex() {
   return (
-    <main className="min-h-screen bg-cream">
+    <div className="min-h-screen">
       <SiteHeader />
 
-      <section className="bg-white py-16 md:py-20 border-b border-warm-border">
-        <div className="container max-w-2xl">
-          <div className="eyebrow">Resources</div>
-          <h1 className="mt-3 text-4xl font-bold text-navy-600 md:text-5xl" style={{ fontFamily: "var(--font-serif)" }}>Guides for your correspondence</h1>
-          <p className="mt-4 text-navy-400">Practical, plain-language guides about preparing and sending immigration-related correspondence. Not legal advice — written to help you understand the process.</p>
+      <section className="border-b border-rule/60 bg-paper-deep/20 py-16 md:py-20">
+        <div className="mx-auto max-w-2xl px-6">
+          <div className="postmark w-fit">Resources</div>
+          <h1 className="mt-3 font-serif text-4xl md:text-5xl">Guides for your correspondence</h1>
+          <p className="mt-4 text-muted-foreground">Practical, plain-language guides about preparing and sending immigration-related correspondence. Not legal advice — written to help you understand the process.</p>
         </div>
       </section>
 
       <section className="py-12 md:py-16">
-        <div className="container max-w-4xl">
+        <div className="mx-auto max-w-4xl px-6">
           <div className="grid gap-5">
             {guides.map((guide) => (
-              <Link key={guide.slug} to="/resources/$slug" params={{ slug: guide.slug }} className="card group p-6 transition hover:-translate-y-0.5 hover:shadow-lg">
+              <Link key={guide.slug} to="/resources/$slug" params={{ slug: guide.slug }} className="envelope-card envelope-card-hover group p-6">
                 <div className="flex items-start gap-5">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-navy-50 text-xl">{guide.icon}</div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-paper-deep text-xl">{guide.icon}</div>
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 text-xs text-navy-400">
-                      <span className="font-semibold text-gold-600">{guide.category}</span>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span className="font-semibold text-stamp">{guide.category}</span>
                       <span className="flex items-center gap-1"><Clock size={12} /> {guide.readTime}</span>
                     </div>
-                    <h2 className="mt-2 text-xl font-semibold text-navy-600 group-hover:text-gold-600 transition-colors" style={{ fontFamily: "var(--font-serif)" }}>{guide.title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-navy-400">{guide.excerpt}</p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-gold-600">
+                    <h2 className="mt-2 font-serif text-xl text-foreground group-hover:text-stamp transition-colors">{guide.title}</h2>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{guide.excerpt}</p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-stamp">
                       Read guide <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
@@ -78,14 +79,14 @@ function ResourcesIndex() {
             ))}
           </div>
 
-          <div className="mt-10 rounded-xl border border-dashed border-warm-border bg-white p-6 text-center">
-            <BookOpen size={24} className="mx-auto text-navy-300" />
-            <p className="mt-3 text-sm text-navy-400">More guides are being written. Have a topic you'd like covered? Let us know at <span className="font-semibold text-gold-600">support@immigrationmail.app</span>.</p>
+          <div className="mt-10 rounded-xl border border-dashed border-rule/70 bg-paper-deep/40 p-6 text-center">
+            <BookOpen size={24} className="mx-auto text-muted-foreground" />
+            <p className="mt-3 text-sm text-muted-foreground">More guides are being written. Have a topic you'd like covered? Let us know at <span className="font-semibold text-stamp">support@immigrationmail.app</span>.</p>
           </div>
         </div>
       </section>
 
       <SiteFooter />
-    </main>
+    </div>
   );
 }

@@ -6,7 +6,8 @@ export const Route = createFileRoute("/about")({
   head: () => ({ meta: [
     { title: "About — Immigration Mail" },
     { name: "description", content: "Immigration Mail helps people prepare and send important immigration correspondence with confidence." },
-  ] }),
+  ],
+    links: [{ rel: "canonical", href: "https://immigrationmail.com/about" }],  }),
   component: AboutPage,
 });
 

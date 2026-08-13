@@ -3,13 +3,35 @@ import { ArrowLeft, Clock, FileText, Mail, PackageCheck, ShieldCheck, Stamp, Ale
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
+const GUIDES_META: Record<string, { title: string; description: string }> = {
+  "how-to-respond-to-rfe": {
+    title: "How to Respond to a Request for Evidence (RFE) — Immigration Mail",
+    description: "A practical guide to organizing and responding to an RFE, including what to include and how to mail it with proof of delivery.",
+  },
+  "writing-an-explanation-letter": {
+    title: "Writing an Effective Explanation Letter — Immigration Mail",
+    description: "Tips for writing a clear, professional explanation letter for immigration correspondence.",
+  },
+  "certified-mail-guide": {
+    title: "Why Certified Mail Matters for Immigration Correspondence — Immigration Mail",
+    description: "How certified mail provides proof of delivery for important immigration documents.",
+  },
+};
+
 export const Route = createFileRoute("/resources/$slug")({
-  head: () => ({
-    meta: [
-      { title: "How to Respond to a Request for Evidence (RFE) — Immigration Mail" },
-      { name: "description", content: "A practical guide to organizing and responding to an RFE, including what to include and how to mail it with proof of delivery." },
-    ],
-  }),
+  head: ({ params }) => {
+    const meta = GUIDES_META[params.slug] ?? {
+      title: "Guide — Immigration Mail",
+      description: "Immigration correspondence guides and resources.",
+    };
+    return {
+      meta: [
+        { title: meta.title },
+        { name: "description", content: meta.description },
+      ],
+      links: [{ rel: "canonical", href: `https://immigrationmail.com/resources/${params.slug}` }],
+    };
+  },
   component: GuidePage,
 });
 
@@ -40,66 +62,70 @@ function GuidePage() {
   const guide = guides[slug];
   if (!guide) {
     return (
-      <main className="min-h-screen bg-cream">
+      <div className="min-h-screen">
         <SiteHeader />
-        <div className="container py-20 text-center">
-          <h1 className="text-2xl font-bold text-navy-600">Guide not found</h1>
-          <Link to="/resources" className="btn-outline mt-6">Back to resources</Link>
-        </div>
+        <main className="mx-auto max-w-lg px-6 py-32 text-center">
+          <h1 className="font-serif text-4xl">Guide not found</h1>
+          <Link to="/resources" className="mt-6 inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted">Back to resources</Link>
+        </main>
         <SiteFooter />
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-cream">
+    <div className="min-h-screen">
       <SiteHeader />
       <article>
-        <section className="bg-white py-12 md:py-16 border-b border-warm-border">
-          <div className="container max-w-2xl">
-            <Link to="/resources" className="inline-flex items-center gap-1 text-sm text-navy-400 hover:text-gold-500"><ArrowLeft size={15} /> All guides</Link>
-            <div className="mt-4 flex items-center gap-3 text-xs text-navy-400">
-              <span className="font-semibold text-gold-600">{guide.category}</span>
+        <section className="border-b border-rule/60 bg-paper-deep/20 py-12 md:py-16">
+          <div className="mx-auto max-w-2xl px-6">
+            <Link to="/resources" className="inline-flex items-center gap-1 text-sm text-stamp hover:underline"><ArrowLeft size={15} /> All guides</Link>
+            <div className="mt-4 flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="font-semibold text-stamp">{guide.category}</span>
               <span className="flex items-center gap-1"><Clock size={12} /> {guide.readTime}</span>
             </div>
-            <h1 className="mt-3 text-3xl font-bold text-navy-600 md:text-4xl" style={{ fontFamily: "var(--font-serif)" }}>{guide.title}</h1>
+            <h1 className="mt-3 font-serif text-3xl md:text-4xl">{guide.title}</h1>
           </div>
         </section>
 
         <section className="py-10 md:py-14">
-          <div className="container max-w-2xl prose-content">
+          <div className="mx-auto max-w-2xl px-6">
             {guide.content}
           </div>
         </section>
 
-        <section style={{ background: "linear-gradient(135deg, #1a2b4a 0%, #15223c 100%)" }} className="py-12">
-          <div className="container max-w-2xl text-center">
-            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-serif)" }}>Ready to send your correspondence?</h2>
+        <section className="bg-ink py-12">
+          <div className="mx-auto max-w-2xl px-6 text-center">
+            <h2 className="font-serif text-2xl text-white">Ready to send your correspondence?</h2>
             <p className="mt-3 text-white/60">Start a guided workflow and get your letter in the mail today.</p>
-            <Link to="/workflows/respond-to-notice" className="btn-gold mt-6">Start now</Link>
+            <Link to="/workflows/respond-to-notice" className="mt-6 inline-flex items-center gap-2 rounded-full bg-stamp px-6 py-3 text-sm font-medium text-white shadow-stamp transition-transform hover:-translate-y-0.5">Start now</Link>
           </div>
         </section>
       </article>
       <SiteFooter />
-    </main>
+    </div>
   );
 }
 
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="mt-10 text-xl font-bold text-navy-600" style={{ fontFamily: "var(--font-serif)" }}>{children}</h2>;
+  return <h2 className="mt-10 font-serif text-xl">{children}</h2>;
 }
 
 function P({ children }: { children: React.ReactNode }) {
-  return <p className="mt-4 text-sm leading-7 text-navy-500">{children}</p>;
+  return <p className="mt-4 text-sm leading-7 text-ink-soft">{children}</p>;
 }
 
 function UL({ children }: { children: React.ReactNode }) {
-  return <ul className="mt-4 space-y-2 pl-5 text-sm text-navy-500" style={{ listStyle: "disc" }}>{children}</ul>;
+  return <ul className="mt-4 space-y-2 pl-5 text-sm text-ink-soft" style={{ listStyle: "disc" }}>{children}</ul>;
 }
 
 function Callout({ children, type = "info" }: { children: React.ReactNode; type?: "info" | "warning" | "success" }) {
-  const cls = type === "warning" ? "alert alert-warning" : type === "success" ? "alert alert-success" : "alert alert-info";
-  return <div className={`mt-6 ${cls}`}>{children}</div>;
+  const cls = type === "warning"
+    ? "border-destructive/30 bg-destructive/5 text-ink-soft"
+    : type === "success"
+    ? "border-stamp/30 bg-stamp/5 text-ink-soft"
+    : "border-rule/70 bg-paper-deep/40 text-ink-soft";
+  return <div className={`mt-6 rounded-md border p-4 text-sm ${cls}`}>{children}</div>;
 }
 
 function RFEContent() {
@@ -137,7 +163,7 @@ function RFEContent() {
         <li>A list of every document enclosed</li>
         <li>A brief response to each item requested</li>
       </UL>
-      <P>Immigration Mail's <Link to="/workflows/respond-to-notice" className="text-gold-600 font-semibold">Respond to a Notice</Link> workflow guides you through this step by step.</P>
+      <P>Immigration Mail's <Link to="/workflows/respond-to-notice" className="text-stamp font-semibold">Respond to a Notice</Link> workflow guides you through this step by step.</P>
 
       <H2>Step 4: Mail with proof of delivery</H2>
       <P>For immigration correspondence, certified mail is strongly recommended. It provides a USPS tracking number and a delivery record showing the date and (with return receipt) the signature of the recipient.</P>
@@ -157,7 +183,7 @@ function RFEContent() {
         <li>Keep copies of everything</li>
       </UL>
 
-      <P className="text-xs text-navy-300 mt-8">This guide is for informational purposes only and does not constitute legal advice. If you need legal guidance, consult a qualified immigration attorney.</P>
+      <P className="mt-8 text-xs text-muted-foreground">This guide is for informational purposes only and does not constitute legal advice. If you need legal guidance, consult a qualified immigration attorney.</P>
     </>
   );
 }
@@ -191,12 +217,13 @@ function ExplanationContent() {
         <li><strong>Opening:</strong> State the purpose of the letter in one sentence</li>
         <li><strong>Body:</strong> Present the relevant facts chronologically, with clear dates and context</li>
         <li><strong>Reference:</strong> Mention enclosed supporting documents by name</li>
-        <li><strong>Closing:</strong> Thank the reader for their consideration and offer to provide additional information if needed</li>
+        <li><strong>Closing:</strong> Thank the reader and offer to provide additional information if needed</li>
       </UL>
 
-      <H2>Common situations where an explanation letter helps</H2>
+      <H2>When to use an explanation letter</H2>
       <UL>
-        <li>Explaining a gap in employment or education</li>
+        <li>Clarifying a gap in employment or residence</li>
+        <li>Explaining a name change or discrepancy across documents</li>
         <li>Clarifying a name discrepancy across documents</li>
         <li>Explaining why a specific document is unavailable</li>
         <li>Providing context for a visa overstay or status violation</li>
@@ -204,11 +231,11 @@ function ExplanationContent() {
       </UL>
 
       <H2>How Immigration Mail helps</H2>
-      <P>Immigration Mail's <Link to="/workflows/explanation-letter" className="text-gold-600 font-semibold">Explanation Letter workflow</Link> guides you through providing your facts and objective, then generates an editable draft. You review every word before it's mailed.</P>
+      <P>Immigration Mail's <Link to="/workflows/explanation-letter" className="text-stamp font-semibold">Explanation Letter workflow</Link> guides you through providing your facts and objective, then generates an editable draft. You review every word before it's mailed.</P>
 
       <Callout><FileText size={16} className="inline mr-1" /> The AI assistant organizes your input — it never invents facts, deadlines, or legal conclusions. Everything is editable.</Callout>
 
-      <P className="text-xs text-navy-300 mt-8">This guide is for informational purposes only and does not constitute legal advice.</P>
+      <P className="mt-8 text-xs text-muted-foreground">This guide is for informational purposes only and does not constitute legal advice.</P>
     </>
   );
 }
@@ -228,30 +255,30 @@ function CertifiedMailContent() {
         <li><strong>Signature proof:</strong> With return receipt, you have a physical card showing who signed for the delivery</li>
       </UL>
 
-      <Callout type="warning"><AlertTriangle size={16} className="inline mr-1" /> <strong>Don't rely on first-class mail alone</strong> for deadline-sensitive immigration correspondence. While first-class includes tracking, it doesn't provide signature proof or a delivery record.</Callout>
+      <Callout type="warning"><AlertTriangle size={16} className="inline mr-1" /> <strong>Don't rely on standard mail alone</strong> for deadline-sensitive immigration correspondence. While standard includes tracking, it doesn't provide signature proof or a delivery record.</Callout>
 
       <H2>Comparing mail types</H2>
       <div className="mt-4 overflow-x-auto">
-        <table className="w-full text-sm border border-warm-border rounded-lg overflow-hidden">
-          <thead className="bg-navy-50 text-left text-xs font-semibold text-navy-400">
-            <tr><th className="px-4 py-3">Feature</th><th className="px-4 py-3">First-Class</th><th className="px-4 py-3">Certified</th><th className="px-4 py-3">Certified + RR</th></tr>
+        <table className="w-full text-sm border border-rule rounded-lg overflow-hidden">
+          <thead className="bg-paper-deep text-left text-xs font-semibold text-muted-foreground">
+            <tr><th className="px-4 py-3">Feature</th><th className="px-4 py-3">Standard</th><th className="px-4 py-3">Certified</th><th className="px-4 py-3">Registered</th></tr>
           </thead>
-          <tbody className="divide-y divide-warm-border text-navy-500">
+          <tbody className="divide-y divide-rule text-ink-soft">
             <tr><td className="px-4 py-3 font-semibold">Tracking number</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
-            <tr><td className="px-4 py-3 font-semibold">Delivery record</td><td className="px-4 py-3 text-navy-300">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
-            <tr><td className="px-4 py-3 font-semibold">Signature proof</td><td className="px-4 py-3 text-navy-300">—</td><td className="px-4 py-3 text-navy-300">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
-            <tr><td className="px-4 py-3 font-semibold">Signed return card</td><td className="px-4 py-3 text-navy-300">—</td><td className="px-4 py-3 text-navy-300">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
-            <tr><td className="px-4 py-3 font-semibold">Price</td><td className="px-4 py-3">$3.99</td><td className="px-4 py-3">$8.99</td><td className="px-4 py-3">$12.99</td></tr>
+            <tr><td className="px-4 py-3 font-semibold">Delivery record</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
+            <tr><td className="px-4 py-3 font-semibold">Signature proof</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
+            <tr><td className="px-4 py-3 font-semibold">Insured delivery</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
+            <tr><td className="px-4 py-3 font-semibold">Price</td><td className="px-4 py-3">$4.99</td><td className="px-4 py-3">$14.94</td><td className="px-4 py-3">$32.49</td></tr>
           </tbody>
         </table>
       </div>
 
       <H2>Our recommendation</H2>
-      <P>For most immigration correspondence — especially responses to RFEs, NOIDs, or other notices with deadlines — we recommend Certified Mail with Return Receipt ($12.99). The signed return card is your strongest proof that your response was received by the agency.</P>
+      <P>For most immigration correspondence — especially responses to RFEs, NOIDs, or other notices with deadlines — we recommend Certified Mail ($14.94). It provides delivery tracking and confirmation — your proof that your response was received by the agency. For highly sensitive documents, Registered Mail ($32.49) adds insured, secure handling.</P>
 
-      <Callout type="success"><Stamp size={16} className="inline mr-1" /> <strong>Immigration Mail handles everything:</strong> printing, envelope, postage, tracking, and return receipt — all in one step. No printer or post office visit required.</Callout>
+      <Callout type="success"><Stamp size={16} className="inline mr-1" /> <strong>Immigration Mail handles everything:</strong> printing, envelope, postage, tracking, and proof — all in one step. No printer or post office visit required.</Callout>
 
-      <P className="text-xs text-navy-300 mt-8">This guide is for informational purposes only and does not constitute legal advice.</P>
+      <P className="mt-8 text-xs text-muted-foreground">This guide is for informational purposes only and does not constitute legal advice.</P>
     </>
   );
 }
