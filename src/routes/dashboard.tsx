@@ -125,9 +125,19 @@ function DashboardPage() {
           </div>
         </div>
 
-        <div className="mt-6 flex items-center gap-3 rounded-md border border-dashed border-rule bg-paper-deep/30 px-5 py-4 text-sm text-muted-foreground">
-          <svg className="h-5 w-5 shrink-0 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" /></svg>
-          <span>Account features (save drafts, re-send, saved addresses) are coming when authentication launches.</span>
+        <div className="mt-6 envelope-card p-5">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-rule bg-paper-deep">
+              <svg className="h-5 w-5 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+            </span>
+            <div className="flex-1">
+              <h3 className="font-serif text-lg">Got a letter you don't understand?</h3>
+              <p className="mt-1 text-sm text-muted-foreground">Upload it and get a plain-English explanation with deadlines and next steps.</p>
+            </div>
+            <Link to="/analyze" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5 whitespace-nowrap">
+              Analyze a document <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </Link>
+          </div>
         </div>
       </main>
       <SiteFooter />

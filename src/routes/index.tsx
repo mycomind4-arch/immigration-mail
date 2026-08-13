@@ -39,6 +39,7 @@ function LandingPage() {
       <Workflows />
       <HowItWorks />
       <Features />
+      <DocumentIntelligence />
       <Pricing />
       <Privacy />
       <FAQ />
@@ -101,6 +102,12 @@ function Hero() {
             >
               See what you can send
             </a>
+            <Link
+              to="/analyze"
+              className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+            >
+              Analyze a letter
+            </Link>
             <span className="font-mono text-xs uppercase tracking-widest text-stamp">Starting at $4.99</span>
           </div>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground sm:mt-6">
@@ -306,6 +313,76 @@ function Features() {
               <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Document Intelligence ──────────────────────────────────────────────── */
+function DocumentIntelligence() {
+  return (
+    <section className="border-b border-rule/60 bg-paper-deep/20">
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+          <div>
+            <div className="postmark w-fit">New · Document intelligence</div>
+            <h2 className="mt-4 text-3xl md:text-4xl">
+              What does this <span className="italic text-stamp">letter</span> mean?
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Upload any immigration document — a notice, letter, or decision — and get a
+              plain-English explanation of what it is, what it says, and what you should do next.
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Our AI identifies the document type, extracts deadlines and requested actions,
+              and flags anything you need to verify. No legal jargon, no guesswork.
+            </p>
+            <Link
+              to="/analyze"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
+            >
+              Try document analysis <ArrowRight />
+            </Link>
+          </div>
+
+          <div className="relative">
+            <div className="postmark-circle h-20 w-20 -right-2 top-0" aria-hidden>
+              <div className="text-center leading-tight">Analyzed</div>
+            </div>
+            <div className="envelope-card relative p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="postmark w-fit">Identified</div>
+                  <h3 className="mt-2 font-serif text-xl">Request for Evidence</h3>
+                  <p className="text-xs text-muted-foreground">USCIS · Texas Service Center</p>
+                </div>
+                <span className="rounded-full border border-emerald-600/30 bg-emerald-600/5 px-2.5 py-0.5 text-[10px] font-medium text-emerald-700">High confidence</span>
+              </div>
+
+              <div className="mt-4 rounded-md border border-stamp/40 bg-stamp/5 p-3">
+                <div className="flex items-center gap-2 text-xs font-medium text-stamp">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" /></svg>
+                  Response deadline: Sep 15, 2026 · 33 days remaining
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">What to do</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-ink-soft">
+                  <li>1. Gather requested documents</li>
+                  <li>2. Prepare a response letter</li>
+                  <li>3. Mail via Certified Mail before deadline</li>
+                </ul>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {["Form I-864", "Birth certificate", "Marriage certificate"].map((form) => (
+                  <span key={form} className="rounded-full border border-rule bg-paper-deep/40 px-2.5 py-0.5 font-mono text-[10px] text-ink-soft">{form}</span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

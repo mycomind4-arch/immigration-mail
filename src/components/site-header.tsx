@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function Logo() {
   return (
@@ -13,7 +13,6 @@ export function Logo() {
 
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleEscape(e: KeyboardEvent) {
@@ -42,7 +41,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <div ref={containerRef} className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <a
               key={item.label}
@@ -53,8 +52,14 @@ export function SiteHeader() {
             </a>
           ))}
           <Link
+            to="/analyze"
+            className="ml-1 px-3 py-2 text-sm text-ink-soft transition-colors hover:text-foreground"
+          >
+            Analyze
+          </Link>
+          <Link
             to="/dashboard"
-            className="ml-2 px-3 py-2 text-sm text-ink-soft transition-colors hover:text-foreground"
+            className="px-3 py-2 text-sm text-ink-soft transition-colors hover:text-foreground"
           >
             My Mailings
           </Link>
@@ -95,6 +100,13 @@ export function SiteHeader() {
                 {item.label}
               </a>
             ))}
+            <Link
+              to="/analyze"
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:bg-muted/50 hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Analyze a document
+            </Link>
             <Link
               to="/dashboard"
               className="rounded-md px-3 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:bg-muted/50 hover:text-foreground"

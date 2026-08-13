@@ -115,6 +115,11 @@
     0%, 100% { transform: rotate(1deg) translateY(0); }
     50% { transform: rotate(1deg) translateY(-6px); }
   }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 }
 
 @utility postmark {
