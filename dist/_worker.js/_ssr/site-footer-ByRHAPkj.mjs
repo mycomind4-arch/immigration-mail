@@ -1,0 +1,216 @@
+import { n as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { m as FileText, t as X, u as Menu } from "../_libs/lucide-react.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/site-footer-ByRHAPkj.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+function SiteHeader({ variant = "default" }) {
+	const [open, setOpen] = (0, import_react.useState)(false);
+	const transparent = variant === "transparent";
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+		className: `sticky top-0 z-50 border-b transition-all ${transparent ? "border-transparent bg-transparent" : "border-warm-border bg-white/95 backdrop-blur-sm"}`,
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "container flex min-h-16 items-center justify-between py-3",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+					to: "/",
+					className: "flex items-center gap-2.5",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: `flex h-9 w-9 items-center justify-center rounded-lg ${transparent ? "bg-white/15" : "bg-navy-600"}`,
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, {
+							size: 18,
+							className: transparent ? "text-white" : "text-gold-400"
+						})
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: `text-lg font-bold tracking-tight ${transparent ? "text-white" : "text-navy-600"}`,
+						style: { fontFamily: "var(--font-serif)" },
+						children: "Immigration Mail"
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", {
+					className: "hidden items-center gap-7 md:flex",
+					children: [
+						{
+							label: "How it works",
+							href: "/#how"
+						},
+						{
+							label: "What you can send",
+							href: "/#workflows"
+						},
+						{
+							label: "Pricing",
+							href: "/pricing"
+						},
+						{
+							label: "FAQ",
+							href: "/faq"
+						}
+					].map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+						href: item.href,
+						className: `text-sm font-medium transition-colors ${transparent ? "text-white/80 hover:text-white" : "text-navy-500 hover:text-navy-600"}`,
+						children: item.label
+					}, item.label))
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "hidden items-center gap-3 md:flex",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/auth",
+						className: `text-sm font-semibold ${transparent ? "text-white/90 hover:text-white" : "text-navy-500 hover:text-navy-600"}`,
+						children: "Sign In"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+						to: "/workflows/respond-to-notice",
+						className: "btn-gold",
+						children: "Start"
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					className: "md:hidden",
+					onClick: () => setOpen(!open),
+					"aria-label": "Menu",
+					children: open ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, {
+						size: 22,
+						className: transparent ? "text-white" : "text-navy-600"
+					}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Menu, {
+						size: 22,
+						className: transparent ? "text-white" : "text-navy-600"
+					})
+				})
+			]
+		}), open && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "border-t border-warm-border bg-white md:hidden",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "container flex flex-col gap-1 py-3",
+				children: [[
+					{
+						label: "How it works",
+						href: "/#how"
+					},
+					{
+						label: "What you can send",
+						href: "/#workflows"
+					},
+					{
+						label: "Pricing",
+						href: "/pricing"
+					},
+					{
+						label: "FAQ",
+						href: "/faq"
+					},
+					{
+						label: "Sign In",
+						href: "/auth"
+					}
+				].map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+					href: item.href,
+					className: "rounded-lg px-3 py-2.5 text-sm font-medium text-navy-500 hover:bg-navy-50",
+					onClick: () => setOpen(false),
+					children: item.label
+				}, item.label)), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+					to: "/workflows/respond-to-notice",
+					className: "btn-gold mt-2 justify-center",
+					onClick: () => setOpen(false),
+					children: "Start"
+				})]
+			})
+		})]
+	});
+}
+function SiteFooter() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
+		className: "border-t border-warm-border bg-white",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "container py-12",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid gap-8 md:grid-cols-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "md:col-span-1",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex items-center gap-2.5",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, {
+									size: 16,
+									className: "text-gold-400"
+								})
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-base font-bold text-navy-600",
+								style: { fontFamily: "var(--font-serif)" },
+								children: "Immigration Mail"
+							})]
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "mt-3 text-sm leading-6 text-navy-400",
+							children: "Prepare and send important immigration correspondence with confidence."
+						})]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "text-sm font-semibold text-navy-600",
+						children: "Product"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
+						className: "mt-3 space-y-2 text-sm text-navy-400",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "/#how",
+								className: "hover:text-gold-500",
+								children: "How it works"
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "/#workflows",
+								className: "hover:text-gold-500",
+								children: "What you can send"
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/pricing",
+								className: "hover:text-gold-500",
+								children: "Pricing"
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/faq",
+								className: "hover:text-gold-500",
+								children: "FAQ"
+							}) })
+						]
+					})] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "text-sm font-semibold text-navy-600",
+						children: "Legal"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
+						className: "mt-3 space-y-2 text-sm text-navy-400",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/privacy",
+								className: "hover:text-gold-500",
+								children: "Privacy Policy"
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/terms",
+								className: "hover:text-gold-500",
+								children: "Terms of Service"
+							}) }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/about",
+								className: "hover:text-gold-500",
+								children: "About"
+							}) })
+						]
+					})] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						className: "text-sm font-semibold text-navy-600",
+						children: "Important"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-3 text-xs leading-5 text-navy-400",
+						children: "Immigration Mail is not a law firm or government agency and does not provide legal advice. You remain in control of the facts and final document."
+					})] })
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mt-10 flex flex-col gap-3 border-t border-warm-border pt-6 text-xs text-navy-400 md:flex-row md:items-center md:justify-between",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "© 2026 Immigration Mail. Powered by MailMyPDF." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Information is educational and product-related, not legal advice." })]
+			})]
+		})
+	});
+}
+//#endregion
+export { SiteHeader as n, SiteFooter as t };

@@ -9,11 +9,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Immigration Mail — Prepare and send important immigration correspondence" },
-      { name: "description", content: "Prepare immigration-related correspondence, organize documents, and send important mail while keeping tracking and a mailing record." },
+      { name: "description", content: "Guided workflows to prepare, review, send, and track important immigration correspondence. Physical mail with proof of delivery. Not a law firm — you control the facts." },
       { name: "robots", content: "index,follow" },
-      { property: "og:title", content: "Immigration Mail — Important immigration correspondence, prepared and mailed" },
+      { name: "theme-color", content: "#1a2b4a" },
+      { property: "og:title", content: "Immigration Mail — Send your immigration correspondence with confidence" },
       { property: "og:description", content: "Prepare, review, send, track, and keep a record of important immigration correspondence." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Immigration Mail" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Immigration Mail — Prepare and send immigration correspondence" },
+      { name: "twitter:description", content: "Guided workflows, physical mail with tracking, and proof of delivery." },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
@@ -22,10 +27,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  return <html lang="en"><head><HeadContent /></head><body>{children}<Scripts /></body></html>;
+  return (
+    <html lang="en">
+      <head><HeadContent /></head>
+      <body>{children}<Scripts /></body>
+    </html>
+  );
 }
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  return <QueryClientProvider client={queryClient}><Outlet /></QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Outlet />
+    </QueryClientProvider>
+  );
 }
