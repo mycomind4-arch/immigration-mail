@@ -1,0 +1,18 @@
+# Immigration Mail
+
+Immigration Mail is a correspondence-preparation and physical-mailing product for people handling important U.S. immigration-related correspondence.
+
+## What it does
+- Guides users through correspondence workflows.
+- Helps organize user-provided facts and uploaded documents.
+- Provides AI-assisted drafting that remains editable and reviewable.
+- Supports physical mailing, tracking, and mailing records as the production platform is connected.
+
+## Important limitations
+Immigration Mail is not a law firm, attorney, government agency, or government website. It does not provide legal advice, determine immigration eligibility, guarantee outcomes, or guarantee that a submission satisfies a government requirement.
+
+## Primary workflow
+Respond to a Notice: organize notice -> confirm information -> define objective -> prepare draft -> review -> attachments -> recipient -> mailing -> tracking -> proof/record.
+
+## Trust principle
+AI must not invent facts, deadlines, requirements, or legal conclusions. User-provided and document-extracted information should be distinguishable from AI-generated drafting.
