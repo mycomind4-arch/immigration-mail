@@ -3,6 +3,8 @@ import { useState, useMemo } from "react";
 import { workflows } from "../../domain/workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { useAuth } from "@/lib/auth";
+import { saveCorrespondence, createMailingOrder } from "@/lib/cases";
 
 export const Route = createFileRoute("/workflows/supporting-documents")({
   head: () => ({
@@ -33,6 +35,12 @@ const MAIL_OPTIONS = [
   { id: "registered", label: "Registered", price: "$32.49", desc: "Secure handling + tracking · 5–10 days" },
 ];
 
+const MAIL_PRICES_CENTS: Record<string, number> = {
+  standard: 499,
+  certified: 1494,
+  registered: 3249,
+};
+
 const REVIEW_CHECKS = [
   "I reviewed every factual statement in this cover letter.",
   "All document names and reference numbers are correct.",
@@ -54,6 +62,11 @@ function SupportingDocuments() {
   const [recipient, setRecipient] = useState({ name: "", org: "", address1: "", address2: "", city: "", state: "", zip: "" });
   const [done, setDone] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number }[]>([]);
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [savedMailingId, setSavedMailingId] = useState<string | null>(null);
+  const [savedCorrespondenceId, setSavedCorrespondenceId] = useState<string | null>(null);
 
   const progress = useMemo(() => Math.round((step / (STEPS.length - 1)) * 100), [step]);
   const allChecked = checks.every(Boolean);
@@ -88,14 +101,59 @@ Sincerely,
     }
   }
 
-  function next() {
+  async function next() {
     if (step === 3 && !draft) setDraft(generateDraft());
-    if (step === STEPS.length - 1) { setDone(true); return; }
+    if (step === STEPS.length - 1) {
+      if (user) {
+        setSaving(true);
+        setSaveError(null);
+
+        const corrResult = await saveCorrespondence(user.id, {
+          workflow_id: "supporting-documents",
+          title: purpose || "Supporting Document Submission",
+          draft_content: draft || generateDraft(),
+          status: "pending",
+        });
+
+        if (corrResult.error) {
+          setSaveError(corrResult.error);
+          setSaving(false);
+          return;
+        }
+
+        setSavedCorrespondenceId(corrResult.data?.id ?? null);
+
+        const mailResult = await createMailingOrder(user.id, {
+          workflow_id: "supporting-documents",
+          correspondence_id: corrResult.data?.id,
+          recipient_name: recipient.name,
+          recipient_org: recipient.org,
+          recipient_address1: recipient.address1,
+          recipient_address2: recipient.address2,
+          recipient_city: recipient.city,
+          recipient_state: recipient.state,
+          recipient_zip: recipient.zip,
+          mail_method: mailType,
+          price_cents: MAIL_PRICES_CENTS[mailType] || 499,
+        });
+
+        if (mailResult.error) {
+          setSaveError(mailResult.error);
+          setSaving(false);
+          return;
+        }
+
+        setSavedMailingId(mailResult.data?.id ?? null);
+        setSaving(false);
+      }
+      setDone(true);
+      return;
+    }
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
   }
   function back() { setStep((s) => Math.max(s - 1, 0)); }
 
-  if (done) return <Success title="Your document submission has been submitted" />;
+  if (done) return <Success title="Your document submission has been submitted" mailingId={savedMailingId} correspondenceId={savedCorrespondenceId} />;
 
   return (
     <div className="min-h-screen">

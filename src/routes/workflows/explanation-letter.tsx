@@ -3,6 +3,8 @@ import { useState, useMemo } from "react";
 import { workflows } from "../../domain/workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { useAuth } from "@/lib/auth";
+import { saveCorrespondence, createMailingOrder } from "@/lib/cases";
 
 export const Route = createFileRoute("/workflows/explanation-letter")({
   head: () => ({
@@ -33,6 +35,12 @@ const MAIL_OPTIONS = [
   { id: "registered", label: "Registered", price: "$32.49", desc: "Secure handling + tracking · 5–10 days" },
 ];
 
+const MAIL_PRICES_CENTS: Record<string, number> = {
+  standard: 499,
+  certified: 1494,
+  registered: 3249,
+};
+
 const REVIEW_CHECKS = [
   "I reviewed every factual statement in this letter.",
   "Names, dates, and reference numbers are correct.",
@@ -53,6 +61,11 @@ function ExplanationLetter() {
   const [recipient, setRecipient] = useState({ name: "", org: "", address1: "", address2: "", city: "", state: "", zip: "" });
   const [done, setDone] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: number }[]>([]);
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [savedMailingId, setSavedMailingId] = useState<string | null>(null);
+  const [savedCorrespondenceId, setSavedCorrespondenceId] = useState<string | null>(null);
 
   const allChecked = checks.every(Boolean);
 
@@ -81,14 +94,59 @@ Sincerely,
     }
   }
 
-  function next() {
+  async function next() {
     if (step === 3 && !draft) setDraft(generateDraft());
-    if (step === STEPS.length - 1) { setDone(true); return; }
+    if (step === STEPS.length - 1) {
+      if (user) {
+        setSaving(true);
+        setSaveError(null);
+
+        const corrResult = await saveCorrespondence(user.id, {
+          workflow_id: "explanation-letter",
+          title: purpose || "Draft",
+          draft_content: draft || generateDraft(),
+          status: "pending",
+        });
+
+        if (corrResult.error) {
+          setSaveError(corrResult.error);
+          setSaving(false);
+          return;
+        }
+
+        setSavedCorrespondenceId(corrResult.data?.id ?? null);
+
+        const mailResult = await createMailingOrder(user.id, {
+          workflow_id: "explanation-letter",
+          correspondence_id: corrResult.data?.id,
+          recipient_name: recipient.name,
+          recipient_org: recipient.org,
+          recipient_address1: recipient.address1,
+          recipient_address2: recipient.address2,
+          recipient_city: recipient.city,
+          recipient_state: recipient.state,
+          recipient_zip: recipient.zip,
+          mail_method: mailType,
+          price_cents: MAIL_PRICES_CENTS[mailType] || 499,
+        });
+
+        if (mailResult.error) {
+          setSaveError(mailResult.error);
+          setSaving(false);
+          return;
+        }
+
+        setSavedMailingId(mailResult.data?.id ?? null);
+        setSaving(false);
+      }
+      setDone(true);
+      return;
+    }
     setStep((s) => Math.min(s + 1, STEPS.length - 1));
   }
   function back() { setStep((s) => Math.max(s - 1, 0)); }
 
-  if (done) return <Success />;
+  if (done) return <Success mailingId={savedMailingId} correspondenceId={savedCorrespondenceId} />;
 
   return (
     <div className="min-h-screen">
@@ -257,7 +315,7 @@ function Stepper({ current, onStep, canGoTo }: { current: number; onStep: (i: nu
   );
 }
 
-function Success() {
+function Success({ mailingId, correspondenceId }: { mailingId?: string | null; correspondenceId?: string | null }) {
   return (
     <div className="min-h-screen">
       <SiteHeader />
@@ -267,9 +325,26 @@ function Success() {
         </div>
         <h1 className="mt-6 font-serif text-4xl">Your letter has been submitted</h1>
         <p className="mt-3 text-muted-foreground">Your correspondence is being prepared for mailing.</p>
-        <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-rule/60 px-4 py-3 text-sm"><span className="text-muted-foreground">Tracking number:</span><span className="font-mono font-medium text-foreground">— Pending —</span></div>
+
+        {mailingId && (
+          <div className="mt-6 space-y-2">
+            <div className="inline-flex items-center gap-2 rounded-lg border border-rule/60 px-4 py-3 text-sm">
+              <span className="text-muted-foreground">Mailing ID:</span>
+              <span className="font-mono font-medium text-foreground">{mailingId.slice(0, 8).toUpperCase()}</span>
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-lg border border-rule/60 px-4 py-3 text-sm">
+              <span className="text-muted-foreground">Tracking:</span>
+              <span className="font-mono font-medium text-foreground">— Pending —</span>
+            </div>
+          </div>
+        )}
+
+        <p className="mt-4 text-xs text-muted-foreground">
+          We'll send you a tracking number once your letter enters the USPS system.
+        </p>
+
         <div className="mt-8 flex justify-center gap-3">
-          <Link to="/" className="inline-flex items-center rounded-full border border-input px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted">Back to home</Link>
+          <Link to="/dashboard" className="inline-flex items-center rounded-full border border-input px-5 py-2.5 text-sm font-medium transition-colors hover:bg-muted">View my mailings</Link>
           <Link to="/workflows/explanation-letter" className="inline-flex items-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-stamp">Start another</Link>
         </div>
       </main>
