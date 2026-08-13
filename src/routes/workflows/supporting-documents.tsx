@@ -161,11 +161,11 @@ Sincerely,
       <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <Stepper current={step} onStep={(i) => setStep(i)} canGoTo={(i) => i <= step} />
 
-        <div className="mt-10 envelope-card p-6 md:p-10">
+        <div className="mt-10 envelope-card p-5 sm:p-6 md:p-10">
           {step === 0 && (
             <div>
               <div className="postmark w-fit">1 · Purpose</div>
-              <h1 className="mt-4 font-serif text-4xl">Submit supporting documents</h1>
+              <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Submit supporting documents</h1>
               <p className="mt-3 text-muted-foreground">Prepare a cover letter and organize supporting documentation for a mailing.</p>
               <div className="mt-6 rounded-md border border-rule/70 bg-paper-deep/40 p-4 text-sm text-muted-foreground">
                 <div className="font-mono text-xs uppercase tracking-widest text-stamp">Disclaimer</div>
@@ -182,7 +182,7 @@ Sincerely,
           {step === 1 && (
             <div>
               <div className="postmark w-fit">2 · Your facts</div>
-              <h2 className="mt-4 font-serif text-3xl">What are you submitting and why?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">What are you submitting and why?</h2>
               <p className="mt-3 text-muted-foreground">Use your own words. Only include information you can verify.</p>
               <textarea className="input-field mt-6 min-h-48" value={facts} onChange={(e) => setFacts(e.target.value)} placeholder="Describe what documents you're submitting and why they're relevant..." />
             </div>
@@ -191,7 +191,7 @@ Sincerely,
           {step === 2 && (
             <div>
               <div className="postmark w-fit">3 · Your objective</div>
-              <h2 className="mt-4 font-serif text-3xl">What do you want to accomplish?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">What do you want to accomplish?</h2>
               <textarea className="input-field mt-6 min-h-40" value={objective} onChange={(e) => setObjective(e.target.value)} placeholder="Example: I want to submit the requested evidence and have my case continue processing." />
             </div>
           )}
@@ -199,7 +199,7 @@ Sincerely,
           {step === 3 && (
             <div>
               <div className="postmark w-fit">4 · Draft</div>
-              <h2 className="mt-4 font-serif text-3xl">Your cover letter</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Your cover letter</h2>
               <p className="mt-3 text-muted-foreground">Review every fact, name, date, and statement. This is editable.</p>
               <textarea className="input-field mt-6 min-h-72 font-mono text-sm leading-6" value={draft} onChange={(e) => setDraft(e.target.value)} />
             </div>
@@ -208,7 +208,7 @@ Sincerely,
           {step === 4 && (
             <div>
               <div className="postmark w-fit">5 · Review</div>
-              <h2 className="mt-4 font-serif text-3xl">Review before anything is mailed</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Review before anything is mailed</h2>
               <div className="mt-6 space-y-3">
                 {REVIEW_CHECKS.map((item, i) => (
                   <label key={item} className="check-card">
@@ -223,7 +223,7 @@ Sincerely,
           {step === 5 && (
             <div>
               <div className="postmark w-fit">6 · Documents</div>
-              <h2 className="mt-4 font-serif text-3xl">Add supporting documents</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Add supporting documents</h2>
               <p className="mt-3 text-muted-foreground">Attach the documents you're submitting — forms, evidence, translations, etc.</p>
               <label className="upload-zone mt-6 block">
                 <svg className="mx-auto text-muted-foreground" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
@@ -251,7 +251,7 @@ Sincerely,
           {step === 6 && (
             <div>
               <div className="postmark w-fit">7 · Recipient</div>
-              <h2 className="mt-4 font-serif text-3xl">Where should we send it?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Where should we send it?</h2>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2"><label className="input-label">Recipient name *</label><input className="input-field" value={recipient.name} onChange={(e) => setRecipient({ ...recipient, name: e.target.value })} /></div>
                 <div className="sm:col-span-2"><label className="input-label">Organization</label><input className="input-field" value={recipient.org} onChange={(e) => setRecipient({ ...recipient, org: e.target.value })} placeholder={agency || "Agency name"} /></div>
@@ -267,7 +267,7 @@ Sincerely,
           {step === 7 && (
             <div>
               <div className="postmark w-fit">8 · Mail options</div>
-              <h2 className="mt-4 font-serif text-3xl">Choose your mail type</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Choose your mail type</h2>
               <p className="mt-3 text-muted-foreground">For document submissions, Certified mail is recommended.</p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {MAIL_OPTIONS.map((opt) => (
@@ -285,7 +285,7 @@ Sincerely,
           {step === 8 && (
             <div>
               <div className="postmark w-fit">9 · Checkout</div>
-              <h2 className="mt-4 font-serif text-3xl">Review and pay</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Review and pay</h2>
               <div className="mt-6 space-y-3">
                 <div className="flex items-center justify-between rounded-lg border border-rule/60 px-4 py-3 text-sm"><span className="text-muted-foreground">Mail type</span><span className="font-medium text-foreground">{MAIL_OPTIONS.find((m) => m.id === mailType)?.label}</span></div>
                 <div className="flex items-center justify-between rounded-lg border border-rule/60 px-4 py-3 text-sm"><span className="text-muted-foreground">Recipient</span><span className="font-medium text-foreground">{recipient.name || "—"}</span></div>
@@ -332,7 +332,7 @@ function Success({ title }: { title: string }) {
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-stamp/10">
           <svg className="h-8 w-8 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
         </div>
-        <h1 className="mt-6 font-serif text-4xl">{title}</h1>
+        <h1 className="mt-6 font-serif text-3xl sm:text-4xl">{title}</h1>
         <p className="mt-3 text-muted-foreground">Your correspondence is being prepared for mailing.</p>
         <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-rule/60 px-4 py-3 text-sm"><span className="text-muted-foreground">Tracking number:</span><span className="font-mono font-medium text-foreground">— Pending —</span></div>
         <div className="mt-8 flex justify-center gap-3">

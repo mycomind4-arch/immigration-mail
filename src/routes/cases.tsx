@@ -112,7 +112,7 @@ function CasesPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="mx-auto max-w-5xl px-6 py-20">
+        <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
           <div className="flex flex-col items-center justify-center py-16">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-stamp" />
             <p className="mt-4 text-sm text-muted-foreground">Loading…</p>
@@ -128,12 +128,12 @@ function CasesPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-5xl px-6 py-10">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Header */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <div className="postmark w-fit">My Cases</div>
-            <h1 className="mt-3 font-serif text-4xl">Your immigration cases</h1>
+            <h1 className="mt-3 font-serif text-3xl sm:text-4xl">Your immigration cases</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Organize documents, correspondence, and mailings by case.
             </p>

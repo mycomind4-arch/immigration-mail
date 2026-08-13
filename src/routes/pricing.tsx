@@ -31,17 +31,17 @@ function PricingPage() {
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">
-          <div className="mx-auto max-w-4xl px-6 py-20">
+          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
             <div className="postmark w-fit">Pricing</div>
-            <h1 className="mt-4 font-serif text-4xl md:text-5xl">Pay per mailing. No subscription.</h1>
-            <p className="mt-4 text-muted-foreground">Every price includes printing, paper, envelope, and postage. Page-count tiers apply.</p>
+            <h1 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">Pay per mailing. No subscription.</h1>
+            <p className="mt-4 text-sm text-muted-foreground sm:text-base">Every price includes printing, paper, envelope, and postage. Page-count tiers apply.</p>
           </div>
         </section>
         <section className="border-b border-rule/60 bg-paper-deep/20">
-          <div className="mx-auto max-w-6xl px-6 py-16">
-            <div className="grid gap-5 md:grid-cols-3">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
               {tiers.map((t) => (
-                <div key={t.type} className={`envelope-card p-6 ${t.featured ? "ring-1 ring-stamp/40" : ""}`}>
+                <div key={t.type} className={`envelope-card p-5 sm:p-6 ${t.featured ? "ring-1 ring-stamp/40" : ""}`}>
                   {t.featured && <div className="postmark w-fit mb-3">Recommended</div>}
                   <h3 className="font-serif text-2xl">{t.type}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{t.desc}</p>
@@ -64,17 +64,17 @@ function PricingPage() {
           </div>
         </section>
         <section className="border-b border-rule/60">
-          <div className="mx-auto max-w-2xl px-6 py-16">
+          <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
             <div className="postmark w-fit">FAQ</div>
-            <h2 className="mt-4 font-serif text-3xl">Pricing questions</h2>
+            <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Pricing questions</h2>
             <div className="mt-6 divide-y divide-rule/70 border-y border-rule/70">
               {faqs.map((f) => (
-                <details key={f.q} className="group py-5">
-                  <summary className="flex cursor-pointer items-center justify-between list-none">
-                    <span className="font-serif text-xl">{f.q}</span>
-                    <span className="text-stamp transition-transform group-open:rotate-45">＋</span>
+                <details key={f.q} className="group py-4 sm:py-5">
+                  <summary className="flex cursor-pointer items-center justify-between gap-3 list-none">
+                    <span className="font-serif text-lg sm:text-xl">{f.q}</span>
+                    <span className="shrink-0 text-stamp transition-transform group-open:rotate-45">＋</span>
                   </summary>
-                  <p className="mt-3 text-muted-foreground">{f.a}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{f.a}</p>
                 </details>
               ))}
             </div>

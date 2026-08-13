@@ -21,9 +21,9 @@ function ContactPage() {
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">
-          <div className="mx-auto max-w-2xl px-6 py-16">
+          <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
             <div className="postmark w-fit">Contact</div>
-            <h1 className="mt-4 font-serif text-4xl">Get in touch</h1>
+            <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Get in touch</h1>
             <p className="mt-4 text-muted-foreground">Questions, feedback, or need help? We'd love to hear from you.</p>
           </div>
         </section>

@@ -44,14 +44,14 @@ function FAQPage() {
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">
-          <div className="mx-auto max-w-4xl px-6 py-20">
+          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
             <div className="postmark w-fit">FAQ</div>
-            <h1 className="mt-4 font-serif text-4xl md:text-5xl">Frequently asked questions</h1>
+            <h1 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">Frequently asked questions</h1>
             <p className="mt-4 text-muted-foreground">Everything you need to know about how Immigration Mail works.</p>
           </div>
         </section>
         <section className="border-b border-rule/60">
-          <div className="mx-auto max-w-3xl px-6 py-16">
+          <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
             {categories.map((cat) => (
               <div key={cat.name} className="mb-10">
                 <h2 className="font-serif text-xl">{cat.name}</h2>

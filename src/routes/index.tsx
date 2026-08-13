@@ -72,10 +72,10 @@ function StampMark() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-[1.1fr_1fr] md:gap-12 md:py-28">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-16 md:grid-cols-[1.1fr_1fr] md:gap-12 md:py-28">
         <div className="flex flex-col justify-center">
           <div className="postmark w-fit">Immigration correspondence</div>
-          <h1 className="mt-4 text-4xl leading-[1.05] sm:text-5xl md:mt-6 md:text-7xl">
+          <h1 className="mt-4 text-3xl leading-[1.08] sm:text-5xl md:mt-6 md:text-7xl md:leading-[1.05]">
             Prepare and mail
             <br />
             <span className="italic text-stamp">immigration letters</span>
@@ -89,26 +89,28 @@ function Hero() {
           <p className="mt-3 max-w-lg text-sm text-muted-foreground">
             No account required · Private &amp; secure · Not a law firm — you control the facts
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
             <Link
               to="/workflows/respond-to-notice"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
             >
               Start your letter <ArrowRight />
             </Link>
-            <a
-              href="#workflows"
-              className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-            >
-              See what you can send
-            </a>
-            <Link
-              to="/analyze"
-              className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-            >
-              Analyze a letter
-            </Link>
-            <span className="font-mono text-xs uppercase tracking-widest text-stamp">Starting at $4.99</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="#workflows"
+                className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+              >
+                See what you can send
+              </a>
+              <Link
+                to="/analyze"
+                className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+              >
+                Analyze a letter
+              </Link>
+            </div>
+            <span className="font-mono text-xs uppercase tracking-widest text-stamp sm:ml-1">Starting at $4.99</span>
           </div>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground sm:mt-6">
             <span className="flex items-center gap-1.5"><CheckIcon /> USPS Tracking</span>
@@ -118,7 +120,10 @@ function Hero() {
           </div>
         </div>
 
-        <EnvelopeIllustration />
+        {/* Hide envelope illustration on very small screens to save vertical space */}
+        <div className="hidden py-4 sm:block">
+          <EnvelopeIllustration />
+        </div>
       </div>
     </section>
   );
@@ -180,7 +185,7 @@ function TrustBar() {
   return (
     <section className="border-y border-rule/60 bg-paper-deep/30">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 py-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 sm:gap-x-8">
           {items.map((item) => (
             <span key={item} className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <CheckIcon /> {item}
@@ -217,21 +222,21 @@ const WORKFLOWS = [
 function Workflows() {
   return (
     <section id="workflows" className="border-b border-rule/60">
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <div className="postmark w-fit">What you can send</div>
-          <h2 className="mt-4 text-3xl md:text-4xl">Choose a guided starting point</h2>
-          <p className="mt-4 text-muted-foreground">
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Choose a guided starting point</h2>
+          <p className="mt-4 text-sm text-muted-foreground sm:text-base">
             Each workflow walks you through identifying the document, stating the facts,
             preparing an editable draft, and mailing it — all in one place.
           </p>
         </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
           {WORKFLOWS.map((w) => (
             <Link
               key={w.title}
               to={w.href}
-              className="envelope-card envelope-card-hover block p-6"
+              className="envelope-card envelope-card-hover block p-5 sm:p-6"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
                 <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
@@ -264,16 +269,16 @@ const STEPS = [
 function HowItWorks() {
   return (
     <section id="how" className="border-b border-rule/60 bg-paper-deep/20">
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <div className="postmark w-fit">Process</div>
-          <h2 className="mt-4 text-3xl md:text-4xl">How Immigration Mail works</h2>
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">How Immigration Mail works</h2>
         </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-3 sm:mt-10">
           {STEPS.map((s) => (
-            <div key={s.n} className="envelope-card p-6">
+            <div key={s.n} className="envelope-card p-5 sm:p-6">
               <div className="font-mono text-xs text-stamp">{s.n}</div>
-              <div className="mt-3 font-serif text-2xl">{s.t}</div>
+              <div className="mt-3 font-serif text-xl sm:text-2xl">{s.t}</div>
               <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
             </div>
           ))}
@@ -296,14 +301,14 @@ const FEATURES = [
 function Features() {
   return (
     <section className="border-b border-rule/60">
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <div className="postmark w-fit">Why Immigration Mail</div>
-          <h2 className="mt-4 text-3xl md:text-4xl">Built for immigration deadlines</h2>
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Built for immigration deadlines</h2>
         </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 sm:mt-10">
           {FEATURES.map((f) => (
-            <div key={f.title} className="envelope-card p-6">
+            <div key={f.title} className="envelope-card p-5 sm:p-6">
               <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-rule bg-paper-deep">
                 <svg className="h-5 w-5 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                   <path d={f.icon} />
@@ -323,14 +328,14 @@ function Features() {
 function DocumentIntelligence() {
   return (
     <section className="border-b border-rule/60 bg-paper-deep/20">
-      <div className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+        <div className="grid gap-8 md:grid-cols-2 md:items-center">
           <div>
             <div className="postmark w-fit">New · Document intelligence</div>
-            <h2 className="mt-4 text-3xl md:text-4xl">
+            <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">
               What does this <span className="italic text-stamp">letter</span> mean?
             </h2>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-sm text-muted-foreground sm:text-base">
               Upload any immigration document — a notice, letter, or decision — and get a
               plain-English explanation of what it is, what it says, and what you should do next.
             </p>
@@ -350,36 +355,31 @@ function DocumentIntelligence() {
             <div className="postmark-circle h-20 w-20 -right-2 top-0" aria-hidden>
               <div className="text-center leading-tight">Analyzed</div>
             </div>
-            <div className="envelope-card relative p-6">
+            <div className="envelope-card relative p-5 sm:p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="postmark w-fit">Identified</div>
                   <h3 className="mt-2 font-serif text-xl">Request for Evidence</h3>
                   <p className="text-xs text-muted-foreground">USCIS · Texas Service Center</p>
                 </div>
-                <span className="rounded-full border border-emerald-600/30 bg-emerald-600/5 px-2.5 py-0.5 text-[10px] font-medium text-emerald-700">High confidence</span>
+                <span className="rounded-full bg-stamp/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp">RFE</span>
               </div>
-
-              <div className="mt-4 rounded-md border border-stamp/40 bg-stamp/5 p-3">
-                <div className="flex items-center gap-2 text-xs font-medium text-stamp">
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" /></svg>
-                  Response deadline: Sep 15, 2026 · 33 days remaining
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">What to do</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-ink-soft">
-                  <li>1. Gather requested documents</li>
-                  <li>2. Prepare a response letter</li>
-                  <li>3. Mail via Certified Mail before deadline</li>
-                </ul>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {["Form I-864", "Birth certificate", "Marriage certificate"].map((form) => (
-                  <span key={form} className="rounded-full border border-rule bg-paper-deep/40 px-2.5 py-0.5 font-mono text-[10px] text-ink-soft">{form}</span>
+              <div className="mt-5 space-y-3">
+                {[
+                  { l: "Document type", v: "Request for Evidence (RFE)" },
+                  { l: "Issuing agency", v: "USCIS" },
+                  { l: "Response deadline", v: "Oct 15, 2026 — 87 days", urgent: true },
+                  { l: "Requested items", v: "Medical I-693, proof of status" },
+                ].map((row) => (
+                  <div key={row.l} className="flex items-start justify-between gap-3 border-b border-rule/40 pb-3">
+                    <span className="text-xs uppercase tracking-widest text-muted-foreground">{row.l}</span>
+                    <span className={`text-right text-sm font-medium ${row.urgent ? "text-stamp" : "text-foreground"}`}>{row.v}</span>
+                  </div>
                 ))}
+              </div>
+              <div className="mt-4 rounded-md border border-stamp/30 bg-stamp/5 px-3 py-2 text-xs text-ink-soft">
+                <span className="font-mono uppercase tracking-widest text-stamp">Next step</span>
+                <p className="mt-1">Gather the requested documents and prepare your response within 87 days.</p>
               </div>
             </div>
           </div>
@@ -389,27 +389,27 @@ function DocumentIntelligence() {
   );
 }
 
-/* ── Pricing ───────────────────────────────────────────────────────────── */
+/* ── Pricing ──────────────────────────────────────────────────────────── */
 const PRICING = [
-  { type: "Standard", price: "$4.99", desc: "3–7 business days", features: ["USPS tracking included", "Professional printing & envelope", "Mailing record retained"] },
-  { type: "Certified", price: "$14.94", desc: "3–7 business days", features: ["Delivery tracking + confirmation", "Proof of delivery", "Signature tracking", "Mailing record retained"], featured: true },
-  { type: "Registered", price: "$32.49", desc: "5–10 business days", features: ["Secure handling + tracking", "Insured delivery", "Signature required", "Mailing record retained"] },
+  { type: "Standard", price: "$4.99", desc: "Standard delivery for non-urgent mail", features: ["3–7 business days", "USPS tracking included", "Professional printing & envelope", "Mailing record retained"] },
+  { type: "Certified", price: "$14.94", desc: "Trackable delivery with confirmation", features: ["3–7 business days", "Delivery tracking + confirmation", "Proof of delivery", "Mailing record retained"], featured: true },
+  { type: "Registered", price: "$32.49", desc: "Highest security for sensitive documents", features: ["5–10 business days", "Secure handling + tracking", "Insured delivery", "Signature required"] },
 ];
 
 function Pricing() {
   return (
     <section id="pricing" className="border-b border-rule/60 bg-paper-deep/20">
-      <div className="mx-auto max-w-6xl px-6 py-20">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <div className="postmark w-fit">Pricing</div>
-          <h2 className="mt-4 text-3xl md:text-4xl">Pay per mailing. No subscription.</h2>
-          <p className="mt-4 text-muted-foreground">
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Pay per mailing. No subscription.</h2>
+          <p className="mt-4 text-sm text-muted-foreground sm:text-base">
             Prices include printing, paper, envelope, and postage. Page-count tiers apply.
           </p>
         </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
           {PRICING.map((p) => (
-            <div key={p.type} className={`envelope-card p-6 ${p.featured ? "ring-1 ring-stamp/40" : ""}`}>
+            <div key={p.type} className={`envelope-card p-5 sm:p-6 ${p.featured ? "ring-1 ring-stamp/40" : ""}`}>
               {p.featured && (
                 <div className="postmark w-fit mb-3">Recommended</div>
               )}
@@ -444,20 +444,20 @@ function Pricing() {
 function Privacy() {
   return (
     <section className="border-b border-rule/60">
-      <div className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-2">
-        <div className="envelope-card p-8">
+      <div className="mx-auto grid max-w-6xl gap-4 px-4 py-12 sm:gap-8 sm:px-6 sm:py-16 md:grid-cols-2">
+        <div className="envelope-card p-6 sm:p-8">
           <div className="postmark w-fit">Privacy</div>
-          <h3 className="mt-4 font-serif text-3xl">Your documents stay private</h3>
-          <p className="mt-3 text-muted-foreground">
+          <h3 className="mt-4 font-serif text-2xl sm:text-3xl">Your documents stay private</h3>
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
             Uploaded documents are used only to process, print, and mail your order.
             We do not use customer documents for AI training, resale, or marketing.
             You can request deletion at any time.
           </p>
         </div>
-        <div className="envelope-card p-8">
+        <div className="envelope-card p-6 sm:p-8">
           <div className="postmark w-fit">Important</div>
-          <h3 className="mt-4 font-serif text-3xl">Not a law firm</h3>
-          <p className="mt-3 text-muted-foreground">
+          <h3 className="mt-4 font-serif text-2xl sm:text-3xl">Not a law firm</h3>
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
             Immigration Mail is a correspondence tool, not a law firm. We do not provide
             legal advice or representation. AI assists with organization but never invents
             facts or draws legal conclusions. You review everything before it's sent.
@@ -481,17 +481,17 @@ const FAQ_ITEMS = [
 function FAQ() {
   return (
     <section className="border-b border-rule/60">
-      <div className="mx-auto max-w-4xl px-6 py-20">
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="postmark mx-auto w-fit">FAQ</div>
-        <h2 className="mt-4 text-center text-3xl md:text-4xl">Questions people ask</h2>
-        <div className="mt-10 divide-y divide-rule/70 border-y border-rule/70">
+        <h2 className="mt-4 text-center text-2xl sm:text-3xl md:text-4xl">Questions people ask</h2>
+        <div className="mt-8 divide-y divide-rule/70 border-y border-rule/70 sm:mt-10">
           {FAQ_ITEMS.map((item) => (
-            <details key={item.q} className="group py-5">
-              <summary className="flex cursor-pointer items-center justify-between list-none">
-                <span className="font-serif text-xl">{item.q}</span>
-                <span className="text-stamp transition-transform group-open:rotate-45">＋</span>
+            <details key={item.q} className="group py-4 sm:py-5">
+              <summary className="flex cursor-pointer items-center justify-between gap-3 list-none">
+                <span className="font-serif text-lg sm:text-xl">{item.q}</span>
+                <span className="shrink-0 text-stamp transition-transform group-open:rotate-45">＋</span>
               </summary>
-              <p className="mt-3 text-muted-foreground">{item.a}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{item.a}</p>
             </details>
           ))}
         </div>
@@ -504,12 +504,12 @@ function FAQ() {
 function FinalCTA() {
   return (
     <section className="border-b border-rule/60">
-      <div className="mx-auto max-w-6xl px-6 py-20 text-center">
+      <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-20">
         <div className="postmark mx-auto w-fit">Ready to mail</div>
-        <h2 className="mt-4 font-serif text-4xl md:text-5xl">
+        <h2 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">
           Prepare. Review. <span className="italic text-stamp">Mailed.</span>
         </h2>
-        <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+        <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground sm:text-base">
           Start a guided workflow, review your draft, and mail your correspondence — all in one place.
         </p>
         <Link

@@ -91,6 +91,8 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   html { scroll-behavior: smooth; }
@@ -119,6 +121,20 @@
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+  }
+
+  /* Better tap targets on mobile */
+  @media (max-width: 640px) {
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+  /* Disable the float animation on mobile to avoid layout jank */
+  @media (max-width: 640px) {
+    .envelope-card[style*="float"] {
+      animation: none !important;
+    }
   }
 }
 
@@ -248,6 +264,8 @@
   background: var(--card);
   color: var(--ink);
   font-family: var(--font-sans);
+  /* Prevent iOS zoom on focus */
+  -webkit-appearance: none;
 }
 .input-field:focus {
   border-color: var(--ink);
@@ -260,4 +278,13 @@
   color: var(--ink-soft);
   margin-bottom: 0.35rem;
   text-transform: none;
+}
+
+/* Workflow stepper: horizontal scroll on mobile */
+.workflow-stepper {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.workflow-stepper::-webkit-scrollbar {
+  display: none;
 }

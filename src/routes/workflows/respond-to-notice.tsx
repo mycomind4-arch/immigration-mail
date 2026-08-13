@@ -162,7 +162,7 @@ Sincerely,
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Stepper */}
         <Stepper current={step} onStep={(i) => setStep(i)} canGoTo={(i) => i <= step} />
 
@@ -171,7 +171,7 @@ Sincerely,
           {step === 0 && (
             <div>
               <div className="postmark w-fit">1 · Upload / identify</div>
-              <h1 className="mt-4 font-serif text-4xl">Respond to a notice</h1>
+              <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Respond to a notice</h1>
               <p className="mt-3 text-muted-foreground">
                 We'll help you organize the notice, confirm the information you provide,
                 prepare an editable draft, and move toward mailing. Nothing is sent until you review and approve it.
@@ -225,7 +225,7 @@ Sincerely,
           {step === 1 && (
             <div>
               <div className="postmark w-fit">2 · Your facts</div>
-              <h2 className="mt-4 font-serif text-3xl">What facts should the response address?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">What facts should the response address?</h2>
               <p className="mt-3 text-muted-foreground">Use your own words. Only include information you can verify.</p>
               <textarea className="input-field mt-6 min-h-48" value={facts} onChange={(e) => setFacts(e.target.value)} placeholder="Enter the relevant facts you want included in your response..." />
               <div className="mt-4 rounded-md border border-rule/70 bg-paper-deep/40 p-3 text-sm text-muted-foreground">
@@ -238,7 +238,7 @@ Sincerely,
           {step === 2 && (
             <div>
               <div className="postmark w-fit">3 · Your objective</div>
-              <h2 className="mt-4 font-serif text-3xl">What do you want to accomplish?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">What do you want to accomplish?</h2>
               <p className="mt-3 text-muted-foreground">Describe the outcome you want. This guides the tone and structure of the draft.</p>
               <textarea className="input-field mt-6 min-h-40" value={objective} onChange={(e) => setObjective(e.target.value)} placeholder="Example: I want to provide the requested documents and explain why one item is missing..." />
             </div>
@@ -248,7 +248,7 @@ Sincerely,
           {step === 3 && (
             <div>
               <div className="postmark w-fit">4 · Draft</div>
-              <h2 className="mt-4 font-serif text-3xl">Your draft letter</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Your draft letter</h2>
               <p className="mt-3 text-muted-foreground">Review every fact, name, date, and statement. This is editable — change anything.</p>
               <textarea className="input-field mt-6 min-h-72 font-mono text-sm leading-6" value={draft} onChange={(e) => setDraft(e.target.value)} />
               <div className="mt-4 rounded-md border border-rule/70 bg-paper-deep/40 p-3 text-sm text-muted-foreground">
@@ -261,7 +261,7 @@ Sincerely,
           {step === 4 && (
             <div>
               <div className="postmark w-fit">5 · Review</div>
-              <h2 className="mt-4 font-serif text-3xl">Review before anything is mailed</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Review before anything is mailed</h2>
               <p className="mt-3 text-muted-foreground">Please confirm each item below.</p>
               <div className="mt-6 space-y-3">
                 {REVIEW_CHECKS.map((item, i) => (
@@ -278,7 +278,7 @@ Sincerely,
           {step === 5 && (
             <div>
               <div className="postmark w-fit">6 · Documents</div>
-              <h2 className="mt-4 font-serif text-3xl">Add supporting documents</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Add supporting documents</h2>
               <p className="mt-3 text-muted-foreground">Attach any documents referenced in your response — forms, evidence, identification, etc.</p>
               <label className="upload-zone mt-6 block">
                 <svg className="mx-auto text-muted-foreground" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>
@@ -293,7 +293,7 @@ Sincerely,
           {step === 6 && (
             <div>
               <div className="postmark w-fit">7 · Recipient</div>
-              <h2 className="mt-4 font-serif text-3xl">Where should we send it?</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Where should we send it?</h2>
               <p className="mt-3 text-muted-foreground">Enter the agency's mailing address from the notice.</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2"><label className="input-label">Recipient name *</label><input className="input-field" value={recipient.name} onChange={(e) => setRecipient({ ...recipient, name: e.target.value })} placeholder="USCIS — Texas Service Center" /></div>
@@ -311,7 +311,7 @@ Sincerely,
           {step === 7 && (
             <div>
               <div className="postmark w-fit">8 · Mail options</div>
-              <h2 className="mt-4 font-serif text-3xl">Choose your mail type</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Choose your mail type</h2>
               <p className="mt-3 text-muted-foreground">For immigration correspondence, Certified mail is recommended for proof of timely submission.</p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {MAIL_OPTIONS.map((opt) => (
@@ -336,7 +336,7 @@ Sincerely,
           {step === 8 && (
             <div>
               <div className="postmark w-fit">9 · Checkout</div>
-              <h2 className="mt-4 font-serif text-3xl">Review and pay</h2>
+              <h2 className="mt-4 font-serif text-2xl sm:text-3xl">Review and pay</h2>
               <div className="mt-6 space-y-3">
                 <div className="flex items-center justify-between rounded-lg border border-rule/60 px-4 py-3 text-sm">
                   <span className="text-muted-foreground">Mail type</span>
@@ -400,12 +400,12 @@ Sincerely,
 /* ── Stepper ─────────────────────────────────────────────────────────── */
 function Stepper({ current, onStep, canGoTo }: { current: number; onStep: (i: number) => void; canGoTo: (i: number) => boolean }) {
   return (
-    <ol className="flex items-center justify-between gap-1 overflow-x-auto">
+    <ol className="workflow-stepper flex items-center gap-1 overflow-x-auto pb-1">
       {STEPS.map((s, i) => {
         const done = i < current;
         const active = i === current;
         return (
-          <li key={s.id} className="flex flex-1 shrink-0 items-center gap-2">
+          <li key={s.id} className="flex shrink-0 items-center gap-1.5">
             <button
               type="button"
               onClick={() => canGoTo(i) && onStep(i)}
@@ -417,8 +417,8 @@ function Stepper({ current, onStep, canGoTo }: { current: number; onStep: (i: nu
             >
               {String(i + 1).padStart(2, "0")}
             </button>
-            <span className={`text-xs ${active ? "text-foreground" : "text-muted-foreground"}`}>{s.label}</span>
-            {i < STEPS.length - 1 && <span className="flex-1 border-t border-dashed border-rule" />}
+            <span className={`hidden text-xs sm:inline ${active ? "text-foreground" : "text-muted-foreground"}`}>{s.label}</span>
+            {i < STEPS.length - 1 && <span className="w-4 shrink-0 border-t border-dashed border-rule sm:w-8" />}
           </li>
         );
       })}
@@ -431,11 +431,11 @@ function Success({ mailingId, correspondenceId }: { mailingId?: string | null; c
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-lg px-6 py-32 text-center">
+      <main className="mx-auto max-w-lg px-4 py-16 text-center sm:px-6 sm:py-32">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-stamp/10">
           <svg className="h-8 w-8 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
         </div>
-        <h1 className="mt-6 font-serif text-4xl">Your letter has been submitted</h1>
+        <h1 className="mt-6 font-serif text-3xl sm:text-4xl">Your letter has been submitted</h1>
         <p className="mt-3 text-muted-foreground">Your correspondence is being prepared for mailing.</p>
 
         {mailingId && (

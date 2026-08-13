@@ -71,11 +71,26 @@ function AuthPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-4xl px-6 py-16">
-        <div className="grid overflow-hidden rounded-2xl border border-rule md:grid-cols-2">
-          {/* Left panel: Dark gradient with benefits list */}
+      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
+        {/* Mobile benefits banner */}
+        <div
+          className="mb-5 rounded-xl p-5 md:hidden"
+          style={{
+            background: "linear-gradient(135deg, oklch(0.25 0.05 260) 0%, oklch(0.2 0.04 258) 100%)",
+          }}
+        >
+          <h1 className="font-serif text-xl text-white">
+            Your correspondence, organized and sent.
+          </h1>
+          <p className="mt-2 text-sm leading-6 text-white/60">
+            Save drafts, track mailings, and keep a permanent record.
+          </p>
+        </div>
+
+        <div className="overflow-hidden rounded-2xl border border-rule md:grid md:grid-cols-2">
+          {/* Left panel: Dark gradient with benefits list — desktop only */}
           <div
-            className="p-8 md:p-10"
+            className="hidden p-8 md:block md:p-10"
             style={{
               background:
                 "linear-gradient(135deg, oklch(0.25 0.05 260) 0%, oklch(0.2 0.04 258) 100%)",
@@ -129,7 +144,7 @@ function AuthPage() {
           </div>
 
           {/* Right panel: Authentication form */}
-          <div className="flex flex-col justify-center bg-card p-8 md:p-10">
+          <div className="flex flex-col justify-center bg-card p-6 sm:p-8 md:p-10">
             <h2 className="font-serif text-2xl">
               {isSignUp ? "Create an account" : "Welcome back"}
             </h2>
@@ -159,6 +174,8 @@ function AuthPage() {
                   placeholder="you@example.com"
                   required
                   disabled={isSubmitting}
+                  autoCapitalize="none"
+                  autoCorrect="off"
                 />
               </div>
 

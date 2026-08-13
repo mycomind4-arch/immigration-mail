@@ -26,13 +26,13 @@ function PrivacyPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-6 py-16">
+      <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-rule bg-paper-deep">
             <svg className="h-5 w-5 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 3l8 4v6c0 5-3.5 7-8 8-4.5-1-8-3-8-8V7l8-4zM9 12l2 2 4-4" /></svg>
           </div>
           <div>
-            <h1 className="font-serif text-3xl">Privacy Policy</h1>
+            <h1 className="font-serif text-2xl sm:text-3xl">Privacy Policy</h1>
             <p className="text-sm text-muted-foreground">Last updated: August 2026</p>
           </div>
         </div>

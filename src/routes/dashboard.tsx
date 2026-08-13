@@ -74,7 +74,7 @@ function DashboardPage() {
     return (
       <div className="min-h-screen">
         <SiteHeader />
-        <main className="mx-auto max-w-5xl px-6 py-20">
+        <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
           <div className="flex flex-col items-center justify-center py-16">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-rule border-t-stamp" />
             <p className="mt-4 text-sm text-muted-foreground">Loading your dashboard…</p>
@@ -98,12 +98,12 @@ function DashboardPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <main className="mx-auto max-w-5xl px-6 py-10">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Header */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="postmark w-fit">My Mailings</div>
-            <h1 className="mt-3 font-serif text-4xl">Your correspondence record</h1>
+            <h1 className="mt-3 font-serif text-2xl sm:text-3xl md:text-4xl">Your correspondence record</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Track your immigration mailings and delivery records.
             </p>
