@@ -1,0 +1,623 @@
+import { n as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { E as Check, O as ArrowRight, S as CreditCard, a as Stamp, g as Mail, k as ArrowLeft, l as ShieldAlert, o as Sparkles, p as PackageCheck, w as CircleCheck, y as FileUp } from "../_libs/lucide-react.mjs";
+import { i as SiteHeader, r as SiteFooter } from "./router-CF6FJEW1.mjs";
+import { t as workflows } from "./workflows-C-PLUic4.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/explanation-letter-wsv7t7Hp.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+var stepLabels = [
+	"Start",
+	"Facts",
+	"Objective",
+	"Draft",
+	"Review",
+	"Attachments",
+	"Recipient",
+	"Mailing",
+	"Checkout",
+	"Done"
+];
+var mailOptions = [
+	{
+		id: "standard",
+		label: "Standard",
+		price: "$4.99",
+		desc: "3–7 business days · Tracking included",
+		icon: Mail
+	},
+	{
+		id: "certified",
+		label: "Certified",
+		price: "$14.94",
+		desc: "Delivery tracking + confirmation · 3–7 days",
+		icon: PackageCheck
+	},
+	{
+		id: "registered",
+		label: "Registered",
+		price: "$32.49",
+		desc: "Secure handling + tracking · 5–10 days",
+		icon: Stamp
+	}
+];
+var reviewChecks = [
+	"I reviewed every factual statement in this letter.",
+	"Names, dates, and references are correct.",
+	"The letter accurately reflects what I want to communicate.",
+	"I understand Immigration Mail is not providing legal advice."
+];
+function ExplanationLetter() {
+	const definition = workflows["explanation-letter"];
+	const [step, setStep] = (0, import_react.useState)(0);
+	const [facts, setFacts] = (0, import_react.useState)("");
+	const [objective, setObjective] = (0, import_react.useState)("");
+	const [draft, setDraft] = (0, import_react.useState)("");
+	const [checks, setChecks] = (0, import_react.useState)(reviewChecks.map(() => false));
+	const [mailType, setMailType] = (0, import_react.useState)("certified");
+	const [recipient, setRecipient] = (0, import_react.useState)({
+		name: "",
+		org: "",
+		address1: "",
+		address2: "",
+		city: "",
+		state: "",
+		zip: ""
+	});
+	const progress = (0, import_react.useMemo)(() => Math.round(step / (stepLabels.length - 1) * 100), [step]);
+	const allChecked = checks.every(Boolean);
+	function generateDraft() {
+		return `Re: Explanation Letter
+
+Dear Sir or Madam,
+
+I am writing to provide an explanation regarding the following matter.
+
+${objective || "[Your objective will appear here.]"}
+
+${facts || "[The facts you provided will appear here.]"}
+
+I appreciate your consideration of this explanation. Should you require any additional information, please do not hesitate to contact me.
+
+Sincerely,
+[Your Name]`;
+	}
+	function canContinue() {
+		switch (step) {
+			case 1: return facts.trim().length > 0;
+			case 2: return objective.trim().length > 0;
+			case 4: return allChecked;
+			case 6: return recipient.name && recipient.address1 && recipient.city && recipient.state && recipient.zip;
+			default: return true;
+		}
+	}
+	function next() {
+		if (step === 2 && !draft) setDraft(generateDraft());
+		setStep((s) => Math.min(s + 1, stepLabels.length - 1));
+	}
+	function back() {
+		setStep((s) => Math.max(s - 1, 0));
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
+		className: "min-h-screen bg-cream",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SiteHeader, {}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "container py-8 md:py-12",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mx-auto max-w-3xl",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "mb-8",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center justify-between text-xs font-semibold text-navy-400",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+										"Step ",
+										step + 1,
+										" of ",
+										stepLabels.length
+									] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [progress, "% complete"] })]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "progress-track mt-2",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "progress-fill",
+										style: { width: `${progress}%` }
+									})
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "mt-3 hidden justify-between text-[11px] text-navy-300 sm:flex",
+									children: stepLabels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: i <= step ? "font-semibold text-navy-600" : "",
+										children: label
+									}, label))
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "card p-6 md:p-10",
+							children: [
+								step === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "AI-assisted correspondence"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+										className: "mt-3 text-3xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Prepare an Explanation Letter"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-4 leading-7 text-navy-400",
+										children: "Start with facts you provide and the outcome you want the correspondence to accomplish. The AI assistant will help organize those facts into an editable draft."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "alert alert-warning mt-6",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShieldAlert, {
+											size: 18,
+											className: "mb-2 shrink-0"
+										}), definition.disclaimer]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "mt-6 grid gap-3 sm:grid-cols-2",
+										children: [
+											"Provide your facts",
+											"Describe your objective",
+											"Review and edit the draft",
+											"Choose mailing and send"
+										].map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-2 text-sm text-navy-500",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "flex h-6 w-6 items-center justify-center rounded-full bg-navy-50 text-xs font-bold text-navy-400",
+												children: i + 1
+											}), item]
+										}, item))
+									})
+								] }),
+								step === 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "1 · Your facts"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "What facts should the letter include?"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "Use your own words. Only enter facts you can verify. The drafting assistant will not invent information."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
+										className: "input-field mt-6 min-h-48",
+										value: facts,
+										onChange: (e) => setFacts(e.target.value),
+										placeholder: "Enter the facts you want included in your explanation letter..."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "alert alert-info mt-4",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, {
+												size: 16,
+												className: "shrink-0"
+											}),
+											" ",
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Tip:" }),
+											" Include relevant dates, events, and context. The more specific you are, the better the draft will be."
+										]
+									})
+								] }),
+								step === 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "2 · Your objective"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "What do you want the letter to accomplish?"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "Describe what you want to explain or communicate. This guides the tone and structure of the letter."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
+										className: "input-field mt-6 min-h-40",
+										value: objective,
+										onChange: (e) => setObjective(e.target.value),
+										placeholder: "Example: I want to explain a gap in employment and provide supporting context."
+									})
+								] }),
+								step === 3 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "3 · Draft"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Your explanation letter"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "This draft was generated from your facts and objective. Edit anything before proceeding."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", {
+										className: "input-field mt-6 min-h-72 font-mono text-sm leading-6",
+										value: draft,
+										onChange: (e) => setDraft(e.target.value)
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "alert alert-warning mt-4",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShieldAlert, {
+											size: 16,
+											className: "shrink-0"
+										}), " AI-generated text is editable and must not invent facts, deadlines, requirements, or legal conclusions. Review carefully."]
+									})
+								] }),
+								step === 4 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "4 · Review"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Review before mailing"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "Please confirm each item below."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "mt-6 space-y-3",
+										children: reviewChecks.map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", {
+											className: "check-card",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												type: "checkbox",
+												checked: checks[i],
+												onChange: (e) => setChecks((c) => c.map((v, j) => j === i ? e.target.checked : v))
+											}), item]
+										}, item))
+									})
+								] }),
+								step === 5 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "5 · Attachments"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Add supporting documents"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "Attach any documents that support your explanation. Optional — only include what's relevant."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", {
+										className: "upload-zone mt-6 block",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileUp, {
+												className: "mx-auto text-navy-400",
+												size: 28
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "mt-3 block font-semibold text-navy-500",
+												children: "Upload attachments"
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "mt-1 block text-sm text-navy-300",
+												children: "PDF, JPG, or PNG · Secure storage coming soon"
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												type: "file",
+												accept: "application/pdf,image/jpeg,image/png",
+												multiple: true,
+												className: "sr-only"
+											})
+										]
+									})
+								] }),
+								step === 6 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "6 · Recipient"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Where should we send it?"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "mt-6 grid gap-4 sm:grid-cols-2",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "sm:col-span-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+													className: "input-label",
+													children: "Recipient name *"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+													className: "input-field",
+													value: recipient.name,
+													onChange: (e) => setRecipient({
+														...recipient,
+														name: e.target.value
+													}),
+													placeholder: "Agency or individual"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "sm:col-span-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+													className: "input-label",
+													children: "Organization / Office"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+													className: "input-field",
+													value: recipient.org,
+													onChange: (e) => setRecipient({
+														...recipient,
+														org: e.target.value
+													}),
+													placeholder: "Optional"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "sm:col-span-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+													className: "input-label",
+													children: "Address line 1 *"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+													className: "input-field",
+													value: recipient.address1,
+													onChange: (e) => setRecipient({
+														...recipient,
+														address1: e.target.value
+													}),
+													placeholder: "Street address"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "sm:col-span-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+													className: "input-label",
+													children: "Address line 2"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+													className: "input-field",
+													value: recipient.address2,
+													onChange: (e) => setRecipient({
+														...recipient,
+														address2: e.target.value
+													}),
+													placeholder: "Suite, unit, etc."
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+												className: "input-label",
+												children: "City *"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												className: "input-field",
+												value: recipient.city,
+												onChange: (e) => setRecipient({
+													...recipient,
+													city: e.target.value
+												})
+											})] }),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+												className: "input-label",
+												children: "State *"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												className: "input-field",
+												value: recipient.state,
+												onChange: (e) => setRecipient({
+													...recipient,
+													state: e.target.value
+												}),
+												placeholder: "CA"
+											})] }),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+												className: "input-label",
+												children: "ZIP Code *"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+												className: "input-field",
+												value: recipient.zip,
+												onChange: (e) => setRecipient({
+													...recipient,
+													zip: e.target.value
+												}),
+												placeholder: "90210"
+											})] })
+										]
+									})
+								] }),
+								step === 7 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "7 · Mailing options"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Choose your mail type"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "mt-3 text-navy-400",
+										children: "All options include printing, paper, envelope, and postage."
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "mt-6 grid gap-3 sm:grid-cols-2",
+										children: mailOptions.map(({ id, label, price, desc, icon: Icon }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: `mail-option ${mailType === id ? "selected" : ""}`,
+											onClick: () => setMailType(id),
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex items-start justify-between",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+													className: "flex items-center gap-3",
+													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, {
+														size: 20,
+														className: "text-navy-500"
+													}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+														className: "font-semibold text-navy-600",
+														children: label
+													}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+														className: "text-xs text-navy-400",
+														children: desc
+													})] })]
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+													className: "text-right",
+													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+														className: "text-lg font-bold text-navy-600",
+														style: { fontFamily: "var(--font-serif)" },
+														children: price
+													}), mailType === id && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, {
+														size: 16,
+														className: "ml-auto text-gold-500"
+													})]
+												})]
+											})
+										}, id))
+									})
+								] }),
+								step === 8 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "eyebrow",
+										children: "8 · Checkout"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+										className: "mt-3 text-2xl font-bold text-navy-600",
+										style: { fontFamily: "var(--font-serif)" },
+										children: "Review and pay"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "mt-6 space-y-3",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex items-center justify-between rounded-lg border border-warm-border px-4 py-3 text-sm",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-navy-500",
+													children: "Mail type"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "font-semibold text-navy-600",
+													children: mailOptions.find((m) => m.id === mailType)?.label
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex items-center justify-between rounded-lg border border-warm-border px-4 py-3 text-sm",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-navy-500",
+													children: "Recipient"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "font-semibold text-navy-600",
+													children: recipient.name || "—"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex items-center justify-between rounded-lg border border-warm-border px-4 py-3 text-sm",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-navy-500",
+													children: "Total"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-lg font-bold text-navy-600",
+													style: { fontFamily: "var(--font-serif)" },
+													children: mailOptions.find((m) => m.id === mailType)?.price
+												})]
+											})
+										]
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "alert alert-info mt-4",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CreditCard, {
+											size: 16,
+											className: "shrink-0"
+										}), " Secure checkout via Stripe is being connected."]
+									})
+								] }),
+								step === 9 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "text-center",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+											className: "mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, {
+												size: 32,
+												className: "text-emerald-600"
+											})
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+											className: "mt-5 text-2xl font-bold text-navy-600",
+											style: { fontFamily: "var(--font-serif)" },
+											children: "Your letter has been submitted"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+											className: "mt-3 text-navy-400",
+											children: "Your explanation letter is being prepared for mailing."
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "mt-6 inline-flex items-center gap-2 rounded-xl border border-warm-border px-4 py-3 text-sm",
+											children: [
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PackageCheck, {
+													size: 16,
+													className: "text-gold-500"
+												}),
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-navy-500",
+													children: "Tracking number:"
+												}),
+												/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "font-mono font-semibold text-navy-600",
+													children: "— Pending —"
+												})
+											]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "mt-8 flex justify-center gap-3",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+												to: "/",
+												className: "btn-outline",
+												children: "Back to home"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+												to: "/workflows/explanation-letter",
+												className: "btn-primary",
+												children: "Start another"
+											})]
+										})
+									]
+								}),
+								step < 9 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "mt-8 flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+										onClick: back,
+										disabled: step === 0,
+										className: "btn-ghost disabled:opacity-30",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { size: 16 }), " Back"]
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+										onClick: next,
+										disabled: !canContinue(),
+										className: "btn-primary",
+										children: [
+											step === 8 ? "Pay and send" : "Continue",
+											" ",
+											/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16 })
+										]
+									})]
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "mt-6 text-center",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/",
+								className: "text-sm text-navy-400 hover:text-gold-500",
+								children: "← Back to Immigration Mail"
+							})
+						})
+					]
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SiteFooter, {})
+		]
+	});
+}
+//#endregion
+export { ExplanationLetter as component };

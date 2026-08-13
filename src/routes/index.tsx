@@ -30,7 +30,7 @@ const steps = [
 
 const stats = [
   { value: "3–5", label: "Business day delivery" },
-  { value: "$3.99", label: "Starting price per mailing" },
+  { value: "$4.99", label: "Starting price per mailing" },
   { value: "100%", label: "You control the facts" },
   { value: "0", label: "Printers needed" },
 ];
@@ -56,7 +56,7 @@ const faqItems = [
   { q: "Is this legal advice?", a: "No. Immigration Mail is a correspondence tool, not a law firm. We help you prepare and send documents — we do not provide legal advice, and AI never invents facts or legal conclusions." },
   { q: "How does the mailing work?", a: "Your final document is printed, placed in an envelope, and mailed via USPS. You can choose first-class, certified, or certified with return receipt for proof of delivery." },
   { q: "Is my data secure?", a: "All documents are stored with encryption, never shared with third parties, and never used for marketing. You can request full deletion of your data at any time." },
-  { q: "What types of mail can I send?", a: "First-class, certified mail, certified with return receipt, and registered mail. Prices start at $3.99 per mailing, including printing, paper, envelope, and postage." },
+  { q: "What types of mail can I send?", a: "Standard, Certified, Certified, and Registered mail. Costs start at $4.99 per mailing, including printing, paper, envelope, and postage." },
   { q: "How long does delivery take?", a: "First-class mail typically arrives in 3–5 business days. Certified mail follows the same timeline with added tracking and proof of delivery." },
 ];
 
@@ -304,10 +304,9 @@ function HomePage() {
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-4">
             {[
-              { type: "First-Class", price: "$3.99", desc: "3–5 business days, tracking included", icon: Mail },
-              { type: "Certified", price: "$8.99", desc: "Signature tracking, proof of delivery", icon: PackageCheck, featured: false },
-              { type: "Certified + Return Receipt", price: "$12.99", desc: "Signed return receipt card", icon: ShieldCheck, featured: true },
-              { type: "Registered", price: "$15.99", desc: "Highest security, insured, signature required", icon: Stamp },
+              { type: "Standard", price: "$4.99", desc: "3–7 business days, tracking included", icon: Mail },
+              { type: "Certified", price: "$14.94", desc: "Delivery tracking + confirmation", icon: PackageCheck },
+              { type: "Registered", price: "$32.49", desc: "Secure handling + tracking, insured", icon: Stamp, featured: true },
             ].map(({ type, price, desc, icon: Icon, featured }) => (
               <div key={type} className={`card p-6 text-center ${featured ? "ring-2 ring-gold-400" : ""}`}>
                 {featured && <div className="badge badge-gold mb-3">Most popular</div>}

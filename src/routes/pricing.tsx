@@ -7,7 +7,7 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: "Pricing — Immigration Mail" },
-      { name: "description", content: "Simple per-mailing pricing. First-Class $3.99, Certified $8.99, Certified with Return Receipt $12.99, Registered $15.99. No subscription." },
+      { name: "description", content: "Simple per-mailing pricing. Standard $4.99, Certified $14.94, Registered $32.49. Page-count tiers available. No subscription." },
       { property: "og:title", content: "Pricing — Immigration Mail" },
       { property: "og:description", content: "Pay per mailing. No subscription. Prices include printing, paper, envelope, and postage." },
     ],
@@ -16,38 +16,9 @@ export const Route = createFileRoute("/pricing")({
 });
 
 const tiers = [
-  {
-    type: "First-Class",
-    price: "$3.99",
-    desc: "Standard delivery for non-urgent correspondence",
-    features: ["3–5 business days", "USPS tracking included", "Professional printing & envelope", "Mailing record retained"],
-    icon: Mail,
-    featured: false,
-  },
-  {
-    type: "Certified",
-    price: "$8.99",
-    desc: "Trackable delivery with signature proof",
-    features: ["3–5 business days", "Signature tracking", "Proof of delivery", "Mailing record retained"],
-    icon: PackageCheck,
-    featured: false,
-  },
-  {
-    type: "Certified + Return Receipt",
-    price: "$12.99",
-    desc: "Signed return receipt card mailed back to you",
-    features: ["3–5 business days", "All Certified features", "Signed return receipt card", "Recommended for immigration mail"],
-    icon: ShieldCheck,
-    featured: true,
-  },
-  {
-    type: "Registered",
-    price: "$15.99",
-    desc: "Highest security for sensitive documents",
-    features: ["Insured delivery", "Signature required", "Highest security handling", "Mailing record retained"],
-    icon: Stamp,
-    featured: false,
-  },
+  { type: "Standard", price: "$4.99", desc: "Standard delivery for non-urgent mail", features: ["3–7 business days", "USPS tracking included", "Professional printing & envelope", "Mailing record retained"], icon: Mail },
+  { type: "Certified", price: "$14.94", desc: "Trackable delivery with confirmation", features: ["3–7 business days", "Delivery tracking + confirmation", "Proof of delivery", "Mailing record retained"], icon: PackageCheck, featured: true },
+  { type: "Registered", price: "$32.49", desc: "Highest security for sensitive documents", features: ["5–10 business days", "Secure handling + tracking", "Insured delivery", "Signature required"], icon: Stamp },
 ];
 
 const faqs = [
@@ -69,7 +40,7 @@ function PricingPage() {
             <p className="mt-4 text-navy-400">Every price includes printing, paper, envelope, postage, and tracking. You only pay when you send.</p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {tiers.map(({ type, price, desc, features, icon: Icon, featured }) => (
               <div key={type} className={`card p-6 ${featured ? "ring-2 ring-gold-400" : ""}`}>
                 {featured && <div className="badge badge-gold mb-3">Recommended</div>}
