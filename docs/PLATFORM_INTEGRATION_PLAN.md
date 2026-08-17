@@ -4,15 +4,12 @@ Immigration-Mail is the flagship reference vertical for the MailMyPDF ecosystem.
 
 ## Platform capabilities consumed
 
-| Capability | Shared owner | Immigration-Mail use |
-|---|---|---|
-| Document security + provenance | MailMyPDF Platform | Safe upload, hashes, source references, document relationships |
-| Document intelligence | MailMyPDF Platform | OCR/layout extraction, classification, structured understanding |
-| Structured AI | MailMyPDF Platform | Fact extraction, explanations, drafting, deterministic preflight |
-| Voice | MailMyPDF Platform | Multilingual conversational assistance with approval-gated actions |
-| Evidence / timeline / deadlines | MailMyPDF Platform | Case context, deadlines, response planning |
-| Identity / usage / entitlements | MailMyPDF | One ecosystem account and metered rich workflows |
-| Mailing / tracking / proof | MailMyPDF | Final fulfillment and permanent mailing record |
+- Document security and provenance from MailMyPDF Platform.
+- Document intelligence from MailMyPDF Platform.
+- Structured AI and deterministic preflight from MailMyPDF Platform.
+- Multilingual voice from MailMyPDF Platform, with consequential actions approval-gated.
+- Evidence, timeline, and deadline primitives from MailMyPDF Platform.
+- Identity, usage, entitlements, mailing, tracking, and proof from MailMyPDF.
 
 ## Vertical-owned capabilities
 
@@ -31,6 +28,6 @@ Immigration-Mail is the flagship reference vertical for the MailMyPDF ecosystem.
 
 The system must never invent facts, deadlines, requirements, or legal conclusions. Extracted facts and AI suggestions remain reviewable and source-linked. Inferred dates are explicitly marked as inferred. Mailing and other consequential actions require explicit user approval.
 
-## Production integration status
+## Verification
 
-The vertical has a verified CI pipeline covering `npm ci`, tests, and production build. Provider-neutral contracts are ready for the shared Platform services; live production providers remain behind their interfaces until the corresponding Platform/identity rollout is connected.
+The flagship branch has a repository verification workflow covering `npm ci`, tests, and production build. The latest completed verification run on the pre-documentation commit passed all steps. The documentation-only integration contract update does not alter runtime behavior.
