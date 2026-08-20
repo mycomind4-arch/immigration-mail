@@ -19,7 +19,9 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RespondToAUscisNoticeRouteImport } from './routes/respond-to-a-uscis-notice'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as WorkflowsRouteImport } from './routes/workflows'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as WorkflowsExplanationLetterRouteImport } from './routes/workflows/explanation-letter'
@@ -76,9 +78,19 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RespondToAUscisNoticeRoute = RespondToAUscisNoticeRouteImport.update({
+  id: '/respond-to-a-uscis-notice',
+  path: '/respond-to-a-uscis-notice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkflowsRoute = WorkflowsRouteImport.update({
+  id: '/workflows',
+  path: '/workflows',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
@@ -93,21 +105,21 @@ const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
 } as any)
 const WorkflowsExplanationLetterRoute =
   WorkflowsExplanationLetterRouteImport.update({
-    id: '/workflows/explanation-letter',
-    path: '/workflows/explanation-letter',
-    getParentRoute: () => rootRouteImport,
+    id: '/explanation-letter',
+    path: '/explanation-letter',
+    getParentRoute: () => WorkflowsRoute,
   } as any)
 const WorkflowsRespondToNoticeRoute =
   WorkflowsRespondToNoticeRouteImport.update({
-    id: '/workflows/respond-to-notice',
-    path: '/workflows/respond-to-notice',
-    getParentRoute: () => rootRouteImport,
+    id: '/respond-to-notice',
+    path: '/respond-to-notice',
+    getParentRoute: () => WorkflowsRoute,
   } as any)
 const WorkflowsSupportingDocumentsRoute =
   WorkflowsSupportingDocumentsRouteImport.update({
-    id: '/workflows/supporting-documents',
-    path: '/workflows/supporting-documents',
-    getParentRoute: () => rootRouteImport,
+    id: '/supporting-documents',
+    path: '/supporting-documents',
+    getParentRoute: () => WorkflowsRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -121,7 +133,9 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
+  '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -139,7 +153,9 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
+  '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -158,7 +174,9 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
+  '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -178,7 +196,9 @@ export interface FileRouteTypes {
     | '/faq'
     | '/pricing'
     | '/privacy'
+    | '/respond-to-a-uscis-notice'
     | '/terms'
+    | '/workflows'
     | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -196,7 +216,9 @@ export interface FileRouteTypes {
     | '/faq'
     | '/pricing'
     | '/privacy'
+    | '/respond-to-a-uscis-notice'
     | '/terms'
+    | '/workflows'
     | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -214,7 +236,9 @@ export interface FileRouteTypes {
     | '/faq'
     | '/pricing'
     | '/privacy'
+    | '/respond-to-a-uscis-notice'
     | '/terms'
+    | '/workflows'
     | '/resources/$slug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -233,11 +257,10 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
+  RespondToAUscisNoticeRoute: typeof RespondToAUscisNoticeRoute
   TermsRoute: typeof TermsRoute
+  WorkflowsRoute: typeof WorkflowsRouteWithChildren
   ResourcesSlugRoute: typeof ResourcesSlugRoute
-  WorkflowsExplanationLetterRoute: typeof WorkflowsExplanationLetterRoute
-  WorkflowsRespondToNoticeRoute: typeof WorkflowsRespondToNoticeRoute
-  WorkflowsSupportingDocumentsRoute: typeof WorkflowsSupportingDocumentsRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
@@ -313,11 +336,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/respond-to-a-uscis-notice': {
+      id: '/respond-to-a-uscis-notice'
+      path: '/respond-to-a-uscis-notice'
+      fullPath: '/respond-to-a-uscis-notice'
+      preLoaderRoute: typeof RespondToAUscisNoticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workflows': {
+      id: '/workflows'
+      path: '/workflows'
+      fullPath: '/workflows'
+      preLoaderRoute: typeof WorkflowsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources/': {
@@ -336,27 +373,43 @@ declare module '@tanstack/react-router' {
     }
     '/workflows/explanation-letter': {
       id: '/workflows/explanation-letter'
-      path: '/workflows/explanation-letter'
+      path: '/explanation-letter'
       fullPath: '/workflows/explanation-letter'
       preLoaderRoute: typeof WorkflowsExplanationLetterRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof WorkflowsRoute
     }
     '/workflows/respond-to-notice': {
       id: '/workflows/respond-to-notice'
-      path: '/workflows/respond-to-notice'
+      path: '/respond-to-notice'
       fullPath: '/workflows/respond-to-notice'
       preLoaderRoute: typeof WorkflowsRespondToNoticeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof WorkflowsRoute
     }
     '/workflows/supporting-documents': {
       id: '/workflows/supporting-documents'
-      path: '/workflows/supporting-documents'
+      path: '/supporting-documents'
       fullPath: '/workflows/supporting-documents'
       preLoaderRoute: typeof WorkflowsSupportingDocumentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof WorkflowsRoute
     }
   }
 }
+
+interface WorkflowsRouteChildren {
+  WorkflowsExplanationLetterRoute: typeof WorkflowsExplanationLetterRoute
+  WorkflowsRespondToNoticeRoute: typeof WorkflowsRespondToNoticeRoute
+  WorkflowsSupportingDocumentsRoute: typeof WorkflowsSupportingDocumentsRoute
+}
+
+const WorkflowsRouteChildren: WorkflowsRouteChildren = {
+  WorkflowsExplanationLetterRoute: WorkflowsExplanationLetterRoute,
+  WorkflowsRespondToNoticeRoute: WorkflowsRespondToNoticeRoute,
+  WorkflowsSupportingDocumentsRoute: WorkflowsSupportingDocumentsRoute,
+}
+
+const WorkflowsRouteWithChildren = WorkflowsRoute._addFileChildren(
+  WorkflowsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -369,11 +422,10 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
+  RespondToAUscisNoticeRoute: RespondToAUscisNoticeRoute,
   TermsRoute: TermsRoute,
+  WorkflowsRoute: WorkflowsRouteWithChildren,
   ResourcesSlugRoute: ResourcesSlugRoute,
-  WorkflowsExplanationLetterRoute: WorkflowsExplanationLetterRoute,
-  WorkflowsRespondToNoticeRoute: WorkflowsRespondToNoticeRoute,
-  WorkflowsSupportingDocumentsRoute: WorkflowsSupportingDocumentsRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport

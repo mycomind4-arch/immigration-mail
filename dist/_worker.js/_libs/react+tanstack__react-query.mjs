@@ -1,4 +1,4 @@
-import { n as __commonJSMin, r as __toESM } from "../_ssr/rolldown-runtime-D7D4PA-g.mjs";
+import { n as __toESM, t as __commonJSMin } from "../_runtime.mjs";
 import processModule from "node:process";
 //#region node_modules/react/cjs/react.production.js
 /**
