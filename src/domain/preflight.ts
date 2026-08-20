@@ -15,14 +15,13 @@ export function runBasicPreflight(input: {
 
   for (const fact of input.requiredFacts ?? []) {
     if (!draft.toLowerCase().includes(fact.toLowerCase())) {
-      issues.push({ severity: "warning", code: "FACT_NOT_FOUND", message: `A required fact was not found in the draft: ${fact}` });
+      issues.push({ severity: "error", code: "FACT_NOT_FOUND", message: `A required fact was not found in the draft: ${fact}` });
     }
   }
 
-  // Placeholder detection catches unfinished drafts without pretending to
-  // determine whether a legal response is substantively sufficient.
+  // Unresolved placeholders make the draft incomplete and must block consequential actions.
   if (/\[[^\]]+\]/.test(draft)) {
-    issues.push({ severity: "warning", code: "PLACEHOLDER_DETECTED", message: "The draft contains bracketed placeholders that should be reviewed." });
+    issues.push({ severity: "error", code: "PLACEHOLDER_DETECTED", message: "The draft contains bracketed placeholders that must be resolved before mailing." });
   }
 
   return { ready: !issues.some((issue) => issue.severity === "error"), issues };
