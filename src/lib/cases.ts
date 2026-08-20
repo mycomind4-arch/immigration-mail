@@ -3,7 +3,6 @@
  * Each case is a workspace for documents, correspondence, and mailings.
  */
 import { supabase } from "./supabase";
-import { useAuth } from "./auth";
 
 export interface Case {
   id: string;
@@ -53,9 +52,6 @@ export interface Correspondence {
   updated_at: string;
 }
 
-/**
- * Fetch all cases for the current user.
- */
 export async function fetchCases(userId: string): Promise<{ data: Case[] | null; error: string | null }> {
   const { data, error } = await supabase
     .from("cases")
@@ -67,9 +63,6 @@ export async function fetchCases(userId: string): Promise<{ data: Case[] | null;
   return { data: data as Case[], error: null };
 }
 
-/**
- * Create a new case.
- */
 export async function createCase(
   userId: string,
   caseData: Partial<Case>
@@ -94,9 +87,6 @@ export async function createCase(
   return { data: data as Case, error: null };
 }
 
-/**
- * Update a case.
- */
 export async function updateCase(
   caseId: string,
   updates: Partial<Case>
@@ -108,9 +98,6 @@ export async function updateCase(
   return { error: error?.message ?? null };
 }
 
-/**
- * Fetch all mailing orders for the current user.
- */
 export async function fetchMailingOrders(userId: string): Promise<{ data: MailingOrder[] | null; error: string | null }> {
   const { data, error } = await supabase
     .from("mailing_orders")
@@ -122,9 +109,6 @@ export async function fetchMailingOrders(userId: string): Promise<{ data: Mailin
   return { data: data as MailingOrder[], error: null };
 }
 
-/**
- * Fetch all correspondence for the current user.
- */
 export async function fetchCorrespondence(userId: string): Promise<{ data: Correspondence[] | null; error: string | null }> {
   const { data, error } = await supabase
     .from("case_correspondence")
@@ -136,9 +120,6 @@ export async function fetchCorrespondence(userId: string): Promise<{ data: Corre
   return { data: data as Correspondence[], error: null };
 }
 
-/**
- * Save a correspondence draft to the database.
- */
 export async function saveCorrespondence(
   userId: string,
   data: {
@@ -167,11 +148,14 @@ export async function saveCorrespondence(
 }
 
 /**
- * Create a mailing order record (after checkout).
+ * Create a durable mailing-order record only when a real fulfillment adapter
+ * is installed. The current application has persistence but no provider
+ * submission boundary, so this function fails closed instead of returning a
+ * draft order that the UI could misrepresent as physically submitted mail.
  */
 export async function createMailingOrder(
-  userId: string,
-  data: {
+  _userId: string,
+  _data: {
     case_id?: string;
     correspondence_id?: string;
     workflow_id: string;
@@ -186,48 +170,20 @@ export async function createMailingOrder(
     price_cents: number;
   }
 ): Promise<{ data: MailingOrder | null; error: string | null }> {
-  const { data: result, error } = await supabase
-    .from("mailing_orders")
-    .insert({
-      user_id: userId,
-      case_id: data.case_id || null,
-      correspondence_id: data.correspondence_id || null,
-      workflow_id: data.workflow_id,
-      recipient_name: data.recipient_name,
-      recipient_org: data.recipient_org,
-      recipient_address1: data.recipient_address1,
-      recipient_address2: data.recipient_address2,
-      recipient_city: data.recipient_city,
-      recipient_state: data.recipient_state,
-      recipient_zip: data.recipient_zip,
-      mail_method: data.mail_method,
-      price_cents: data.price_cents,
-      status: "draft",
-    })
-    .select()
-    .single();
-
-  if (error) return { data: null, error: error.message };
-  return { data: result as MailingOrder, error: null };
+  return {
+    data: null,
+    error: "fulfillment_not_configured: correspondence can be saved as a draft, but physical mailing requires an authenticated MailMyPDF fulfillment adapter and payment flow.",
+  };
 }
 
-/**
- * Format price from cents to dollars.
- */
 export function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
 }
 
-/**
- * Format mail method for display.
- */
 export function formatMailMethod(method: string): string {
   return method.charAt(0).toUpperCase() + method.slice(1);
 }
 
-/**
- * Format a date for display.
- */
 export function formatDate(iso: string): string {
   try {
     const d = new Date(iso);
