@@ -13,26 +13,29 @@ The target experience is simple: a user can photograph or upload an immigration 
 - TanStack Start + React + TypeScript foundation
 - Cloudflare-compatible server entry
 - Security-header middleware foundation
-- Responsive marketing homepage
-- Workflow discovery
-- Flagship **Respond to a Notice** guided workflow prototype
+- Responsive marketing homepage and workflow discovery
+- Flagship **Respond to a Notice** guided workflow
 - Supporting Documents and Explanation Letter workflow entries
 - Reusable workflow and mailing domain types
-- Focused initial SEO infrastructure (`robots.txt`, sitemap, `llms.txt`)
+- Focused SEO infrastructure (`robots.txt`, sitemap, `llms.txt`)
 - Provider-neutral immigration intelligence contracts
 - Immigration document/fact/deadline provenance model
 - Multilingual language preference foundation
 - Approval-gated voice assistant boundary
 - Deterministic correspondence preflight
-- Platform integration plan
+- MailMyPDF Platform adapter with canonical `/v1/documents` and `/v1/communications` APIs
+- Shared MailMyPDF Account authentication with persistent sessions, magic links, password reset, and access tokens
+- Server-side authentication guard for protected API boundaries
+- Authenticated Stripe Checkout for mailing intents
+- Durable Stripe-to-MailMyPDF fulfillment state with idempotent submission
 
 ## Platform architecture
 
 Immigration Mail consumes reusable technology from **MailMyPDF Platform** rather than rebuilding it. The target shared capabilities are document security/provenance, document intelligence, structured AI, evidence, timelines/deadlines, voice, usage/entitlements, and fulfillment/proof contracts.
 
-The Platform defines provider-neutral boundaries for Docling-compatible document intelligence and LiveKit/Pipecat-compatible realtime voice. Immigration-specific taxonomy, workflows, prompts, content, and UX remain owned by this repository.
+The Platform defines provider-neutral boundaries for Docling-compatible document intelligence and LiveKit/Pipecat-compatible realtime voice. Immigration-specific taxonomy, workflows, prompts, and UX remain owned by this repository.
 
-See `docs/PLATFORM_INTEGRATION_PLAN.md`.
+See `docs/PLATFORM_INTEGRATION_PLAN.md` and the ecosystem `VERTICAL_FULFILLMENT_CONTRACT.md` in `mailmypdf-platform`.
 
 ## Multilingual by design
 
@@ -42,20 +45,16 @@ The interface, assistant, source document, and final mailing language are separa
 
 Voice can explain documents, summarize, navigate, capture facts, manage checklists, review drafts, and read correspondence aloud. Consequential actions such as mailing are approval-gated and cannot be silently executed by voice.
 
-## Not yet connected
+## Remaining production work
 
-Production integrations remain staged behind interfaces while the vertical is developed:
+The core account and payment/fulfillment seam is now implemented, but the vertical is not yet release-verified. Remaining work includes:
 
-- Supabase authentication/database
-- private document storage
-- production AI provider
-- Stripe checkout
-- Lob/MailMyPDF mailing
-- tracking webhooks
-- proof archive
-- account/order history
-- hosted document-intelligence worker
-- hosted realtime voice worker
+- Run the full Vitest suite and production build after the migration.
+- Verify Supabase RLS and production environment configuration.
+- Add real test-mode Stripe + MailMyPDF end-to-end coverage without production mailing.
+- Connect additional workflows to the shared fulfillment contract.
+- Complete tracking webhooks/proof archive and account/order-history UX.
+- Connect production immigration intelligence providers and hosted workers.
 
 ## Safety boundary
 
