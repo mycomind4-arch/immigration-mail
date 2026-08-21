@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HeadContent, Outlet, Scripts, createRootRouteWithContext, Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { HeadContent, Outlet, Scripts, createRootRouteWithContext, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useRef, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { AuthProvider } from "@/lib/auth";
+import { AuthProvider, useAuth } from "@/lib/auth";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -38,53 +38,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
-    </html>
-  );
+  return <html lang="en"><head><HeadContent /></head><body>{children}<Scripts /></body></html>;
 }
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}><AuthProvider><CheckoutReturnHandler /><Outlet /></AuthProvider></QueryClientProvider>;
+}
+
+function CheckoutReturnHandler() {
+  const { user, accessToken } = useAuth();
+  const navigate = useNavigate();
+  const processed = useRef(false);
+
+  useEffect(() => {
+    if (processed.current || !user || !accessToken || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const checkout = params.get("checkout");
+    const sessionId = params.get("session_id");
+    if (checkout === "cancelled") {
+      processed.current = true;
+      navigate({ to: "/dashboard", search: { mailing: "cancelled" } as never });
+      return;
+    }
+    if (checkout !== "success" || !sessionId) return;
+    processed.current = true;
+
+    void fetch("/api/mail/response", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ stripeSessionId: sessionId }),
+    }).then(async (response) => {
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload?.error || `Mailing submission failed (${response.status}).`);
+      navigate({ to: "/dashboard", search: { mailing: "success", order: payload.providerOrderId || "" } as never });
+    }).catch((error) => {
+      navigate({ to: "/dashboard", search: { mailing: "error", message: error instanceof Error ? error.message : "Mailing submission failed." } as never });
+    });
+  }, [user, accessToken, navigate]);
+
+  return null;
 }
 
 function NotFoundPage() {
-  return (
-    <div className="min-h-screen">
-      <SiteHeader />
-      <main className="mx-auto max-w-lg px-6 py-32 text-center">
-        <div className="postmark mx-auto w-fit">404</div>
-        <h1 className="mt-6 text-6xl" style={{ fontFamily: "var(--font-serif)" }}>
-          Lost in <span className="italic text-stamp">transit.</span>
-        </h1>
-        <p className="mt-4 text-muted-foreground">
-          The page you're looking for doesn't exist or has moved. Let's get you back on track.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-          >
-            ← Home
-          </Link>
-          <Link
-            to="/workflows/respond-to-notice"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
-          >
-            Start a letter
-          </Link>
-        </div>
-      </main>
-      <SiteFooter />
-    </div>
-  );
+  return <div className="min-h-screen"><SiteHeader /><main className="mx-auto max-w-lg px-6 py-32 text-center"><div className="postmark mx-auto w-fit">404</div><h1 className="mt-6 text-6xl" style={{ fontFamily: "var(--font-serif)" }}>Lost in <span className="italic text-stamp">transit.</span></h1><p className="mt-4 text-muted-foreground">The page you're looking for doesn't exist or has moved. Let's get you back on track.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/" className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted">← Home</Link><Link to="/workflows/respond-to-notice" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5">Start a letter</Link></div></main><SiteFooter /></div>;
 }
