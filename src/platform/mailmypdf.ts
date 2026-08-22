@@ -1,10 +1,3 @@
-/**
- * Server-only MailMyPDF platform adapter.
- *
- * Immigration Mail consumes the canonical MailMyPDF v1 document and
- * communication APIs. Credentials never reach the browser.
- */
-
 export type MailType = "first_class" | "certified" | "certified_return_receipt" | "registered";
 
 export interface MailMyPDFDocument {
@@ -42,31 +35,16 @@ export interface CreateImmigrationCommunicationInput {
   mail_type: MailType;
   matter_reference: string;
   matter_type: string;
-  legal_reference: {
-    type: "statute" | "lease_clause" | "contract_term" | "regulation" | "ordinance" | "other";
-    citation: string;
-    description: string;
-    response_window_days?: number | null;
-    notes?: string;
-  };
+  legal_reference: { type: "statute" | "lease_clause" | "contract_term" | "regulation" | "ordinance" | "other"; citation: string; description: string; response_window_days?: number | null; notes?: string };
   from_address?: ImmigrationSender;
   metadata?: Record<string, unknown>;
   idempotency_key: string;
 }
 
-export interface MailMyPDFCommunication {
-  id: string;
-  status?: string;
-  tracking_number?: string;
-  updated_at?: string;
-  [key: string]: unknown;
-}
+export interface MailMyPDFCommunication { id: string; status?: string; tracking_number?: string; updated_at?: string; [key: string]: unknown; }
 
 export class MailMyPDFPlatformError extends Error {
-  constructor(message: string, readonly status: number, readonly code?: string) {
-    super(message);
-    this.name = "MailMyPDFPlatformError";
-  }
+  constructor(message: string, readonly status: number, readonly code?: string) { super(message); this.name = "MailMyPDFPlatformError"; }
 }
 
 function getConfig() {
@@ -81,21 +59,13 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set("Authorization", `Bearer ${apiKey}`);
   headers.set("Accept", "application/json");
-
-  // Do not set Content-Type for FormData; the runtime supplies the multipart boundary.
-  if (init.body && !(init.body instanceof FormData) && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
-  }
-
+  if (init.body && !(init.body instanceof FormData) && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
   const response = await fetch(`${baseUrl}${path}`, { ...init, headers });
   const text = await response.text();
   let payload: unknown = null;
   try { payload = text ? JSON.parse(text) : null; } catch { payload = { raw: text }; }
-
   if (!response.ok) {
-    const error = payload && typeof payload === "object" && "error" in payload
-      ? (payload as { error?: { message?: string; code?: string } }).error
-      : undefined;
+    const error = payload && typeof payload === "object" && "error" in payload ? (payload as { error?: { message?: string; code?: string } }).error : undefined;
     throw new MailMyPDFPlatformError(error?.message ?? `MailMyPDF request failed (${response.status})`, response.status, error?.code);
   }
   return payload as T;
@@ -104,29 +74,23 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 export async function uploadDocument(file: File): Promise<MailMyPDFDocument> {
   const form = new FormData();
   form.append("file", file, file.name);
-  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/v1/documents", { method: "POST", body: form });
+  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/api/v1/documents", { method: "POST", body: form });
   return "document" in result && result.document ? result.document : result as MailMyPDFDocument;
 }
 
 export async function uploadDocumentBase64(input: { content: string; filename: string; mime_type?: string }): Promise<MailMyPDFDocument> {
-  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/v1/documents", {
-    method: "POST",
-    body: JSON.stringify(input),
-  });
+  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/api/v1/documents", { method: "POST", body: JSON.stringify(input) });
   return "document" in result && result.document ? result.document : result as MailMyPDFDocument;
 }
 
 export async function createCommunication(input: CreateImmigrationCommunicationInput): Promise<MailMyPDFCommunication> {
-  return request<MailMyPDFCommunication>("/v1/communications", {
+  return request<MailMyPDFCommunication>("/api/v1/communications", {
     method: "POST",
     headers: { "Idempotency-Key": input.idempotency_key },
-    body: JSON.stringify({
-      ...input,
-      metadata: { vertical: "immigration-mail", product: "immigration-mail", ...(input.metadata ?? {}) },
-    }),
+    body: JSON.stringify({ ...input, metadata: { vertical: "immigration-mail", product: "immigration-mail", ...(input.metadata ?? {}) } }),
   });
 }
 
 export async function getCommunication(id: string): Promise<MailMyPDFCommunication> {
-  return request<MailMyPDFCommunication>(`/v1/communications/${encodeURIComponent(id)}`);
+  return request<MailMyPDFCommunication>(`/api/v1/communications/${encodeURIComponent(id)}`);
 }
