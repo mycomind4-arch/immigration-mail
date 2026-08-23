@@ -413,7 +413,7 @@ export function getAllFormProfiles(): FormEvidenceProfile[] {
 
 export function isFormVariantCanonical(formType: string): boolean {
   // These forms are handled by the canonical RFE/NOID engines — no separate workflow needed
-  const canonicalRFEForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'N-600', 'generic'];
+  const canonicalRFEForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'N-600', 'DS-260', 'generic'];
   const canonicalNOIDForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-601', 'I-290B', 'generic'];
   return canonicalRFEForms.includes(formType) || canonicalNOIDForms.includes(formType);
 }
@@ -524,6 +524,12 @@ export const FORM_VARIANT_REGISTRY = {
   'i-485-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-485', type: 'inquiry' as const },
   'i-751-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-751', type: 'inquiry' as const },
   'i-130-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-130', type: 'inquiry' as const },
+  // Consular Processing variants — all major form types requiring consular processing support
+  'ds-260-consular': { canonical: 'consular-processing', formAdapter: 'DS-260', type: 'inquiry' as const },
+  'ds-261-consular': { canonical: 'consular-processing', formAdapter: 'DS-261', type: 'inquiry' as const },
+  'i-864-consular': { canonical: 'consular-processing', formAdapter: 'I-864', type: 'inquiry' as const },
+  'i-130-consular': { canonical: 'consular-processing', formAdapter: 'I-130', type: 'inquiry' as const },
+  'i-140-consular': { canonical: 'consular-processing', formAdapter: 'I-140', type: 'inquiry' as const },
 };
 
 export function resolveFormVariant(slug: string): { canonical: string; formAdapter: string; type: 'rfe' | 'noid' | 'inquiry' } | undefined {

@@ -362,6 +362,16 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     composable: true,
     rules: ['Triggered by N-400 interview notice, oath ceremony notice, or post-interview evidence request.', 'Interview reschedule requests must be submitted before the interview date.', 'Missed interviews require immediate remedy to avoid N-400 denial.', 'Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).'],
   },
+  {
+    slug: 'consular-processing',
+    title: 'Resolve a Consular Processing Issue',
+    description: 'Manage the immigrant visa lifecycle at NVC and US embassies — DS-260, fee payment, civil documents, consular interview preparation, rescheduling, missed interviews, priority date retrogression, medical exams, and visa expiration urgency — with mailing and proof.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['nvc_processing', 'consular_interview', 'civil_documents', 'priority_date', 'medical_exam', 'visa_expiration'],
+    agencies: ['DOS'],
+    composable: true,
+    rules: ['Triggered by NVC correspondence, embassy interview notice, or consular processing issue.', 'Interview reschedule requests must be submitted before the interview date.', 'Missed interviews require immediate remedy to avoid case termination under 22 CFR 42.63.', 'Priority date retrogression requires monitoring the Visa Bulletin — no action until PD is current.', 'Visa issuance has a 6-month validity window — must enter the US before expiration.'],
+  },
 ];
 
 // ─── Stage classification ─────────────────────────────────────────────────────

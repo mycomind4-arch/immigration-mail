@@ -111,6 +111,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Resolve a Consular Processing Issue',
+    purpose: 'Need help with DS-260, NVC fees, civil documents, consular interview prep, rescheduling, priority date retrogression, or visa expiration? We prepare and mail your letter.',
+    route: '/consular-processing',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -222,6 +229,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'case-inquiry': '/case-inquiry',
     'biometrics-scheduling': '/biometrics-scheduling',
     'naturalization-citizenship': '/naturalization-citizenship',
+    'consular-processing': '/consular-processing',
   };
 
   return goldSlugs.filter(slug => {

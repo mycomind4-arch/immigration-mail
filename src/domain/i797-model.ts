@@ -51,6 +51,7 @@ export type RoutingTarget =
   | 'case-inquiry'
   | 'biometrics-scheduling'
   | 'naturalization-citizenship'
+  | 'consular-processing'
   | 'no_action'
   | 'unknown';
 

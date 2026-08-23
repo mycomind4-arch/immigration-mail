@@ -351,10 +351,37 @@ export const NATURALIZATION_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+export const CONSULAR_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'consular-processing',
+  workflowTitle: 'Resolve a Consular Processing Issue',
+  vertical: 'Immigration', pipeline: 'P09 Consular Processing',
+  domainAdapter: 'Consular Processing Domain Adapter',
+  specialistModules: ['NVC Processing Guide', 'Consular Interview Preparation', 'Reschedule Analyzer', 'Missed Interview Remedy', 'Civil Document Checker', 'Priority Date Monitor', 'Delay Analyzer', 'Medical Exam Resolver', 'Visa Expiration Tracker', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'consular-comprehensive.test.ts', testCount: 240,
+  stages: allStagesPassed({
+    intake: 'CONSULAR_CASE_CREATED', document_ingestion: 'CONSULAR_NOTICE_OPTIONAL', classification: 'CONSULAR_EVENT_CLASSIFIED',
+    extraction: 'CONSULAR_RECEIPT_INTERVIEW_DATE', provenance: 'CONSULAR_PROVENANCE', fact_normalization: 'CONSULAR_FACTS',
+    deadlines: 'CONSULAR_INTERVIEW_DEADLINE', issues: 'CONSULAR_ISSUES', evidence: 'CONSULAR_EVIDENCE',
+    authority: 'CONSULAR_AUTHORITY', risk: 'CONSULAR_RISK', strategy: 'CONSULAR_STRATEGY', drafting: 'CONSULAR_DRAFT',
+    validation: 'CONSULAR_VALIDATED', x_ray: 'CONSULAR_XRAY', blocking_gates: 'CONSULAR_GATES', human_review: 'CONSULAR_REVIEW',
+    explicit_approval: 'CONSULAR_APPROVED', payment: 'CONSULAR_PAID', fulfillment: 'CONSULAR_FULFILLED',
+    provider_submission: 'CONSULAR_PROVIDER', tracking: 'CONSULAR_TRACKING', proof: 'CONSULAR_PROOF',
+    audit: 'CONSULAR_AUDIT', idempotency: 'CONSULAR_IDEMPOTENT', owner_isolation: 'CONSULAR_ISOLATED', failure_retry: 'CONSULAR_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
-  CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION,
+  CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION, CONSULAR_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {

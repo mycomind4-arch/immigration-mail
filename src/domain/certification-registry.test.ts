@@ -17,15 +17,15 @@ import {
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 11 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(11);
+  it('contains 12 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(12);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 11 workflows have certification records', () => {
+  it('all 12 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'biometrics-scheduling', 'case-inquiry', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter',
+      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter',
       'naturalization-citizenship', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
@@ -197,11 +197,12 @@ describe('Certification Registry', () => {
     expect(isCertified('case-inquiry')).toBe(true);
     expect(isCertified('biometrics-scheduling')).toBe(true);
     expect(isCertified('naturalization-citizenship')).toBe(true);
+    expect(isCertified('consular-processing')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
   it('getAllCertifications returns all 11', () => {
-    expect(getAllCertifications()).toHaveLength(11);
+    expect(getAllCertifications()).toHaveLength(12);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
