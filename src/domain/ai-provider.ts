@@ -64,16 +64,16 @@ export interface TaskRouting {
 export const TASK_ROUTING: Record<AITask, TaskRouting> = {
   classification: { task: 'classification', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'gemini', fallbackModel: 'gemini-1.5-flash', minConfidence: 0.7 },
   conversation: { task: 'conversation', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  document_analysis: { task: 'document_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
+  document_analysis: { task: 'document_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
   extraction: { task: 'extraction', preferredProvider: 'openai', preferredModel: 'gpt-4o', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  rfe_analysis: { task: 'rfe_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
-  evidence_analysis: { task: 'evidence_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
-  authority_resolution: { task: 'authority_resolution', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
-  strategy_generation: { task: 'strategy_generation', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
-  drafting: { task: 'drafting', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o' },
+  rfe_analysis: { task: 'rfe_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
+  evidence_analysis: { task: 'evidence_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
+  authority_resolution: { task: 'authority_resolution', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
+  strategy_generation: { task: 'strategy_generation', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
+  drafting: { task: 'drafting', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
   translation: { task: 'translation', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
   validation: { task: 'validation', preferredProvider: 'openai', preferredModel: 'gpt-4o', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  xray: { task: 'xray', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', preferredModel: 'gpt-4o', minConfidence: 0.85 },
+  xray: { task: 'xray', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o', minConfidence: 0.85 },
 };
 
 // ─── Provider Adapter Interface ──────────────────────────────────────────────

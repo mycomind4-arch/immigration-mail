@@ -43,7 +43,7 @@ describe('Certification Registry', () => {
 
   it('RFE has all stages passed', () => {
     expect(RFE_CERTIFICATION.certified).toBe(true);
-    expect(RFE_CERTIFICATION.testCount).toBeGreaterThanOrEqual(38);
+    expect(RFE_CERTIFICATION.testCount).toBeGreaterThanOrEqual(70);
     const failed = Object.entries(RFE_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -64,21 +64,21 @@ describe('Certification Registry', () => {
 
   it('Visa Refusal has all stages passed', () => {
     expect(VISA_REFUSAL_CERTIFICATION.certified).toBe(true);
-    expect(VISA_REFUSAL_CERTIFICATION.testCount).toBeGreaterThanOrEqual(55);
+    expect(VISA_REFUSAL_CERTIFICATION.testCount).toBeGreaterThanOrEqual(52);
     const failed = Object.entries(VISA_REFUSAL_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
 
   it('I-130 has all stages passed', () => {
     expect(I130_CERTIFICATION.certified).toBe(true);
-    expect(I130_CERTIFICATION.testCount).toBeGreaterThanOrEqual(52);
+    expect(I130_CERTIFICATION.testCount).toBeGreaterThanOrEqual(71);
     const failed = Object.entries(I130_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
 
   it('FOIA has all stages passed', () => {
     expect(FOIA_CERTIFICATION.certified).toBe(true);
-    expect(FOIA_CERTIFICATION.testCount).toBeGreaterThanOrEqual(41);
+    expect(FOIA_CERTIFICATION.testCount).toBeGreaterThanOrEqual(49);
     const failed = Object.entries(FOIA_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });

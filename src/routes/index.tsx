@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CANONICAL_WORKFLOW_CARDS, GENERAL_WORKFLOW_CARDS, CONCIERGE_CONFIG, HOMEPAGE_LANGUAGES } from "@/lib/homepage-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Immigration Mail — Prepare and mail important immigration correspondence" },
-      { name: "description", content: "Prepare, review, send, and track important immigration correspondence. Guided workflows, AI-assisted drafting, physical mail with proof of delivery. Not a law firm." },
+      { name: "description", content: "Tell us what happened. We'll figure out what you need, prepare your correspondence, and mail it via USPS with tracking and proof of delivery. Not a law firm." },
     ],
     links: [{ rel: "canonical", href: "/" }],
     scripts: [
@@ -34,10 +35,10 @@ function LandingPage() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
-      <Hero />
+      <ConciergeHero />
       <TrustBar />
       <SpecializedWorkflows />
-      <Workflows />
+      <GeneralWorkflows />
       <HowItWorks />
       <Features />
       <DocumentIntelligence />
@@ -57,6 +58,15 @@ function ArrowRight() {
 function CheckIcon() {
   return <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>;
 }
+function MicIcon() {
+  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" /></svg>;
+}
+function UploadIcon() {
+  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>;
+}
+function ChatIcon() {
+  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8M8 8h8M2 12c0-2.8 0-4.2.5-5.4a6 6 0 0 1 3.1-3.1C6.8 3 8.2 3 11 3h2c2.8 0 4.2 0 5.4.5a6 6 0 0 1 3.1 3.1c.5 1.2.5 2.6.5 5.4s0 4.2-.5 5.4a6 6 0 0 1-3.1 3.1c-1.2.5-2.6.5-5.4.5h-2c-2.8 0-4.2 0-5.4-.5a6 6 0 0 1-3.1-3.1C2 16.2 2 14.8 2 12z" /></svg>;
+}
 
 /* ── Logo mark for hero illustration ──────────────────────────────────── */
 function StampMark() {
@@ -69,50 +79,70 @@ function StampMark() {
   );
 }
 
-/* ── Hero ──────────────────────────────────────────────────────────────── */
-function Hero() {
+/* ── AI Concierge Hero ─────────────────────────────────────────────────── */
+function ConciergeHero() {
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-16 md:grid-cols-[1.1fr_1fr] md:gap-12 md:py-28">
         <div className="flex flex-col justify-center">
-          <div className="postmark w-fit">Immigration correspondence</div>
-          <h1 className="mt-4 text-3xl leading-[1.08] sm:text-5xl md:mt-6 md:text-7xl md:leading-[1.05]">
-            Prepare and mail
-            <br />
-            <span className="italic text-stamp">immigration letters</span>
-            <br />
-            without a printer.
+          {/* Language toggle */}
+          <div className="flex gap-2" data-testid="lang-toggle">
+            <span className="rounded-full border border-stamp/30 bg-stamp/10 px-3 py-1 text-xs font-medium text-stamp" data-lang="en">
+              {HOMEPAGE_LANGUAGES.en.label}
+            </span>
+            <span className="rounded-full border border-input px-3 py-1 text-xs text-muted-foreground" data-lang="es">
+              {HOMEPAGE_LANGUAGES.es.label}
+            </span>
+          </div>
+
+          <div className="postmark w-fit mt-4">Immigration correspondence</div>
+          <h1 className="mt-4 text-3xl leading-[1.08] sm:text-5xl md:mt-6 md:text-7xl md:leading-[1.05]" data-testid="concierge-headline">
+            {CONCIERGE_CONFIG.headline}
           </h1>
           <p className="mt-4 max-w-lg text-base text-ink-soft sm:mt-6 sm:text-lg">
-            Guided workflows help you organize your facts, draft your correspondence,
-            and mail it via USPS with tracking and proof of delivery.
+            {CONCIERGE_CONFIG.subheadline}
           </p>
           <p className="mt-3 max-w-lg text-sm text-muted-foreground">
             No account required · Private &amp; secure · Not a law firm — you control the facts
           </p>
-          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
+
+          {/* Concierge CTAs */}
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center" data-testid="concierge-ctas">
             <Link
-              to="/workflows/respond-to-notice"
+              to={CONCIERGE_CONFIG.primaryCta.route}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
+              data-testid="cta-start-conversation"
             >
-              Start your letter <ArrowRight />
+              <ChatIcon /> {CONCIERGE_CONFIG.primaryCta.label}
             </Link>
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#workflows"
-                className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-              >
-                See what you can send
-              </a>
-              <Link
-                to="/analyze"
-                className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-              >
-                Analyze a letter
-              </Link>
-            </div>
-            <span className="font-mono text-xs uppercase tracking-widest text-stamp sm:ml-1">Starting at $4.99</span>
+            <Link
+              to={CONCIERGE_CONFIG.secondaryCta.route}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+              data-testid="cta-upload-document"
+            >
+              <UploadIcon /> {CONCIERGE_CONFIG.secondaryCta.label}
+            </Link>
+            <Link
+              to={CONCIERGE_CONFIG.voiceCta.route}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+              data-testid="cta-talk-to-me"
+            >
+              <MicIcon /> {CONCIERGE_CONFIG.voiceCta.label}
+            </Link>
           </div>
+
+          {/* Concierge examples */}
+          <div className="mt-6" data-testid="concierge-examples">
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">Try saying</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {CONCIERGE_CONFIG.examples.map((ex) => (
+                <span key={ex} className="rounded-full border border-rule bg-paper-deep/50 px-3 py-1.5 text-xs text-ink-soft">
+                  "{ex}"
+                </span>
+              ))}
+            </div>
+          </div>
+
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground sm:mt-6">
             <span className="flex items-center gap-1.5"><CheckIcon /> USPS Tracking</span>
             <span className="flex items-center gap-1.5"><CheckIcon /> Certified Mail</span>
@@ -121,7 +151,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* Hide envelope illustration on very small screens to save vertical space */}
+        {/* Envelope illustration */}
         <div className="hidden py-4 sm:block">
           <EnvelopeIllustration />
         </div>
@@ -198,87 +228,7 @@ function TrustBar() {
   );
 }
 
-/* ── Workflows ─────────────────────────────────────────────────────────── */
-const SPECIALIZED_WORKFLOWS = [
-  {
-    title: "Respond to an RFE",
-    desc: "USCIS requested evidence? Upload the notice, identify what's needed, draft your response, and mail it.",
-    href: "/rfe",
-    icon: "M9 12l2 2 4-4M5 3h10l4 4v14H5V3z",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Respond to a NOID",
-    desc: "Notice of Intent to Deny? Identify the grounds, build your response, and mail it before the deadline.",
-    href: "/noid",
-    icon: "M12 9v4M12 17h.01M5 3h10l4 4v14H5V3z",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Respond to a Denial",
-    desc: "USCIS denied your case? Evaluate appeal, motion to reopen, or reapply — then prepare and mail your response.",
-    href: "/uscis-denial",
-    icon: "M6 18L18 6M6 6l12 12M5 3h10l4 4v14H5V3z",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Respond to a Visa Refusal",
-    desc: "Visa refused under 221(g) or ineligibility? Prepare a rebuttal or waiver response and mail it to the consulate.",
-    href: "/visa-refusal",
-    icon: "M3 9l9-7 9 7v11H3V9z",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Respond to I-130 Request",
-    desc: "I-130 petition issue? Handle RFE, NOID, or denial for family petitions — spouse, parent, child, sibling.",
-    href: "/i-130",
-    icon: "M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0-6 0",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Request Records (FOIA)",
-    desc: "Need your A-File or immigration records? Prepare a FOIA request with identity verification and mail it.",
-    href: "/uscis-foia",
-    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Prepare an Appeal",
-    desc: "Appealing an immigration decision? Identify what to appeal, draft the appeal letter, and mail it on time.",
-    href: "/appeal",
-    icon: "M3 6l9 6 9-6M3 6v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6",
-    badge: "Gold Certified",
-  },
-  {
-    title: "Understand an I-797",
-    desc: "Received an I-797 notice? Upload it and we'll classify the subtype, explain what it means, and route you.",
-    href: "/i-797-notice",
-    icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z",
-    badge: "Gold Certified",
-  },
-];
-
-const WORKFLOWS = [
-  {
-    title: "Respond to a Notice",
-    desc: "Organize a notice, confirm the important details, prepare a response, and get it ready to mail.",
-    href: "/workflows/respond-to-notice",
-    icon: "M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4",
-  },
-  {
-    title: "Submit Supporting Documents",
-    desc: "Prepare a clear cover letter and organize supporting documentation for a mailing.",
-    href: "/workflows/supporting-documents",
-    icon: "M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66z",
-  },
-  {
-    title: "Prepare an Explanation Letter",
-    desc: "Turn your own facts and instructions into a professional, editable correspondence draft.",
-    href: "/workflows/explanation-letter",
-    icon: "M12 2a5 5 0 0 1 5 5c0 1.5-.5 3-1.5 4 .5 1 1.5 1.5 1.5 3a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3c0-1.5 1-2 1.5-3-1-1-1.5-2.5-1.5-4a5 5 0 0 1 5-5z",
-  },
-];
-
+/* ── Specialized Workflows ─────────────────────────────────────────────── */
 function SpecializedWorkflows() {
   return (
     <section id="specialized" className="border-b border-rule/60 bg-paper-deep/20">
@@ -292,16 +242,16 @@ function SpecializedWorkflows() {
           </p>
         </div>
         <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
-          {SPECIALIZED_WORKFLOWS.map((w) => (
+          {CANONICAL_WORKFLOW_CARDS.map((w) => (
             <Link
               key={w.title}
-              to={w.href}
+              to={w.route}
               className="envelope-card envelope-card-hover block p-5 sm:p-6"
             >
               <div className="flex items-start justify-between">
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
                   <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                    <path d={w.icon} />
+                    <path d="M9 12l2 2 4-4M5 3h10l4 4v14H5V3z" />
                   </svg>
                 </span>
                 {w.badge && (
@@ -311,9 +261,9 @@ function SpecializedWorkflows() {
                 )}
               </div>
               <h3 className="mt-5 font-serif text-2xl">{w.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{w.purpose}</p>
               <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-stamp">
-                Start workflow <ArrowRight />
+                Learn more <ArrowRight />
               </span>
             </Link>
           ))}
@@ -323,7 +273,8 @@ function SpecializedWorkflows() {
   );
 }
 
-function Workflows() {
+/* ── General Workflows ─────────────────────────────────────────────────── */
+function GeneralWorkflows() {
   return (
     <section id="workflows" className="border-b border-rule/60">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
@@ -336,21 +287,21 @@ function Workflows() {
           </p>
         </div>
         <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
-          {WORKFLOWS.map((w) => (
+          {GENERAL_WORKFLOW_CARDS.map((w) => (
             <Link
               key={w.title}
-              to={w.href}
+              to={w.route}
               className="envelope-card envelope-card-hover block p-5 sm:p-6"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
                 <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d={w.icon} />
+                  <path d="M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4" />
                 </svg>
               </span>
               <h3 className="mt-5 font-serif text-2xl">{w.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{w.purpose}</p>
               <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-stamp">
-                Start workflow <ArrowRight />
+                Start <ArrowRight />
               </span>
             </Link>
           ))}
@@ -362,8 +313,8 @@ function Workflows() {
 
 /* ── How it works ─────────────────────────────────────────────────────── */
 const STEPS = [
-  { n: "01", t: "Tell us what you need", d: "Choose a workflow and identify the document or correspondence you need to prepare." },
-  { n: "02", t: "Prepare your correspondence", d: "State the facts in your own words. AI helps organize — but never invents facts or legal conclusions." },
+  { n: "01", t: "Tell us what happened", d: "Use the AI Concierge in your own words — type, upload, or talk. We'll figure out what you need." },
+  { n: "02", t: "We organize the facts", d: "AI identifies the document type, extracts deadlines, maps evidence, and drafts your correspondence." },
   { n: "03", t: "Review everything", d: "Every word is editable. Nothing is mailed until you review and approve the final document." },
   { n: "04", t: "Mail it", d: "Choose Standard, Certified, or Registered mail. We print, envelope, and mail via USPS." },
   { n: "05", t: "Track it", d: "Get a USPS tracking number. Certified mail adds signature tracking and proof of delivery." },
@@ -394,12 +345,12 @@ function HowItWorks() {
 
 /* ── Features ────────────────────────────────────────────────────────── */
 const FEATURES = [
-  { icon: "M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4", title: "Guided workflows", desc: "Start with the job, not a blank page. Each workflow walks you through the steps from document to mailed letter." },
+  { icon: "M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4", title: "AI Concierge", desc: "Tell us what happened in your own words. We figure out the right workflow and guide you through it." },
   { icon: "M12 2a5 5 0 0 1 5 5c0 1.5-.5 3-1.5 4 .5 1 1.5 1.5 1.5 3a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3c0-1.5 1-2 1.5-3-1-1-1.5-2.5-1.5-4a5 5 0 0 1 5-5z", title: "AI-assisted drafting", desc: "Organize your facts into a professional draft. Everything is editable. The AI never invents facts, deadlines, or legal conclusions." },
   { icon: "M22 12h-4l-3 9L9 3l-3 9H2", title: "Physical mail with tracking", desc: "Your correspondence is printed, enveloped, and mailed via USPS. Track delivery and keep proof of service." },
   { icon: "M12 3l8 4v6c0 5-3.5 7-8 8-4.5-1-8-3-8-8V7l8-4zM9 12l2 2 4-4", title: "Proof of delivery", desc: "Certified mail options include signature tracking — your record that the correspondence arrived." },
   { icon: "M5 3h14v18l-7-3-7 3V3zM9 12l2 2 4-4", title: "Secure document handling", desc: "Documents are stored securely, never shared, and never used for marketing or AI training." },
-  { icon: "M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z", title: "Mailing history", desc: "Every mailing is recorded. See what you sent, when, and its delivery status — all in one place." },
+  { icon: "M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z", title: "Document intelligence", desc: "Upload any notice, letter, or decision. We identify the type, extract deadlines, and explain what to do next." },
 ];
 
 function Features() {
@@ -529,7 +480,7 @@ function Pricing() {
                 ))}
               </ul>
               <Link
-                to="/workflows/respond-to-notice"
+                to="/respond-to-a-uscis-notice"
                 className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-transform hover:-translate-y-0.5 ${
                   p.featured ? "bg-primary text-primary-foreground shadow-stamp" : "border border-input text-foreground hover:bg-muted"
                 }`}
@@ -609,19 +560,27 @@ function FinalCTA() {
   return (
     <section className="border-b border-rule/60">
       <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-20">
-        <div className="postmark mx-auto w-fit">Ready to mail</div>
+        <div className="postmark mx-auto w-fit">Ready to start</div>
         <h2 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">
-          Prepare. Review. <span className="italic text-stamp">Mailed.</span>
+          Tell us what <span className="italic text-stamp">happened.</span>
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground sm:text-base">
-          Start a guided workflow, review your draft, and mail your correspondence — all in one place.
+          Start a conversation, upload a document, or talk to us. We'll handle the rest.
         </p>
-        <Link
-          to="/workflows/respond-to-notice"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
-        >
-          Start your letter <ArrowRight />
-        </Link>
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            to={CONCIERGE_CONFIG.primaryCta.route}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
+          >
+            <ChatIcon /> {CONCIERGE_CONFIG.primaryCta.label}
+          </Link>
+          <Link
+            to={CONCIERGE_CONFIG.secondaryCta.route}
+            className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
+          >
+            <UploadIcon /> {CONCIERGE_CONFIG.secondaryCta.label}
+          </Link>
+        </div>
       </div>
     </section>
   );

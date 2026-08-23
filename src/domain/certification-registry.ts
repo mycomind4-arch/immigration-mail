@@ -39,7 +39,7 @@ function routingOnly(): Partial<Record<GoldCertificationStage, string>> {
 export const RFE_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'rfe-response', workflowTitle: 'Respond to a USCIS RFE',
   certifiedAt: '2026-08-15T00:00:00Z', certified: true,
-  testFile: 'rfe-comprehensive.test.ts + rfe-certification.test.ts', testCount: 38,
+  testFile: 'rfe-workflow.test.ts + rfe-certification.test.ts', testCount: 70,
   stages: allStagesPassed({
     intake: 'RFE_CASE_CREATED', document_ingestion: 'RFE_DOC_INGESTED', classification: 'RFE_CLASSIFIED',
     extraction: 'RFE_ITEMS_EXTRACTED', provenance: 'RFE_DOC_PROVENANCE', fact_normalization: 'RFE_FACTS_RECONCILED',
@@ -87,7 +87,7 @@ export const DENIAL_CERTIFICATION: WorkflowCertificationRecord = {
 export const VISA_REFUSAL_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'visa-refusal-response', workflowTitle: 'Respond to a Visa Refusal',
   certifiedAt: '2026-08-20T00:00:00Z', certified: true,
-  testFile: 'visa-refusal-comprehensive.test.ts', testCount: 55,
+  testFile: 'visa-refusal-comprehensive.test.ts', testCount: 52,
   stages: allStagesPassed({
     intake: 'VISA_CASE_CREATED', document_ingestion: 'VISA_DOC_INGESTED', classification: 'VISA_221G_OR_REFUSAL',
     extraction: 'VISA_GROUNDS', provenance: 'VISA_PROVENANCE', fact_normalization: 'VISA_FACTS',
@@ -103,7 +103,7 @@ export const VISA_REFUSAL_CERTIFICATION: WorkflowCertificationRecord = {
 export const I130_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'i-130-response', workflowTitle: 'Respond to an I-130 Request',
   certifiedAt: '2026-08-20T00:00:00Z', certified: true,
-  testFile: 'i130-comprehensive.test.ts', testCount: 52,
+  testFile: 'i130-comprehensive.test.ts', testCount: 71,
   stages: allStagesPassed({
     intake: 'I130_CASE_CREATED', document_ingestion: 'I130_DOC_INGESTED', classification: 'I130_RELATIONSHIP',
     extraction: 'I130_EVIDENCE', provenance: 'I130_PROVENANCE', fact_normalization: 'I130_FACTS',
@@ -119,7 +119,7 @@ export const I130_CERTIFICATION: WorkflowCertificationRecord = {
 export const FOIA_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'uscis-foia', workflowTitle: 'Request USCIS Records by FOIA',
   certifiedAt: '2026-08-21T00:00:00Z', certified: true,
-  testFile: 'foia-comprehensive.test.ts', testCount: 41,
+  testFile: 'foia-comprehensive.test.ts', testCount: 49,
   stages: allStagesPassed({
     intake: 'FOIA_CASE_CREATED', document_ingestion: 'FOIA_DOC_INGESTED', classification: 'FOIA_AGENCY',
     extraction: 'FOIA_SCOPE', provenance: 'FOIA_PROVENANCE', fact_normalization: 'FOIA_IDENTITY_VERIFIED',
