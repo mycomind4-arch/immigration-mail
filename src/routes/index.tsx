@@ -36,6 +36,7 @@ function LandingPage() {
       <SiteHeader />
       <Hero />
       <TrustBar />
+      <SpecializedWorkflows />
       <Workflows />
       <HowItWorks />
       <Features />
@@ -198,6 +199,65 @@ function TrustBar() {
 }
 
 /* ── Workflows ─────────────────────────────────────────────────────────── */
+const SPECIALIZED_WORKFLOWS = [
+  {
+    title: "Respond to an RFE",
+    desc: "USCIS requested evidence? Upload the notice, identify what's needed, draft your response, and mail it.",
+    href: "/rfe",
+    icon: "M9 12l2 2 4-4M5 3h10l4 4v14H5V3z",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Respond to a NOID",
+    desc: "Notice of Intent to Deny? Identify the grounds, build your response, and mail it before the deadline.",
+    href: "/noid",
+    icon: "M12 9v4M12 17h.01M5 3h10l4 4v14H5V3z",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Respond to a Denial",
+    desc: "USCIS denied your case? Evaluate appeal, motion to reopen, or reapply — then prepare and mail your response.",
+    href: "/uscis-denial",
+    icon: "M6 18L18 6M6 6l12 12M5 3h10l4 4v14H5V3z",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Respond to a Visa Refusal",
+    desc: "Visa refused under 221(g) or ineligibility? Prepare a rebuttal or waiver response and mail it to the consulate.",
+    href: "/visa-refusal",
+    icon: "M3 9l9-7 9 7v11H3V9z",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Respond to I-130 Request",
+    desc: "I-130 petition issue? Handle RFE, NOID, or denial for family petitions — spouse, parent, child, sibling.",
+    href: "/i-130",
+    icon: "M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0-6 0",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Request Records (FOIA)",
+    desc: "Need your A-File or immigration records? Prepare a FOIA request with identity verification and mail it.",
+    href: "/uscis-foia",
+    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Prepare an Appeal",
+    desc: "Appealing an immigration decision? Identify what to appeal, draft the appeal letter, and mail it on time.",
+    href: "/appeal",
+    icon: "M3 6l9 6 9-6M3 6v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6",
+    badge: "Gold Certified",
+  },
+  {
+    title: "Understand an I-797",
+    desc: "Received an I-797 notice? Upload it and we'll classify the subtype, explain what it means, and route you.",
+    href: "/i-797-notice",
+    icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z",
+    badge: "Gold Certified",
+  },
+];
+
 const WORKFLOWS = [
   {
     title: "Respond to a Notice",
@@ -219,16 +279,60 @@ const WORKFLOWS = [
   },
 ];
 
+function SpecializedWorkflows() {
+  return (
+    <section id="specialized" className="border-b border-rule/60 bg-paper-deep/20">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+        <div className="max-w-2xl">
+          <div className="postmark w-fit">Specialized workflows</div>
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Immigration-specific guided paths</h2>
+          <p className="mt-4 text-sm text-muted-foreground sm:text-base">
+            Each workflow includes document intelligence, deadline analysis, evidence checklists,
+            authority verification, adversarial X-Ray review, and physical mail with tracking.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
+          {SPECIALIZED_WORKFLOWS.map((w) => (
+            <Link
+              key={w.title}
+              to={w.href}
+              className="envelope-card envelope-card-hover block p-5 sm:p-6"
+            >
+              <div className="flex items-start justify-between">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
+                  <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d={w.icon} />
+                  </svg>
+                </span>
+                {w.badge && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-stamp/30 bg-stamp/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-stamp">
+                    {w.badge}
+                  </span>
+                )}
+              </div>
+              <h3 className="mt-5 font-serif text-2xl">{w.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
+              <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-stamp">
+                Start workflow <ArrowRight />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Workflows() {
   return (
     <section id="workflows" className="border-b border-rule/60">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
           <div className="postmark w-fit">What you can send</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Choose a guided starting point</h2>
+          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">General starting points</h2>
           <p className="mt-4 text-sm text-muted-foreground sm:text-base">
-            Each workflow walks you through identifying the document, stating the facts,
-            preparing an editable draft, and mailing it — all in one place.
+            Don't see your specific situation? Start with a general workflow — we'll route you
+            to the right specialized path once we understand what you need.
           </p>
         </div>
         <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
