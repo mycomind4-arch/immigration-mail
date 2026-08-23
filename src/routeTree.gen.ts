@@ -28,6 +28,8 @@ import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as RfeIndexRouteImport } from './routes/rfe/index'
 import { Route as RfeSlugRouteImport } from './routes/rfe/$slug'
+import { Route as VisaRefusalIndexRouteImport } from './routes/visa-refusal/index'
+import { Route as VisaRefusalSlugRouteImport } from './routes/visa-refusal/$slug'
 import { Route as WorkflowsWorkflowSlugRouteImport } from './routes/workflows/$workflowSlug'
 import { Route as WorkflowsExplanationLetterRouteImport } from './routes/workflows/explanation-letter'
 import { Route as WorkflowsRespondToNoticeRouteImport } from './routes/workflows/respond-to-notice'
@@ -128,6 +130,16 @@ const RfeSlugRoute = RfeSlugRouteImport.update({
   path: '/rfe/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VisaRefusalIndexRoute = VisaRefusalIndexRouteImport.update({
+  id: '/visa-refusal/',
+  path: '/visa-refusal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisaRefusalSlugRoute = VisaRefusalSlugRouteImport.update({
+  id: '/visa-refusal/$slug',
+  path: '/visa-refusal/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkflowsWorkflowSlugRoute = WorkflowsWorkflowSlugRouteImport.update({
   id: '/$workflowSlug',
   path: '/$workflowSlug',
@@ -169,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
+  '/visa-refusal/$slug': typeof VisaRefusalSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -176,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
+  '/visa-refusal/': typeof VisaRefusalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -194,6 +208,7 @@ export interface FileRoutesByTo {
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
+  '/visa-refusal/$slug': typeof VisaRefusalSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -201,6 +216,7 @@ export interface FileRoutesByTo {
   '/noid': typeof NoidIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/rfe': typeof RfeIndexRoute
+  '/visa-refusal': typeof VisaRefusalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -220,6 +236,7 @@ export interface FileRoutesById {
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
+  '/visa-refusal/$slug': typeof VisaRefusalSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
@@ -227,6 +244,7 @@ export interface FileRoutesById {
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
+  '/visa-refusal/': typeof VisaRefusalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -247,6 +265,7 @@ export interface FileRouteTypes {
     | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
+    | '/visa-refusal/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -254,6 +273,7 @@ export interface FileRouteTypes {
     | '/noid/'
     | '/resources/'
     | '/rfe/'
+    | '/visa-refusal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -272,6 +292,7 @@ export interface FileRouteTypes {
     | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
+    | '/visa-refusal/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -279,6 +300,7 @@ export interface FileRouteTypes {
     | '/noid'
     | '/resources'
     | '/rfe'
+    | '/visa-refusal'
   id:
     | '__root__'
     | '/'
@@ -297,6 +319,7 @@ export interface FileRouteTypes {
     | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
+    | '/visa-refusal/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
@@ -304,6 +327,7 @@ export interface FileRouteTypes {
     | '/noid/'
     | '/resources/'
     | '/rfe/'
+    | '/visa-refusal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -323,9 +347,11 @@ export interface RootRouteChildren {
   NoidSlugRoute: typeof NoidSlugRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
   RfeSlugRoute: typeof RfeSlugRoute
+  VisaRefusalSlugRoute: typeof VisaRefusalSlugRoute
   NoidIndexRoute: typeof NoidIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   RfeIndexRoute: typeof RfeIndexRoute
+  VisaRefusalIndexRoute: typeof VisaRefusalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -463,6 +489,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RfeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/visa-refusal/': {
+      id: '/visa-refusal/'
+      path: '/visa-refusal'
+      fullPath: '/visa-refusal/'
+      preLoaderRoute: typeof VisaRefusalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visa-refusal/$slug': {
+      id: '/visa-refusal/$slug'
+      path: '/visa-refusal/$slug'
+      fullPath: '/visa-refusal/$slug'
+      preLoaderRoute: typeof VisaRefusalSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workflows/$workflowSlug': {
       id: '/workflows/$workflowSlug'
       path: '/$workflowSlug'
@@ -529,9 +569,11 @@ const rootRouteChildren: RootRouteChildren = {
   NoidSlugRoute: NoidSlugRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
   RfeSlugRoute: RfeSlugRoute,
+  VisaRefusalSlugRoute: VisaRefusalSlugRoute,
   NoidIndexRoute: NoidIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   RfeIndexRoute: RfeIndexRoute,
+  VisaRefusalIndexRoute: VisaRefusalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
