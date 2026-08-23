@@ -364,6 +364,17 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
   },
 
 
+
+  {
+    slug: 'i765-employment-authorization',
+    title: 'Employment Authorization Document (I-765 EAD / Work Permit)',
+    description: 'File I-765 for initial, renewal, or replacement EAD — detect eligibility category, analyze expiration, check auto-extension eligibility, verify underlying case, manage evidence, fee, and biometrics, and handle RFE/NOID and case-inquiry routing.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['employment_authorization', 'ead', 'work_permit', 'renewal', 'replacement', 'expiration'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Triggered by EAD filing need, renewal urgency, replacement request, or I-765-related notice.', 'Eligibility category (e.g., (c)(9), (c)(8), (a)(5)) determines evidence requirements and filing procedures.', 'Automatic extension rules changed on Oct. 30, 2025 — renewals filed on/after that date get 0 days.', 'USCIS recommends filing renewals 90-180 days before EAD expiration.', 'RFE/NOID for I-765 route to existing RFE/NOID engines with I-765 form adapter.'],
+  },
   {
     slug: 'i601-waiver',
     title: 'Inadmissibility Waiver (I-601 / I-601A)',

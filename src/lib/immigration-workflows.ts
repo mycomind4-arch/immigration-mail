@@ -281,6 +281,18 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["I-601 covers broad grounds (unlawful presence, fraud, criminal, health, smuggling).", "I-601A only waives unlawful presence and requires physical presence in the US.", "Extreme hardship to a qualifying relative is required for most waivers.", "I-601A approval requires departure for consular visa interview after adjudication.", "Non-waivable grounds include terrorism, espionage, and permanent bar after removal."],
     relatedTerms: ["i 601 waiver", "i 601a waiver", "provisional waiver", "inadmissibility waiver", "extreme hardship", "qualifying relative", "unlawful presence waiver", "fraud waiver immigration", "waiver of inadmissibility", "provisional unlawful presence waiver"],
   },
+  {
+    slug: "i765-employment-authorization",
+    title: "Employment Authorization Document (I-765 EAD / Work Permit)",
+    h1: "Need a work permit? File or renew your I-765 EAD.",
+    description: "File Form I-765 for initial, renewal, or replacement Employment Authorization Document — detect your eligibility category, check expiration, verify evidence, manage fees and biometrics, and handle RFE/NOID and case-inquiry routing.",
+    intent: "I-765 EAD work permit filing or renewal",
+    primaryKeyword: "i 765 work permit",
+    monthlySearchVolume: 22000,
+    cpc: 12.0,
+    notes: ["Eligibility category (e.g., (c)(9), (c)(8), (a)(5)) determines evidence requirements and filing procedures.", "USCIS recommends filing renewals 90-180 days before EAD expiration.", "Automatic extension rules changed on Oct. 30, 2025 — renewals filed on/after that date get 0 days.", "Filing fee: $520 paper, $470 online, $260 with I-485, free for initial asylum applicants.", "RFE/NOID for I-765 route to existing RFE/NOID engines with I-765 form adapter."],
+    relatedTerms: ["i 765", "work permit", "ead renewal", "employment authorization", "ead category", "c9 ead", "c8 asylum ead", "work permit renewal", "ead replacement", "employment authorization document"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

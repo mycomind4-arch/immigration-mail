@@ -132,6 +132,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Work Permit / EAD (I-765)',
+    purpose: 'Need to file, renew, or replace your work permit? We detect your EAD category, check expiration, verify evidence, and prepare your I-765 application.',
+    route: '/i765-employment-authorization',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -246,6 +253,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'consular-processing': '/consular-processing',
     'i751-removal-conditions': '/i751-removal-conditions',
     'i601-waiver': '/i601-waiver',
+    'i765-employment-authorization': '/i765-employment-authorization',
   };
 
   return goldSlugs.filter(slug => {
@@ -278,6 +286,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
           'explanation-letter': '/workflows/explanation-letter',
           'i751-removal-conditions': '/i751-removal-conditions',
           'i601-waiver': '/i601-waiver',
+          'i765-employment-authorization': '/i765-employment-authorization',
         };
         return slugToRoute[w.slug] === c.route;
       });

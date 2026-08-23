@@ -434,12 +434,41 @@ export const I601_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+
+export const I765_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'i765-employment-authorization',
+  workflowTitle: 'Employment Authorization Document (I-765 EAD / Work Permit)',
+  vertical: 'Immigration', pipeline: 'P12 Employment Authorization',
+  domainAdapter: 'I-765 EAD Employment Authorization Adapter',
+  specialistModules: ['EAD Category Detector', 'Application Type Classifier', 'Underlying Case Analyzer', 'Expiration Analyzer', 'Auto Extension Checker', 'Fee Calculator', 'Biometrics Checker', 'Evidence Gap Detector', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'i765-comprehensive.test.ts', testCount: 223,
+  stages: allStagesPassed({
+    intake: 'I765_CASE_CREATED', document_ingestion: 'I765_DOC_INGESTED', classification: 'I765_CATEGORY_CLASSIFIED',
+    extraction: 'I765_EVIDENCE_DETECTED', provenance: 'I765_PROVENANCE', fact_normalization: 'I765_FACTS',
+    deadlines: 'I765_EXPIRATION', issues: 'I765_ISSUES', evidence: 'I765_EVIDENCE',
+    authority: 'I765_AUTHORITY', risk: 'I765_RISK', strategy: 'I765_STRATEGY', drafting: 'I765_DRAFT',
+    validation: 'I765_VALIDATED', x_ray: 'I765_XRAY', blocking_gates: 'I765_GATES', human_review: 'I765_REVIEW',
+    explicit_approval: 'I765_APPROVED', payment: 'I765_PAID', fulfillment: 'I765_FULFILLED',
+    provider_submission: 'I765_PROVIDER', tracking: 'I765_TRACKING', proof: 'I765_PROOF',
+    audit: 'I765_AUDIT', idempotency: 'I765_IDEMPOTENT', owner_isolation: 'I765_ISOLATED', failure_retry: 'I765_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
   CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION, CONSULAR_CERTIFICATION,
   I751_CERTIFICATION,
   I601_CERTIFICATION,
+  I765_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {
