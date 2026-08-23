@@ -16,15 +16,15 @@ import {
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 8 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(8);
+  it('contains 9 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(9);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 8 workflows have certification records', () => {
+  it('all 9 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'i-130-response', 'i-797-notice', 'immigration-appeal-letter', 'noid-response',
+      'case-inquiry', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
   });
@@ -179,10 +179,11 @@ describe('Certification Registry', () => {
     expect(getCertification('uscis-foia')?.workflowTitle).toBe('Request USCIS Records by FOIA');
     expect(getCertification('immigration-appeal-letter')?.workflowTitle).toBe('Prepare an Immigration Appeal Letter');
     expect(getCertification('i-797-notice')?.workflowTitle).toBe('Understand an I-797 Notice');
+    expect(getCertification('case-inquiry')?.workflowTitle).toBe('Submit a USCIS Case Inquiry');
     expect(getCertification('nonexistent')).toBeUndefined();
   });
 
-  it('isCertified returns true for all 8 workflows', () => {
+  it('isCertified returns true for all 9 workflows', () => {
     expect(isCertified('rfe-response')).toBe(true);
     expect(isCertified('noid-response')).toBe(true);
     expect(isCertified('uscis-denial-rejection')).toBe(true);
@@ -191,11 +192,12 @@ describe('Certification Registry', () => {
     expect(isCertified('uscis-foia')).toBe(true);
     expect(isCertified('immigration-appeal-letter')).toBe(true);
     expect(isCertified('i-797-notice')).toBe(true);
+    expect(isCertified('case-inquiry')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
-  it('getAllCertifications returns all 8', () => {
-    expect(getAllCertifications()).toHaveLength(8);
+  it('getAllCertifications returns all 9', () => {
+    expect(getAllCertifications()).toHaveLength(9);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
@@ -223,4 +225,73 @@ describe('Certification Registry', () => {
       expect(new Set(r.specialistModules).size).toBe(r.specialistModules.length);
     }
   });
+
+
+  // ── New field validation: security, pricing, mailing, tracking, proof, gold ──
+
+  it('every record has a security status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.security);
+    }
+  });
+
+  it('every record has a pricing status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.pricing);
+    }
+  });
+
+  it('every record has a mailing status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.mailing);
+    }
+  });
+
+  it('every record has a tracking status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.tracking);
+    }
+  });
+
+  it('every record has a proof status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.proof);
+    }
+  });
+
+  it('every record has a gold status', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(['verified', 'partial', 'planned', 'not_applicable']).toContain(r.gold);
+    }
+  });
+
+  it('mailing workflows have verified mailing/tracking/proof', () => {
+    const mailingWorkflows = CERTIFICATION_REGISTRY.filter(r => r.mailing === 'verified');
+    expect(mailingWorkflows.length).toBeGreaterThanOrEqual(8);
+    for (const r of mailingWorkflows) {
+      expect(r.tracking).toBe('verified');
+      expect(r.proof).toBe('verified');
+      expect(r.pricing).toBe('verified');
+    }
+  });
+
+  it('I-797 has not_applicable for mailing/tracking/proof (routing only)', () => {
+    expect(I797_CERTIFICATION.mailing).toBe('not_applicable');
+    expect(I797_CERTIFICATION.tracking).toBe('not_applicable');
+    expect(I797_CERTIFICATION.proof).toBe('not_applicable');
+    expect(I797_CERTIFICATION.pricing).toBe('not_applicable');
+  });
+
+  it('every record has gold=verified', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.gold).toBe('verified');
+    }
+  });
+
+  it('every record has security=verified', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.security).toBe('verified');
+    }
+  });
+
 });

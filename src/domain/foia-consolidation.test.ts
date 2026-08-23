@@ -33,11 +33,12 @@ describe('FOIA Variant Consolidation', () => {
     expect(catalog).toHaveLength(0);
   });
 
-  it('8 GOLD-CERTIFIED canonical workflows exist', () => {
+  it('9 GOLD-CERTIFIED canonical workflows exist', () => {
     const gold = WORKFLOW_REGISTRY.filter(w => w.stage === 'GOLD-CERTIFIED');
-    expect(gold.length).toBe(8);
+    expect(gold.length).toBe(9);
     const slugs = gold.map(w => w.slug).sort();
     expect(slugs).toEqual([
+      'case-inquiry',
       'i-130-response',
       'i-797-notice',
       'immigration-appeal-letter',
@@ -61,7 +62,7 @@ describe('FOIA Variant Consolidation', () => {
     expect(slugs).toEqual(['explanation-letter', 'respond-to-notice', 'supporting-documents']);
   });
 
-  it('total canonical workflows = 26 (8 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
-    expect(WORKFLOW_REGISTRY.length).toBe(26);
+  it('total canonical workflows = 27 (9 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
+    expect(WORKFLOW_REGISTRY.length).toBe(27);
   });
 });

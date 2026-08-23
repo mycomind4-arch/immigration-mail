@@ -128,6 +128,15 @@ describe('I-797: 2. Action type detection', () => {
   it('detects denial action', () => {
     expect(detectI797ActionType(DENIAL_NOTICE)).toBe('denial');
   });
+
+  it('detects delay action from receipt + delay mention', () => {
+    expect(detectI797ActionType('We received your application. This case is taking too long and has been months.')).toBe('delay');
+    expect(detectI797ActionType('Case received. It has been outside normal processing time.')).toBe('delay');
+  });
+
+  it('receipt without delay language stays as receipt', () => {
+    expect(detectI797ActionType('We received your application and your fee. Your case is in process.')).toBe('receipt');
+  });
 });
 
 // ─── Routing ──────────────────────────────────────────────────────────────────────
@@ -156,6 +165,12 @@ describe('I-797: 3. Routing to canonical workflows', () => {
   it('revocation → immigration-appeal-letter', () => {
     const { target } = routeI797('revocation');
     expect(target).toBe('immigration-appeal-letter');
+  });
+
+  it('delay → case-inquiry', () => {
+    const { target, reason } = routeI797('delay');
+    expect(target).toBe('case-inquiry');
+    expect(reason).toContain('delayed');
   });
 
   it('approval → no_action', () => {
@@ -258,13 +273,13 @@ describe('I-797: 5. No duplicate engine', () => {
     const actions: Array<keyof typeof routeI797> = [
       'rfe', 'noid', 'denial', 'rejection', 'revocation', 'approval',
       'receipt', 'transfer', 'interview', 'biometrics', 'reopening',
-      'withdrawal_ack', 'unknown',
+      'withdrawal_ack', 'delay', 'unknown',
     ] as any;
     for (const action of actions) {
       const { target } = routeI797(action as any);
       expect(['rfe-response', 'noid-response', 'uscis-denial-rejection',
         'immigration-appeal-letter', 'i-130-response', 'uscis-foia',
-        'no_action', 'unknown']).toContain(target);
+        'case-inquiry', 'no_action', 'unknown']).toContain(target);
     }
   });
 });

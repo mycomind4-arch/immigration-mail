@@ -20,6 +20,8 @@ import type { GoldCertificationStage } from './gold-certification-full';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 import type { WorkflowStage } from './workflow-foundry';
 
+export type CertificationStatus = 'verified' | 'partial' | 'planned' | 'not_applicable';
+
 export interface WorkflowCertificationRecord {
   workflowSlug: string;
   workflowTitle: string;
@@ -33,6 +35,12 @@ export interface WorkflowCertificationRecord {
   build: boolean;
   seoContent: boolean;
   aiCoverage: boolean;
+  security: CertificationStatus;
+  pricing: CertificationStatus;
+  mailing: CertificationStatus;
+  tracking: CertificationStatus;
+  proof: CertificationStatus;
+  gold: CertificationStatus;
   stages: Record<GoldCertificationStage, { passed: boolean; evidence: string }>;
   testFile: string;
   testCount: number;
@@ -62,6 +70,12 @@ export const RFE_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Form Adapters (I-485, I-130, I-140, N-400, I-751, H-1B)', 'Evidence Intelligence', 'Authority Engine', 'X-Ray Review', 'Deadline Engine'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-15T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'rfe-workflow.test.ts + rfe-certification.test.ts', testCount: 70,
   stages: allStagesPassed({
     intake: 'RFE_CASE_CREATED', document_ingestion: 'RFE_DOC_INGESTED', classification: 'RFE_CLASSIFIED',
@@ -82,6 +96,12 @@ export const NOID_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Form Adapters (I-485, I-130, I-751)', 'Evidence Intelligence', 'Authority Engine', 'X-Ray Review', 'Deadline Engine'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-17T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'noid-comprehensive.test.ts', testCount: 67,
   stages: allStagesPassed({
     intake: 'NOID_CASE_CREATED', document_ingestion: 'NOID_DOC_INGESTED', classification: 'NOID_CLASSIFIED',
@@ -102,6 +122,12 @@ export const DENIAL_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Appeal Evaluator', 'Motion to Reopen Analyzer', 'Refile Analyzer', 'Authority Engine', 'X-Ray Review'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-19T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'denial-comprehensive.test.ts', testCount: 34,
   stages: allStagesPassed({
     intake: 'DENIAL_CASE_CREATED', document_ingestion: 'DENIAL_DOC_INGESTED', classification: 'DENIAL_CLASSIFIED',
@@ -122,6 +148,12 @@ export const VISA_REFUSAL_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['221(g) Analyzer', 'Waiver Evaluator', 'Consulate Router', 'Authority Engine', 'X-Ray Review'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-20T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'visa-refusal-comprehensive.test.ts', testCount: 52,
   stages: allStagesPassed({
     intake: 'VISA_CASE_CREATED', document_ingestion: 'VISA_DOC_INGESTED', classification: 'VISA_221G_OR_REFUSAL',
@@ -142,6 +174,12 @@ export const I130_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Bona Fide Marriage Evidence', 'Relationship Proof', 'Petitioner/Beneficiary Isolation', 'Authority Engine', 'X-Ray Review'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-20T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'i130-comprehensive.test.ts', testCount: 71,
   stages: allStagesPassed({
     intake: 'I130_CASE_CREATED', document_ingestion: 'I130_DOC_INGESTED', classification: 'I130_RELATIONSHIP',
@@ -162,6 +200,12 @@ export const FOIA_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Identity Verification', 'Agency Routing (USCIS/EOIR/ICE)', 'Record Scope', 'Authority Engine'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-21T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'foia-comprehensive.test.ts', testCount: 49,
   stages: allStagesPassed({
     intake: 'FOIA_CASE_CREATED', document_ingestion: 'FOIA_DOC_INGESTED', classification: 'FOIA_AGENCY',
@@ -182,6 +226,12 @@ export const APPEAL_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Appeal Type Classifier', 'AAO/BIA Router', 'I-290B/EOIR-26 Handler', 'Authority Engine', 'X-Ray Review'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-22T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
   testFile: 'appeal-comprehensive.test.ts', testCount: 55,
   stages: allStagesPassed({
     intake: 'APPEAL_CASE_CREATED', document_ingestion: 'APPEAL_DOC_INGESTED', classification: 'APPEAL_TYPE',
@@ -202,6 +252,12 @@ export const I797_CERTIFICATION: WorkflowCertificationRecord = {
   specialistModules: ['Notice Subtype Classifier', 'Action Type Router', 'Case Status Extractor'],
   maturity: 'GOLD-CERTIFIED',
   certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'not_applicable',
+  mailing: 'not_applicable',
+  tracking: 'not_applicable',
+  proof: 'not_applicable',
+  gold: 'verified',
   testFile: 'i797-comprehensive.test.ts', testCount: 35,
   stages: allStagesPassed({
     intake: 'I797_CASE_CREATED', document_ingestion: 'I797_DOC_INGESTED', classification: 'I797_SUBTYPE',
@@ -214,9 +270,36 @@ export const I797_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+export const CASE_INQUIRY_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'case-inquiry', workflowTitle: 'Submit a USCIS Case Inquiry',
+  vertical: 'Immigration', pipeline: 'P04 Inquiry / Status / Escalation',
+  domainAdapter: 'Case Inquiry Adapter',
+  specialistModules: ['Processing Time Verifier', 'Expedite Analyzer', 'Service Center Router', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'case-inquiry-comprehensive.test.ts', testCount: 80,
+  stages: allStagesPassed({
+    intake: 'INQUIRY_CASE_CREATED', document_ingestion: 'INQUIRY_RECEIPT_OPTIONAL', classification: 'INQUIRY_TYPE_CLASSIFIED',
+    extraction: 'INQUIRY_RECEIPT_NUMBER', provenance: 'INQUIRY_PROVENANCE', fact_normalization: 'INQUIRY_FACTS',
+    deadlines: 'INQUIRY_NO_DEADLINE_USER_INITIATED', issues: 'INQUIRY_ISSUES', evidence: 'INQUIRY_EVIDENCE',
+    authority: 'INQUIRY_AUTHORITY', risk: 'INQUIRY_RISK_LOW', strategy: 'INQUIRY_STRATEGY', drafting: 'INQUIRY_DRAFT',
+    validation: 'INQUIRY_VALIDATED', x_ray: 'INQUIRY_XRAY', blocking_gates: 'INQUIRY_GATES', human_review: 'INQUIRY_REVIEW',
+    explicit_approval: 'INQUIRY_APPROVED', payment: 'INQUIRY_PAID', fulfillment: 'INQUIRY_FULFILLED',
+    provider_submission: 'INQUIRY_PROVIDER', tracking: 'INQUIRY_TRACKING', proof: 'INQUIRY_PROOF',
+    audit: 'INQUIRY_AUDIT', idempotency: 'INQUIRY_IDEMPOTENT', owner_isolation: 'INQUIRY_ISOLATED', failure_retry: 'INQUIRY_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
+  CASE_INQUIRY_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {
@@ -230,3 +313,4 @@ export function isCertified(slug: string): boolean {
 export function getAllCertifications(): WorkflowCertificationRecord[] {
   return CERTIFICATION_REGISTRY;
 }
+

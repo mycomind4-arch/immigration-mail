@@ -332,6 +332,16 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     agencies: ['USCIS'],
     composable: true,
   },
+  {
+    slug: 'case-inquiry',
+    title: 'Submit a USCIS Case Inquiry',
+    description: 'Inquire about a delayed or pending immigration case — service request, expedite request, or status inquiry.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['status_problem', 'delay', 'expedite'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['User-initiated — no notice received.', 'Verify outside normal processing time before service request.', 'Expedite requests must cite qualifying criteria.'],
+  },
 ];
 
 // ─── Stage classification ─────────────────────────────────────────────────────

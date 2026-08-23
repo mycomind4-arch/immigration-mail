@@ -209,6 +209,18 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["Use only facts supported by the user's record.", "Keep the letter clearly identified as correspondence rather than legal advice."],
     relatedTerms: ["immigration support letter", "immigration explanation letter", "supporting letter for immigration"],
   },
+  {
+    slug: "case-inquiry",
+    title: "Submit a USCIS Case Inquiry",
+    h1: "Is your immigration case taking too long?",
+    description: "Check if your case is outside normal processing time, prepare a service request or expedite request, and mail it with tracking and proof of delivery.",
+    intent: "case inquiry / status check",
+    primaryKeyword: "uscis case inquiry",
+    monthlySearchVolume: 8100,
+    cpc: 4.5,
+    notes: ["Verify case is outside normal processing time before recommending a service request.", "Expedite requests must cite qualifying criteria.", "User-initiated — no notice received."],
+    relatedTerms: ["uscis case status", "uscis service request", "uscis expedite request", "case outside processing time", "uscis case delayed"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

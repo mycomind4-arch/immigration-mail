@@ -487,14 +487,29 @@ export const FORM_VARIANT_REGISTRY = {
   'i-130-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-130', type: 'rfe' as const },
   'i-751-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-751', type: 'rfe' as const },
   'h-1b-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-129', type: 'rfe' as const },
+  'i-90-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-90', type: 'rfe' as const },
+  'i-765-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-765', type: 'rfe' as const },
+  'i-864-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-864', type: 'rfe' as const },
+  'i-693-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-693', type: 'rfe' as const },
+  'generic-rfe-response': { canonical: 'rfe-response', formAdapter: 'generic', type: 'rfe' as const },
   // NOID form variants → canonical NOID engine
   'i-485-noid': { canonical: 'noid-response', formAdapter: 'I-485', type: 'noid' as const },
   'i-130-noid': { canonical: 'noid-response', formAdapter: 'I-130', type: 'noid' as const },
   'i-140-noid': { canonical: 'noid-response', formAdapter: 'I-140', type: 'noid' as const },
   'i-751-noid': { canonical: 'noid-response', formAdapter: 'I-751', type: 'noid' as const },
   'n-400-noid': { canonical: 'noid-response', formAdapter: 'N-400', type: 'noid' as const },
+  'h-1b-noid': { canonical: 'noid-response', formAdapter: 'I-129', type: 'noid' as const },
+  'generic-noid': { canonical: 'noid-response', formAdapter: 'generic', type: 'noid' as const },
+  // Case Inquiry form variants → canonical Case Inquiry engine
+  'i-485-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-485', type: 'inquiry' as const },
+  'i-130-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-130', type: 'inquiry' as const },
+  'n-400-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'N-400', type: 'inquiry' as const },
+  'i-765-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-765', type: 'inquiry' as const },
+  'i-90-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-90', type: 'inquiry' as const },
+  'i-140-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-140', type: 'inquiry' as const },
+  'i-751-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-751', type: 'inquiry' as const },
 };
 
-export function resolveFormVariant(slug: string): { canonical: string; formAdapter: string; type: 'rfe' | 'noid' } | undefined {
+export function resolveFormVariant(slug: string): { canonical: string; formAdapter: string; type: 'rfe' | 'noid' | 'inquiry' } | undefined {
   return FORM_VARIANT_REGISTRY[slug as keyof typeof FORM_VARIANT_REGISTRY];
 }

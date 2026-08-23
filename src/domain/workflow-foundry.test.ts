@@ -39,7 +39,7 @@ function makeInput(overrides: Partial<ReasonerInput> = {}): ReasonerInput {
 
 describe('G7: Workflow registry', () => {
   it('registry contains all known workflows', () => {
-    expect(WORKFLOW_REGISTRY.length).toBeGreaterThanOrEqual(18);
+    expect(WORKFLOW_REGISTRY.length).toBeGreaterThanOrEqual(19);
   });
 
   it('every workflow has a slug, title, description, and stage', () => {
@@ -63,6 +63,7 @@ describe('G7: Workflow registry', () => {
     expect(classifyStage('immigration-appeal-letter')).toBe('GOLD-CERTIFIED');
     expect(classifyStage('i-797-notice')).toBe('GOLD-CERTIFIED');
     expect(classifyStage('uscis-foia')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('case-inquiry')).toBe('GOLD-CERTIFIED');
   });
 
   it('isExecutable returns true only for EXECUTABLE and GOLD', () => {
@@ -81,6 +82,7 @@ describe('G7: Workflow registry', () => {
     expect(isGoldCertified('uscis-foia')).toBe(true);
     expect(isGoldCertified('immigration-appeal-letter')).toBe(true);
     expect(isGoldCertified('i-797-notice')).toBe(true);
+    expect(isGoldCertified('case-inquiry')).toBe(true);
     expect(isGoldCertified('respond-to-notice')).toBe(false);
   });
 
@@ -89,7 +91,7 @@ describe('G7: Workflow registry', () => {
     expect(counts.EXECUTABLE).toBe(3);
     expect(counts.CATALOG).toBe(0);
     expect(counts.ALIAS).toBe(15);
-    expect(counts['GOLD-CERTIFIED']).toBe(8);
+    expect(counts['GOLD-CERTIFIED']).toBe(9);
   });
 });
 

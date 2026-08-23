@@ -90,6 +90,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Submit a Case Inquiry',
+    purpose: 'Case taking too long? Check if it is outside processing time, prepare a service request or expedite request, and mail it.',
+    route: '/case-inquiry',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -198,6 +205,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'uscis-foia': '/uscis-foia',
     'immigration-appeal-letter': '/appeal',
     'i-797-notice': '/i-797-notice',
+    'case-inquiry': '/case-inquiry',
   };
 
   return goldSlugs.filter(slug => {

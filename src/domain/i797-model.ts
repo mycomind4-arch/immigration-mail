@@ -38,6 +38,7 @@ export type I797ActionType =
   | 'reopening'          // Case reopened
   | 'revocation'         // Approval revoked
   | 'withdrawal_ack'     // Withdrawal acknowledged
+  | 'delay'              // Case pending beyond normal processing time
   | 'unknown';
 
 export type RoutingTarget =
@@ -47,6 +48,7 @@ export type RoutingTarget =
   | 'immigration-appeal-letter'
   | 'i-130-response'
   | 'uscis-foia'
+  | 'case-inquiry'
   | 'no_action'
   | 'unknown';
 
@@ -93,7 +95,11 @@ export function detectI797ActionType(text: string): I797ActionType {
   if (/biometric|fingerprint|ASC appointment/i.test(lower)) return 'biometrics';
   if (/reopen/i.test(lower)) return 'reopening';
   if (/withdrawal|withdrawn/i.test(lower)) return 'withdrawal_ack';
-  if (/receipt|received|acceptance/i.test(lower)) return 'receipt';
+  if (/receipt|received|acceptance/i.test(lower)) {
+    // Check if user mentions delay/outside processing time
+    if (/delay|outside.{0,20}processing|taking too long|haven.{0,5}t heard|months|too long/i.test(lower)) return 'delay';
+    return 'receipt';
+  }
 
   return 'unknown';
 }
@@ -122,6 +128,8 @@ export function routeI797(actionType: I797ActionType): { target: RoutingTarget; 
       return { target: 'no_action', reason: 'Biometrics appointment scheduled. Attend the appointment.' };
     case 'reopening':
       return { target: 'no_action', reason: 'Case reopened. Monitor for next steps.' };
+    case 'delay':
+      return { target: 'case-inquiry', reason: 'Case appears delayed beyond normal processing time. Route to Case Inquiry engine.' };
     case 'withdrawal_ack':
       return { target: 'no_action', reason: 'Withdrawal acknowledged. No further action needed.' };
     default:
