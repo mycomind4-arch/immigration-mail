@@ -24,6 +24,9 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WorkflowsRouteImport } from './routes/workflows'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
+import { Route as RfeIndexRouteImport } from './routes/rfe/index'
+import { Route as RfeSlugRouteImport } from './routes/rfe/$slug'
+import { Route as WorkflowsWorkflowSlugRouteImport } from './routes/workflows/$workflowSlug'
 import { Route as WorkflowsExplanationLetterRouteImport } from './routes/workflows/explanation-letter'
 import { Route as WorkflowsRespondToNoticeRouteImport } from './routes/workflows/respond-to-notice'
 import { Route as WorkflowsSupportingDocumentsRouteImport } from './routes/workflows/supporting-documents'
@@ -103,6 +106,21 @@ const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
   path: '/resources/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RfeIndexRoute = RfeIndexRouteImport.update({
+  id: '/rfe/',
+  path: '/rfe/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfeSlugRoute = RfeSlugRouteImport.update({
+  id: '/rfe/$slug',
+  path: '/rfe/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkflowsWorkflowSlugRoute = WorkflowsWorkflowSlugRouteImport.update({
+  id: '/$workflowSlug',
+  path: '/$workflowSlug',
+  getParentRoute: () => WorkflowsRoute,
+} as any)
 const WorkflowsExplanationLetterRoute =
   WorkflowsExplanationLetterRouteImport.update({
     id: '/explanation-letter',
@@ -137,10 +155,13 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/rfe/$slug': typeof RfeSlugRoute
+  '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/rfe/': typeof RfeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -157,10 +178,13 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/rfe/$slug': typeof RfeSlugRoute
+  '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/resources': typeof ResourcesIndexRoute
+  '/rfe': typeof RfeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -178,10 +202,13 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/rfe/$slug': typeof RfeSlugRoute
+  '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/rfe/': typeof RfeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -200,10 +227,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/workflows'
     | '/resources/$slug'
+    | '/rfe/$slug'
+    | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
     | '/resources/'
+    | '/rfe/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -220,10 +250,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/workflows'
     | '/resources/$slug'
+    | '/rfe/$slug'
+    | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
     | '/resources'
+    | '/rfe'
   id:
     | '__root__'
     | '/'
@@ -240,10 +273,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/workflows'
     | '/resources/$slug'
+    | '/rfe/$slug'
+    | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
     | '/resources/'
+    | '/rfe/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -261,7 +297,9 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   WorkflowsRoute: typeof WorkflowsRouteWithChildren
   ResourcesSlugRoute: typeof ResourcesSlugRoute
+  RfeSlugRoute: typeof RfeSlugRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  RfeIndexRoute: typeof RfeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -371,6 +409,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rfe/': {
+      id: '/rfe/'
+      path: '/rfe'
+      fullPath: '/rfe/'
+      preLoaderRoute: typeof RfeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfe/$slug': {
+      id: '/rfe/$slug'
+      path: '/rfe/$slug'
+      fullPath: '/rfe/$slug'
+      preLoaderRoute: typeof RfeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workflows/$workflowSlug': {
+      id: '/workflows/$workflowSlug'
+      path: '/$workflowSlug'
+      fullPath: '/workflows/$workflowSlug'
+      preLoaderRoute: typeof WorkflowsWorkflowSlugRouteImport
+      parentRoute: typeof WorkflowsRoute
+    }
     '/workflows/explanation-letter': {
       id: '/workflows/explanation-letter'
       path: '/explanation-letter'
@@ -396,12 +455,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface WorkflowsRouteChildren {
+  WorkflowsWorkflowSlugRoute: typeof WorkflowsWorkflowSlugRoute
   WorkflowsExplanationLetterRoute: typeof WorkflowsExplanationLetterRoute
   WorkflowsRespondToNoticeRoute: typeof WorkflowsRespondToNoticeRoute
   WorkflowsSupportingDocumentsRoute: typeof WorkflowsSupportingDocumentsRoute
 }
 
 const WorkflowsRouteChildren: WorkflowsRouteChildren = {
+  WorkflowsWorkflowSlugRoute: WorkflowsWorkflowSlugRoute,
   WorkflowsExplanationLetterRoute: WorkflowsExplanationLetterRoute,
   WorkflowsRespondToNoticeRoute: WorkflowsRespondToNoticeRoute,
   WorkflowsSupportingDocumentsRoute: WorkflowsSupportingDocumentsRoute,
@@ -426,7 +487,9 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   WorkflowsRoute: WorkflowsRouteWithChildren,
   ResourcesSlugRoute: ResourcesSlugRoute,
+  RfeSlugRoute: RfeSlugRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  RfeIndexRoute: RfeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
