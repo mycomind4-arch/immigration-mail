@@ -55,31 +55,41 @@ describe('G7: Workflow registry', () => {
     expect(classifyStage('respond-to-notice')).toBe('EXECUTABLE');
     expect(classifyStage('supporting-documents')).toBe('EXECUTABLE');
     expect(classifyStage('explanation-letter')).toBe('EXECUTABLE');
-    expect(classifyStage('rfe-response')).toBe('CATALOG');
-    expect(classifyStage('immigration-appeal-letter')).toBe('EXECUTABLE');
-    expect(classifyStage('i-797-notice')).toBe('EXECUTABLE');
-    expect(classifyStage('uscis-foia')).toBe('CATALOG');
+    expect(classifyStage('rfe-response')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('noid-response')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('uscis-denial-rejection')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('visa-refusal-response')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('i-130-response')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('immigration-appeal-letter')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('i-797-notice')).toBe('GOLD-CERTIFIED');
+    expect(classifyStage('uscis-foia')).toBe('GOLD-CERTIFIED');
   });
 
   it('isExecutable returns true only for EXECUTABLE and GOLD', () => {
     expect(isExecutable('respond-to-notice')).toBe(true);
     expect(isExecutable('supporting-documents')).toBe(true);
-    expect(isExecutable('rfe-response')).toBe(false);
-    expect(isExecutable('uscis-foia')).toBe(false);
+    expect(isExecutable('rfe-response')).toBe(true); // GOLD-CERTIFIED
+    expect(isExecutable('uscis-foia')).toBe(true); // GOLD-CERTIFIED
   });
 
-  it('isGoldCertified returns false (no Gold workflows yet)', () => {
-    for (const entry of WORKFLOW_REGISTRY) {
-      expect(isGoldCertified(entry.slug)).toBe(false);
-    }
+  it('isGoldCertified returns true for certified workflows', () => {
+    expect(isGoldCertified('rfe-response')).toBe(true);
+    expect(isGoldCertified('noid-response')).toBe(true);
+    expect(isGoldCertified('uscis-denial-rejection')).toBe(true);
+    expect(isGoldCertified('visa-refusal-response')).toBe(true);
+    expect(isGoldCertified('i-130-response')).toBe(true);
+    expect(isGoldCertified('uscis-foia')).toBe(true);
+    expect(isGoldCertified('immigration-appeal-letter')).toBe(true);
+    expect(isGoldCertified('i-797-notice')).toBe(true);
+    expect(isGoldCertified('respond-to-notice')).toBe(false);
   });
 
   it('stage counts distinguish catalog from executable', () => {
     const counts = getStageCounts();
-    expect(counts.EXECUTABLE).toBe(5);
-    expect(counts.CATALOG).toBeGreaterThanOrEqual(10);
-    expect(counts.ALIAS).toBe(4);
-    expect(counts['GOLD-CERTIFIED']).toBe(0);
+    expect(counts.EXECUTABLE).toBe(3);
+    expect(counts.CATALOG).toBe(0);
+    expect(counts.ALIAS).toBe(8);
+    expect(counts['GOLD-CERTIFIED']).toBe(8);
   });
 });
 
@@ -117,15 +127,15 @@ describe('G7: Workflow selection from reasoner', () => {
     }
   });
 
-  it('identifies stage gaps (catalog workflows that should be executable)', () => {
+  it('does not report stage gaps for GOLD-CERTIFIED workflows', () => {
     const reasoning = reasonAboutCase(makeInput({
       narrative: 'I received a request for evidence from USCIS.',
       documentUnderstandings: [makeRfe()],
     }));
 
     const result = selectWorkflowsFromReasoning(reasoning);
-    // Should identify that rfe-response (catalog) should be executable
-    expect(result.stageGaps.some(g => g.slug === 'rfe-response')).toBe(true);
+    // rfe-response is GOLD-CERTIFIED, not CATALOG — no gap
+    expect(result.stageGaps.some(g => g.slug === 'rfe-response' && g.currentStage === 'CATALOG')).toBe(false);
   });
 });
 
@@ -163,8 +173,8 @@ describe('G7: Incompatible workflows', () => {
 describe('G7: Stage integrity', () => {
   it('does not equate catalog presence with execution', () => {
     // Catalog workflows should not be executable
-    expect(isExecutable('rfe-response')).toBe(false);
-    expect(isExecutable('noid-response')).toBe(false);
+    expect(isExecutable('rfe-response')).toBe(true); // GOLD-CERTIFIED
+    expect(isExecutable('noid-response')).toBe(true); // GOLD-CERTIFIED
     expect(isExecutable('immigration-appeal-letter')).toBe(true);
   });
 
