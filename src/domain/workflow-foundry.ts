@@ -362,6 +362,17 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     composable: true,
     rules: ['Triggered by N-400 interview notice, oath ceremony notice, or post-interview evidence request.', 'Interview reschedule requests must be submitted before the interview date.', 'Missed interviews require immediate remedy to avoid N-400 denial.', 'Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).'],
   },
+
+  {
+    slug: 'i751-removal-conditions',
+    title: 'Remove Conditions on Residence (I-751)',
+    description: 'File I-751 jointly or with a waiver, manage the 90-day filing window, prepare for interview, handle missed interviews, evidence deficiencies, delays, and denials — with mailing and proof.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['conditional_residence', 'filing_window', 'waiver', 'interview', 'evidence_gap', 'denial'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Triggered by conditional residence expiration, I-751 filing need, or I-751-related notice.', 'Joint filing requires both spouses to sign.', 'Waiver filing requires documentation of the waiver ground (good faith marriage, hardship, abuse, or death).', 'Filing window opens 90 days before conditional residence expires.', 'Missed interview requires immediate action to prevent denial and NTA referral.'],
+  },
   {
     slug: 'consular-processing',
     title: 'Resolve a Consular Processing Issue',

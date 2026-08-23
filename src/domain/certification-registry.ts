@@ -378,10 +378,39 @@ export const CONSULAR_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+
+export const I751_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'i751-removal-conditions',
+  workflowTitle: 'Remove Conditions on Residence (I-751)',
+  vertical: 'Immigration', pipeline: 'P10 Removal of Conditions',
+  domainAdapter: 'I-751 Removal of Conditions Adapter',
+  specialistModules: ['Filing Window Calculator', 'Waiver Ground Detector', 'Bona Fide Marriage Evidence Handler', 'Stokes Interview Prep', 'NTA Referral Analyzer', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'i751-comprehensive.test.ts', testCount: 182,
+  stages: allStagesPassed({
+    intake: 'I751_CASE_CREATED', document_ingestion: 'I751_DOC_INGESTED', classification: 'I751_EVENT_CLASSIFIED',
+    extraction: 'I751_FILING_TYPE_DETECTED', provenance: 'I751_PROVENANCE', fact_normalization: 'I751_FACTS',
+    deadlines: 'I751_FILING_WINDOW', issues: 'I751_ISSUES', evidence: 'I751_EVIDENCE',
+    authority: 'I751_AUTHORITY', risk: 'I751_RISK', strategy: 'I751_STRATEGY', drafting: 'I751_DRAFT',
+    validation: 'I751_VALIDATED', x_ray: 'I751_XRAY', blocking_gates: 'I751_GATES', human_review: 'I751_REVIEW',
+    explicit_approval: 'I751_APPROVED', payment: 'I751_PAID', fulfillment: 'I751_FULFILLED',
+    provider_submission: 'I751_PROVIDER', tracking: 'I751_TRACKING', proof: 'I751_PROOF',
+    audit: 'I751_AUDIT', idempotency: 'I751_IDEMPOTENT', owner_isolation: 'I751_ISOLATED', failure_retry: 'I751_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
   CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION, CONSULAR_CERTIFICATION,
+  I751_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {

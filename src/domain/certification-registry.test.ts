@@ -13,19 +13,20 @@ import {
   APPEAL_CERTIFICATION,
   I797_CERTIFICATION,
   NATURALIZATION_CERTIFICATION,
+  I751_CERTIFICATION,
 } from './certification-registry';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 12 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(12);
+  it('contains 13 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(13);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 12 workflows have certification records', () => {
+  it('all 13 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter',
+      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'i751-removal-conditions', 'immigration-appeal-letter',
       'naturalization-citizenship', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
@@ -172,6 +173,16 @@ describe('Certification Registry', () => {
     expect(I797_CERTIFICATION.stages.proof.evidence).toBe('NOT_APPLICABLE_ROUTING_ONLY');
   });
 
+
+  it('I-751 has all stages passed', () => {
+    expect(I751_CERTIFICATION.certified).toBe(true);
+    expect(I751_CERTIFICATION.testCount).toBeGreaterThanOrEqual(182);
+    expect(I751_CERTIFICATION.pipeline).toContain('P10');
+    expect(I751_CERTIFICATION.domainAdapter).toContain('I-751');
+    const failed = Object.entries(I751_CERTIFICATION.stages).filter(([, v]) => !v.passed);
+    expect(failed).toHaveLength(0);
+  });
+
   it('getCertification returns correct record', () => {
     expect(getCertification('rfe-response')?.workflowTitle).toBe('Respond to a USCIS RFE');
     expect(getCertification('noid-response')?.workflowTitle).toBe('Respond to a USCIS NOID');
@@ -182,10 +193,11 @@ describe('Certification Registry', () => {
     expect(getCertification('immigration-appeal-letter')?.workflowTitle).toBe('Prepare an Immigration Appeal Letter');
     expect(getCertification('i-797-notice')?.workflowTitle).toBe('Understand an I-797 Notice');
     expect(getCertification('case-inquiry')?.workflowTitle).toBe('Submit a USCIS Case Inquiry');
+    expect(getCertification('i751-removal-conditions')?.workflowTitle).toBe('Remove Conditions on Residence (I-751)');
     expect(getCertification('nonexistent')).toBeUndefined();
   });
 
-  it('isCertified returns true for all 11 workflows', () => {
+  it('isCertified returns true for all 13 workflows', () => {
     expect(isCertified('rfe-response')).toBe(true);
     expect(isCertified('noid-response')).toBe(true);
     expect(isCertified('uscis-denial-rejection')).toBe(true);
@@ -198,11 +210,12 @@ describe('Certification Registry', () => {
     expect(isCertified('biometrics-scheduling')).toBe(true);
     expect(isCertified('naturalization-citizenship')).toBe(true);
     expect(isCertified('consular-processing')).toBe(true);
+    expect(isCertified('i751-removal-conditions')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
-  it('getAllCertifications returns all 11', () => {
-    expect(getAllCertifications()).toHaveLength(12);
+  it('getAllCertifications returns all 13', () => {
+    expect(getAllCertifications()).toHaveLength(13);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
@@ -222,7 +235,7 @@ describe('Certification Registry', () => {
 
   it('pipeline distribution covers multiple archetypes', () => {
     const pipelines = new Set(CERTIFICATION_REGISTRY.map(r => r.pipeline.split(' ')[0]));
-    expect(pipelines.size).toBeGreaterThanOrEqual(5); // P01, P02, P03, P05, P06, P08
+    expect(pipelines.size).toBeGreaterThanOrEqual(6); // P01, P02, P03, P05, P06, P08
   });
 
   it('specialist modules are unique per workflow', () => {

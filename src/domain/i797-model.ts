@@ -52,6 +52,7 @@ export type RoutingTarget =
   | 'biometrics-scheduling'
   | 'naturalization-citizenship'
   | 'consular-processing'
+  | 'i751-removal-conditions'
   | 'no_action'
   | 'unknown';
 

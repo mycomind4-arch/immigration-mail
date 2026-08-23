@@ -245,6 +245,30 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["Interview reschedule requests must be submitted before the interview date.", "Missed interviews require immediate remedy to avoid N-400 denial.", "Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).", "Oath ceremony document corrections may require Form N-565."],
     relatedTerms: ["n-400 interview", "naturalization test", "civics test practice", "citizenship interview preparation", "oath ceremony", "missed naturalization interview", "n-400 reschedule", "post interview rfe n-400", "naturalization decision delay"],
   },
+  {
+    slug: "consular-processing",
+    title: "Resolve a Consular Processing Issue",
+    h1: "Need help with your consular processing, NVC, or embassy interview?",
+    description: "Manage the immigrant visa lifecycle — DS-260, NVC fees, civil documents, consular interview preparation, rescheduling, missed interviews, priority date retrogression, medical exams, and visa expiration urgency.",
+    intent: "consular processing / NVC / embassy interview problem",
+    primaryKeyword: "consular processing",
+    monthlySearchVolume: 1300,
+    cpc: 0,
+    notes: ["Consular interviews are conducted by consular officers at embassies, not USCIS.", "Priority date retrogression requires monitoring the Visa Bulletin.", "Visa issuance has a 6-month validity window."],
+    relatedTerms: ["consular processing", "ds-260", "nvc processing", "consular interview", "visa bulletin", "priority date", "embassy interview", "civil documents", "panel physician", "visa expiration"],
+  },
+  {
+    slug: "i751-removal-conditions",
+    title: "Remove Conditions on Residence (I-751)",
+    h1: "Need to file I-751 to remove conditions on your green card?",
+    description: "File Form I-751 jointly or with a waiver, manage the 90-day filing window, prepare for your interview, handle missed interviews, evidence deficiencies, delays, and denials — with mailing and proof.",
+    intent: "I-751 removal of conditions / conditional green card",
+    primaryKeyword: "i 751",
+    monthlySearchVolume: 8100,
+    cpc: 11.5,
+    notes: ["I-751 must be filed within the 90-day window before conditional residence expires.", "Joint filing requires both spouses to sign.", "Waiver filing requires documentation of the waiver ground.", "Denial may lead to NTA referral to immigration court."],
+    relatedTerms: ["i 751", "form i 751", "remove conditions green card", "i 751 waiver", "i 751 filing window", "conditional residence", "i 751 interview", "stokes interview", "i 751 denied", "i 751 late filing"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

@@ -118,6 +118,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Remove Conditions on Residence (I-751)',
+    purpose: 'Need to file I-751, file with a waiver, missed the filing window, have an interview, or got denied? We prepare and mail your I-751 letter.',
+    route: '/i751-removal-conditions',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -230,6 +237,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'biometrics-scheduling': '/biometrics-scheduling',
     'naturalization-citizenship': '/naturalization-citizenship',
     'consular-processing': '/consular-processing',
+    'i751-removal-conditions': '/i751-removal-conditions',
   };
 
   return goldSlugs.filter(slug => {
@@ -260,6 +268,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
           'respond-to-notice': '/workflows/respond-to-notice',
           'supporting-documents': '/workflows/supporting-documents',
           'explanation-letter': '/workflows/explanation-letter',
+          'i751-removal-conditions': '/i751-removal-conditions',
         };
         return slugToRoute[w.slug] === c.route;
       });
