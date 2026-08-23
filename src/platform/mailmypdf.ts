@@ -74,17 +74,17 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 export async function uploadDocument(file: File): Promise<MailMyPDFDocument> {
   const form = new FormData();
   form.append("file", file, file.name);
-  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/api/v1/documents", { method: "POST", body: form });
+  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/v1/documents", { method: "POST", body: form });
   return "document" in result && result.document ? result.document : result as MailMyPDFDocument;
 }
 
 export async function uploadDocumentBase64(input: { content: string; filename: string; mime_type?: string }): Promise<MailMyPDFDocument> {
-  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/api/v1/documents", { method: "POST", body: JSON.stringify(input) });
+  const result = await request<{ document?: MailMyPDFDocument } | MailMyPDFDocument>("/v1/documents", { method: "POST", body: JSON.stringify(input) });
   return "document" in result && result.document ? result.document : result as MailMyPDFDocument;
 }
 
 export async function createCommunication(input: CreateImmigrationCommunicationInput): Promise<MailMyPDFCommunication> {
-  return request<MailMyPDFCommunication>("/api/v1/communications", {
+  return request<MailMyPDFCommunication>("/v1/communications", {
     method: "POST",
     headers: { "Idempotency-Key": input.idempotency_key },
     body: JSON.stringify({ ...input, metadata: { vertical: "immigration-mail", product: "immigration-mail", ...(input.metadata ?? {}) } }),
@@ -92,5 +92,5 @@ export async function createCommunication(input: CreateImmigrationCommunicationI
 }
 
 export async function getCommunication(id: string): Promise<MailMyPDFCommunication> {
-  return request<MailMyPDFCommunication>(`/api/v1/communications/${encodeURIComponent(id)}`);
+  return request<MailMyPDFCommunication>(`/v1/communications/${encodeURIComponent(id)}`);
 }
