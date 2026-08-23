@@ -33,6 +33,8 @@ import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as RfeIndexRouteImport } from './routes/rfe/index'
 import { Route as RfeSlugRouteImport } from './routes/rfe/$slug'
+import { Route as UscisDenialIndexRouteImport } from './routes/uscis-denial/index'
+import { Route as UscisFoiaIndexRouteImport } from './routes/uscis-foia/index'
 import { Route as VisaRefusalIndexRouteImport } from './routes/visa-refusal/index'
 import { Route as VisaRefusalSlugRouteImport } from './routes/visa-refusal/$slug'
 import { Route as WorkflowsWorkflowSlugRouteImport } from './routes/workflows/$workflowSlug'
@@ -160,6 +162,16 @@ const RfeSlugRoute = RfeSlugRouteImport.update({
   path: '/rfe/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UscisDenialIndexRoute = UscisDenialIndexRouteImport.update({
+  id: '/uscis-denial/',
+  path: '/uscis-denial/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UscisFoiaIndexRoute = UscisFoiaIndexRouteImport.update({
+  id: '/uscis-foia/',
+  path: '/uscis-foia/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VisaRefusalIndexRoute = VisaRefusalIndexRouteImport.update({
   id: '/visa-refusal/',
   path: '/visa-refusal/',
@@ -224,6 +236,8 @@ export interface FileRoutesByFullPath {
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
+  '/uscis-denial/': typeof UscisDenialIndexRoute
+  '/uscis-foia/': typeof UscisFoiaIndexRoute
   '/visa-refusal/': typeof VisaRefusalIndexRoute
 }
 export interface FileRoutesByTo {
@@ -256,6 +270,8 @@ export interface FileRoutesByTo {
   '/noid': typeof NoidIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/rfe': typeof RfeIndexRoute
+  '/uscis-denial': typeof UscisDenialIndexRoute
+  '/uscis-foia': typeof UscisFoiaIndexRoute
   '/visa-refusal': typeof VisaRefusalIndexRoute
 }
 export interface FileRoutesById {
@@ -289,6 +305,8 @@ export interface FileRoutesById {
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
+  '/uscis-denial/': typeof UscisDenialIndexRoute
+  '/uscis-foia/': typeof UscisFoiaIndexRoute
   '/visa-refusal/': typeof VisaRefusalIndexRoute
 }
 export interface FileRouteTypes {
@@ -323,6 +341,8 @@ export interface FileRouteTypes {
     | '/noid/'
     | '/resources/'
     | '/rfe/'
+    | '/uscis-denial/'
+    | '/uscis-foia/'
     | '/visa-refusal/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -355,6 +375,8 @@ export interface FileRouteTypes {
     | '/noid'
     | '/resources'
     | '/rfe'
+    | '/uscis-denial'
+    | '/uscis-foia'
     | '/visa-refusal'
   id:
     | '__root__'
@@ -387,6 +409,8 @@ export interface FileRouteTypes {
     | '/noid/'
     | '/resources/'
     | '/rfe/'
+    | '/uscis-denial/'
+    | '/uscis-foia/'
     | '/visa-refusal/'
   fileRoutesById: FileRoutesById
 }
@@ -416,6 +440,8 @@ export interface RootRouteChildren {
   NoidIndexRoute: typeof NoidIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   RfeIndexRoute: typeof RfeIndexRoute
+  UscisDenialIndexRoute: typeof UscisDenialIndexRoute
+  UscisFoiaIndexRoute: typeof UscisFoiaIndexRoute
   VisaRefusalIndexRoute: typeof VisaRefusalIndexRoute
 }
 
@@ -589,6 +615,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RfeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/uscis-denial/': {
+      id: '/uscis-denial/'
+      path: '/uscis-denial'
+      fullPath: '/uscis-denial/'
+      preLoaderRoute: typeof UscisDenialIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uscis-foia/': {
+      id: '/uscis-foia/'
+      path: '/uscis-foia'
+      fullPath: '/uscis-foia/'
+      preLoaderRoute: typeof UscisFoiaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/visa-refusal/': {
       id: '/visa-refusal/'
       path: '/visa-refusal'
@@ -678,6 +718,8 @@ const rootRouteChildren: RootRouteChildren = {
   NoidIndexRoute: NoidIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   RfeIndexRoute: RfeIndexRoute,
+  UscisDenialIndexRoute: UscisDenialIndexRoute,
+  UscisFoiaIndexRoute: UscisFoiaIndexRoute,
   VisaRefusalIndexRoute: VisaRefusalIndexRoute,
 }
 export const routeTree = rootRouteImport
