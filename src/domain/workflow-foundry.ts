@@ -1,0 +1,408 @@
+/**
+ * G7 — Immigration Workflow Foundry
+ *
+ * Classifies all workflows into stages:
+ *   CATALOG → CONTRACT → EXECUTABLE → GOLD-CERTIFIED
+ *
+ * Uses the reasoner to select workflows based on evidence.
+ * Supports compound cases requiring multiple workflows.
+ * Detects incompatible workflow combinations.
+ * Preserves domain-specific rules.
+ *
+ * Do NOT confuse catalog presence with execution.
+ * A workflow is Gold only when executable evidence exists.
+ */
+
+import type { CaseReasoning, CandidateWorkflow } from './case-reasoning';
+
+// ─── Workflow Stages ──────────────────────────────────────────────────────────
+
+export type WorkflowStage = 'CATALOG' | 'CONTRACT' | 'EXECUTABLE' | 'GOLD-CERTIFIED';
+
+export const STAGE_ORDER: WorkflowStage[] = ['CATALOG', 'CONTRACT', 'EXECUTABLE', 'GOLD-CERTIFIED'];
+
+// ─── Workflow Registry Entry ─────────────────────────────────────────────────
+
+export interface WorkflowRegistryEntry {
+  slug: string;
+  title: string;
+  description: string;
+  stage: WorkflowStage;
+  /** Which issue types this workflow handles. */
+  handlesIssueTypes: string[];
+  /** Which agencies this workflow is relevant for. */
+  agencies: string[];
+  /** Whether this workflow requires a deadline. */
+  requiresDeadline?: boolean;
+  /** Whether this workflow can be composed with others. */
+  composable: boolean;
+  /** Incompatible workflow slugs (cannot be used together). */
+  incompatibleWith?: string[];
+  /** Domain-specific rules. */
+  rules?: string[];
+}
+
+// ─── Workflow Registry ────────────────────────────────────────────────────────
+// The canonical registry of all immigration workflows and their stages.
+
+export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
+  // ── Registered executable workflows ──
+  {
+    slug: 'respond-to-notice',
+    title: 'Respond to a Notice',
+    description: 'Organize an immigration notice, confirm details, prepare a response, and mail it.',
+    stage: 'EXECUTABLE',
+    handlesIssueTypes: ['rfe', 'noid', 'deadline', 'evidence_gap'],
+    agencies: ['USCIS', 'DOS', 'EOIR', 'CBP', 'ICE'],
+    requiresDeadline: true,
+    composable: true,
+    incompatibleWith: ['immigration-appeal-letter'],
+    rules: ['Must verify notice type before selecting.', 'Deadline must be confirmed before mailing.'],
+  },
+  {
+    slug: 'supporting-documents',
+    title: 'Submit Supporting Documents',
+    description: 'Prepare a cover letter and organize supporting documentation for mailing.',
+    stage: 'EXECUTABLE',
+    handlesIssueTypes: ['rfe', 'evidence_gap', 'missing_evidence'],
+    agencies: ['USCIS', 'DOS'],
+    composable: true,
+    rules: ['Specific documents depend on what the notice requests.'],
+  },
+  {
+    slug: 'explanation-letter',
+    title: 'Prepare an Explanation Letter',
+    description: 'Turn facts and objective into a professional, editable correspondence draft.',
+    stage: 'EXECUTABLE',
+    handlesIssueTypes: ['status_problem', 'address_problem', 'fee_issue', 'unknown'],
+    agencies: ['USCIS', 'DOS', 'EOIR'],
+    composable: true,
+  },
+  // ── Catalog workflows (not yet executable) ──
+  {
+    slug: 'rfe-response',
+    title: 'Respond to a USCIS RFE',
+    description: 'Turn a USCIS RFE into a structured response with evidence and cover letter.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['rfe'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+    rules: ['Keep every requested item traceable to supporting evidence.'],
+  },
+  {
+    slug: 'noid-response',
+    title: 'Respond to a USCIS NOID',
+    description: 'Organize a NOID, preserve concerns, gather evidence, and prepare a response.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['noid'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'uscis-denial-rejection',
+    title: 'Respond to a USCIS Denial or Rejection',
+    description: 'Organize a denial/rejection, identify the decision and review path.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['denial', 'rejection'],
+    agencies: ['USCIS'],
+    composable: true,
+    incompatibleWith: ['rfe-response', 'noid-response'],
+    rules: ['A denial, rejection, motion, and appeal are different procedural paths.'],
+  },
+  {
+    slug: 'uscis-foia',
+    title: 'Request USCIS Records by FOIA',
+    description: 'Prepare a USCIS FOIA request for immigration records.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['unknown'],
+    agencies: ['USCIS'],
+    composable: false,
+  },
+  {
+    slug: 'eoir-foia',
+    title: 'Request EOIR Records by FOIA',
+    description: 'Prepare an EOIR FOIA request for immigration court records.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['unknown'],
+    agencies: ['EOIR'],
+    composable: false,
+  },
+  {
+    slug: 'ice-foia',
+    title: 'Request ICE Records by FOIA',
+    description: 'Prepare an ICE FOIA request for immigration enforcement records.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['unknown'],
+    agencies: ['ICE'],
+    composable: false,
+  },
+  {
+    slug: 'g-639-records',
+    title: 'Request Records with Form G-639',
+    description: 'Prepare a Form G-639 immigration records request.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['unknown'],
+    agencies: ['USCIS'],
+    composable: false,
+  },
+  {
+    slug: 'i-130-response',
+    title: 'Respond to an I-130 Request',
+    description: 'Prepare a response for an I-130 family petition related notice.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['rfe', 'noid'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'i-140-rfe-response',
+    title: 'Respond to an I-140 RFE',
+    description: 'Prepare a response for an I-140 employment petition RFE.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['rfe'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'i-485-rfe-response',
+    title: 'Respond to an I-485 RFE',
+    description: 'Prepare a response for an I-485 adjustment of status RFE.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['rfe'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'n-400-rfe-response',
+    title: 'Respond to an N-400 RFE',
+    description: 'Prepare a response for an N-400 naturalization RFE.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['rfe'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'i-751-noid',
+    title: 'Respond to an I-751 NOID',
+    description: 'Prepare a response for an I-751 conditional residency NOID.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['noid'],
+    agencies: ['USCIS'],
+    requiresDeadline: true,
+    composable: true,
+  },
+  {
+    slug: 'visa-refusal-response',
+    title: 'Respond to a Visa Refusal',
+    description: 'Prepare a response for a visa refusal under Section 221(g).',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['denial', 'rejection'],
+    agencies: ['DOS'],
+    composable: true,
+  },
+  {
+    slug: 'immigration-appeal-letter',
+    title: 'Prepare an Immigration Appeal Letter',
+    description: 'Prepare an appeal letter for a denied immigration application.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['denial', 'procedural_posture'],
+    agencies: ['USCIS', 'EOIR', 'DOS'],
+    requiresDeadline: true,
+    composable: false,
+    incompatibleWith: ['respond-to-notice'],
+    rules: ['Appeal requires a final denial decision.'],
+  },
+  {
+    slug: 'supporting-evidence-letter',
+    title: 'Prepare a Supporting Evidence Letter',
+    description: 'Organize and submit supporting evidence with a cover letter.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['missing_evidence', 'evidence_gap'],
+    agencies: ['USCIS', 'DOS'],
+    composable: true,
+  },
+  {
+    slug: 'i-797-notice',
+    title: 'Understand an I-797 / I-797C Notice',
+    description: 'Understand a USCIS Notice of Action and what to do next.',
+    stage: 'CATALOG',
+    handlesIssueTypes: ['unknown', 'status_problem'],
+    agencies: ['USCIS'],
+    composable: true,
+  },
+];
+
+// ─── Stage classification ─────────────────────────────────────────────────────
+
+export function classifyStage(slug: string): WorkflowStage {
+  const entry = WORKFLOW_REGISTRY.find(w => w.slug === slug);
+  return entry?.stage ?? 'CATALOG';
+}
+
+export function isExecutable(slug: string): boolean {
+  const stage = classifyStage(slug);
+  return stage === 'EXECUTABLE' || stage === 'GOLD-CERTIFIED';
+}
+
+export function isGoldCertified(slug: string): boolean {
+  return classifyStage(slug) === 'GOLD-CERTIFIED';
+}
+
+// ─── Stage counts ──────────────────────────────────────────────────────────────
+
+export function getStageCounts(): Record<WorkflowStage, number> {
+  const counts: Record<WorkflowStage, number> = {
+    CATALOG: 0,
+    CONTRACT: 0,
+    EXECUTABLE: 0,
+    'GOLD-CERTIFIED': 0,
+  };
+  for (const entry of WORKFLOW_REGISTRY) {
+    counts[entry.stage]++;
+  }
+  return counts;
+}
+
+// ─── Workflow Selection from Reasoner Output ──────────────────────────────────
+// Uses the reasoner's candidate workflows to find matching registry entries.
+
+export interface WorkflowSelectionResult {
+  selected: WorkflowRegistryEntry[];
+  rejected: { entry: WorkflowRegistryEntry; reason: string }[];
+  incompatible: { workflowA: string; workflowB: string; reason: string }[];
+  compound: boolean;
+  stageGaps: { slug: string; currentStage: WorkflowStage; targetStage: WorkflowStage }[];
+}
+
+export function selectWorkflowsFromReasoning(reasoning: CaseReasoning): WorkflowSelectionResult {
+  const selected: WorkflowRegistryEntry[] = [];
+  const rejected: { entry: WorkflowRegistryEntry; reason: string }[] = [];
+  const detectedIssueTypes = new Set(reasoning.detectedIssues.map(i => i.issueType));
+
+  // Match candidate workflows from the reasoner to registry entries
+  for (const candidate of reasoning.candidateWorkflows) {
+    // Find registry entries that match the candidate's user-facing title
+    const matching = WORKFLOW_REGISTRY.filter(entry =>
+      entry.title.toLowerCase().includes(candidate.userFacingTitle.toLowerCase().split(' ')[0]) ||
+      candidate.userFacingTitle.toLowerCase().includes(entry.title.toLowerCase().split(' ')[0])
+    );
+
+    if (matching.length === 0) {
+      // Try matching by issue type
+      const byIssueType = WORKFLOW_REGISTRY.filter(entry =>
+        entry.handlesIssueTypes.some(t => [...detectedIssueTypes].includes(t))
+      );
+      for (const entry of byIssueType) {
+        if (!selected.find(s => s.slug === entry.slug)) {
+          selected.push(entry);
+        }
+      }
+    } else {
+      for (const entry of matching) {
+        if (!selected.find(s => s.slug === entry.slug)) {
+          selected.push(entry);
+        }
+      }
+    }
+  }
+
+  // Also add workflows that handle detected issues but weren't in candidates
+  for (const entry of WORKFLOW_REGISTRY) {
+    if (entry.stage === 'CATALOG') continue; // Skip catalog-only for now
+    if (selected.find(s => s.slug === entry.slug)) continue;
+    if (entry.handlesIssueTypes.some(t => [...detectedIssueTypes].includes(t))) {
+      selected.push(entry);
+    }
+  }
+
+  // Reject workflows from reasoner's incompatible list
+  for (const rejectedWf of reasoning.incompatibleWorkflows) {
+    const matching = WORKFLOW_REGISTRY.filter(entry =>
+      entry.title.toLowerCase().includes(rejectedWf.userFacingTitle.toLowerCase().split(' ')[0]) ||
+      rejectedWf.userFacingTitle.toLowerCase().includes(entry.title.toLowerCase().split(' ')[0])
+    );
+    for (const entry of matching) {
+      if (!rejected.find(r => r.entry.slug === entry.slug)) {
+        rejected.push({ entry, reason: rejectedWf.reason });
+      }
+    }
+  }
+
+  // Check incompatibility between selected workflows
+  const incompatible: { workflowA: string; workflowB: string; reason: string }[] = [];
+  for (let i = 0; i < selected.length; i++) {
+    for (let j = i + 1; j < selected.length; j++) {
+      const a = selected[i];
+      const b = selected[j];
+      if (a.incompatibleWith?.includes(b.slug) || b.incompatibleWith?.includes(a.slug)) {
+        incompatible.push({
+          workflowA: a.slug,
+          workflowB: b.slug,
+          reason: `${a.title} and ${b.title} cannot be used together.`,
+        });
+      }
+    }
+  }
+
+  // Identify stage gaps (catalog workflows that should be promoted)
+  const stageGaps: { slug: string; currentStage: WorkflowStage; targetStage: WorkflowStage }[] = [];
+  for (const entry of WORKFLOW_REGISTRY) {
+    if (entry.stage === 'CATALOG') {
+      // If this catalog workflow handles detected issues, it should be executable
+      if (entry.handlesIssueTypes.some(t => [...detectedIssueTypes].includes(t))) {
+        stageGaps.push({
+          slug: entry.slug,
+          currentStage: 'CATALOG',
+          targetStage: 'EXECUTABLE',
+        });
+      }
+    }
+  }
+
+  // Remove incompatible workflows from selected (keep the first one)
+  const incompatibleSlugs = new Set(incompatible.map(i => i.workflowB));
+  const filteredSelected = selected.filter(s => !incompatibleSlugs.has(s.slug));
+
+  return {
+    selected: filteredSelected,
+    rejected,
+    incompatible,
+    compound: filteredSelected.length > 1,
+    stageGaps,
+  };
+}
+
+// ─── Workflow composition validation ────────────────────────────────────────
+
+export function validateComposition(workflowSlugs: string[]): {
+  valid: boolean;
+  incompatible: { a: string; b: string }[];
+  reason: string;
+} {
+  const incompatible: { a: string; b: string }[] = [];
+
+  for (let i = 0; i < workflowSlugs.length; i++) {
+    for (let j = i + 1; j < workflowSlugs.length; j++) {
+      const a = WORKFLOW_REGISTRY.find(w => w.slug === workflowSlugs[i]);
+      const b = WORKFLOW_REGISTRY.find(w => w.slug === workflowSlugs[j]);
+      if (a?.incompatibleWith?.includes(workflowSlugs[j]) ||
+          b?.incompatibleWith?.includes(workflowSlugs[i])) {
+        incompatible.push({ a: workflowSlugs[i], b: workflowSlugs[j] });
+      }
+    }
+  }
+
+  return {
+    valid: incompatible.length === 0,
+    incompatible,
+    reason: incompatible.length > 0
+      ? `Incompatible workflows detected: ${incompatible.map(i => `${i.a} + ${i.b}`).join(', ')}`
+      : 'All workflows are compatible.',
+  };
+}
