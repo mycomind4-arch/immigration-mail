@@ -97,6 +97,20 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Resolve a Biometrics Issue',
+    purpose: 'Need to reschedule, missed your appointment, or have an ASC location problem? We prepare and mail your biometrics letter.',
+    route: '/biometrics-scheduling',
+    gold: true,
+    badge: 'Gold Certified',
+  },
+  {
+    title: 'Resolve a Naturalization Issue',
+    purpose: 'Preparing for your N-400 interview, need to reschedule, missed your interview, or have an oath ceremony problem? We prepare and mail your letter.',
+    route: '/naturalization-citizenship',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -206,6 +220,8 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'immigration-appeal-letter': '/appeal',
     'i-797-notice': '/i-797-notice',
     'case-inquiry': '/case-inquiry',
+    'biometrics-scheduling': '/biometrics-scheduling',
+    'naturalization-citizenship': '/naturalization-citizenship',
   };
 
   return goldSlugs.filter(slug => {

@@ -342,6 +342,26 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     composable: true,
     rules: ['User-initiated — no notice received.', 'Verify outside normal processing time before service request.', 'Expedite requests must cite qualifying criteria.'],
   },
+  {
+    slug: 'biometrics-scheduling',
+    title: 'Resolve a Biometrics Appointment Issue',
+    description: 'Reschedule, remedy a missed appointment, transfer ASC location, or correct a biometrics notice — with mailing and proof.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['biometrics', 'scheduling', 'asc_problem'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Triggered by ASC appointment notice or scheduling problem.', 'Reschedule requests must be submitted before appointment date.', 'Missed appointments require immediate remedy to avoid denial.', 'ASC transfer requests require evidence of hardship.'],
+  },
+  {
+    slug: 'naturalization-citizenship',
+    title: 'Resolve a Naturalization / Citizenship Issue',
+    description: 'Prepare for N-400 interview, study for civics/English test, reschedule interview, remedy missed interview, address oath ceremony problems, or respond to post-interview RFE — with mailing and proof.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['interview', 'civics_test', 'oath_ceremony', 'delayed_decision', 'post_interview_rfe'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Triggered by N-400 interview notice, oath ceremony notice, or post-interview evidence request.', 'Interview reschedule requests must be submitted before the interview date.', 'Missed interviews require immediate remedy to avoid N-400 denial.', 'Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).'],
+  },
 ];
 
 // ─── Stage classification ─────────────────────────────────────────────────────

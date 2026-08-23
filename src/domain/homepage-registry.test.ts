@@ -381,7 +381,7 @@ describe('Homepage + Registry Certification', () => {
   describe('Stage count summary', () => {
     it('reports correct stage distribution', () => {
       const counts = getStageCounts();
-      expect(counts['GOLD-CERTIFIED']).toBe(9);
+      expect(counts['GOLD-CERTIFIED']).toBe(11);
       expect(counts.EXECUTABLE).toBe(3);
       expect(counts.ALIAS).toBeGreaterThanOrEqual(15);
     });

@@ -12,19 +12,21 @@ import {
   FOIA_CERTIFICATION,
   APPEAL_CERTIFICATION,
   I797_CERTIFICATION,
+  NATURALIZATION_CERTIFICATION,
 } from './certification-registry';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 9 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(9);
+  it('contains 11 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(11);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 9 workflows have certification records', () => {
+  it('all 11 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'case-inquiry', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter', 'noid-response',
+      'biometrics-scheduling', 'case-inquiry', 'i-130-response', 'i-797-notice', 'immigration-appeal-letter',
+      'naturalization-citizenship', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
   });
@@ -183,7 +185,7 @@ describe('Certification Registry', () => {
     expect(getCertification('nonexistent')).toBeUndefined();
   });
 
-  it('isCertified returns true for all 9 workflows', () => {
+  it('isCertified returns true for all 11 workflows', () => {
     expect(isCertified('rfe-response')).toBe(true);
     expect(isCertified('noid-response')).toBe(true);
     expect(isCertified('uscis-denial-rejection')).toBe(true);
@@ -193,11 +195,13 @@ describe('Certification Registry', () => {
     expect(isCertified('immigration-appeal-letter')).toBe(true);
     expect(isCertified('i-797-notice')).toBe(true);
     expect(isCertified('case-inquiry')).toBe(true);
+    expect(isCertified('biometrics-scheduling')).toBe(true);
+    expect(isCertified('naturalization-citizenship')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
-  it('getAllCertifications returns all 9', () => {
-    expect(getAllCertifications()).toHaveLength(9);
+  it('getAllCertifications returns all 11', () => {
+    expect(getAllCertifications()).toHaveLength(11);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
@@ -217,7 +221,7 @@ describe('Certification Registry', () => {
 
   it('pipeline distribution covers multiple archetypes', () => {
     const pipelines = new Set(CERTIFICATION_REGISTRY.map(r => r.pipeline.split(' ')[0]));
-    expect(pipelines.size).toBeGreaterThanOrEqual(4); // P01, P02, P03, P05, P08
+    expect(pipelines.size).toBeGreaterThanOrEqual(5); // P01, P02, P03, P05, P06, P08
   });
 
   it('specialist modules are unique per workflow', () => {

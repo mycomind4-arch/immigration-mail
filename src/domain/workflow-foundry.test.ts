@@ -91,7 +91,7 @@ describe('G7: Workflow registry', () => {
     expect(counts.EXECUTABLE).toBe(3);
     expect(counts.CATALOG).toBe(0);
     expect(counts.ALIAS).toBe(15);
-    expect(counts['GOLD-CERTIFIED']).toBe(9);
+    expect(counts['GOLD-CERTIFIED']).toBe(11);
   });
 });
 

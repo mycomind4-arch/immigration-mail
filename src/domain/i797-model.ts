@@ -49,6 +49,8 @@ export type RoutingTarget =
   | 'i-130-response'
   | 'uscis-foia'
   | 'case-inquiry'
+  | 'biometrics-scheduling'
+  | 'naturalization-citizenship'
   | 'no_action'
   | 'unknown';
 

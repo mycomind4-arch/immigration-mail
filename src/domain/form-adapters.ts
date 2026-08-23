@@ -413,7 +413,7 @@ export function getAllFormProfiles(): FormEvidenceProfile[] {
 
 export function isFormVariantCanonical(formType: string): boolean {
   // These forms are handled by the canonical RFE/NOID engines — no separate workflow needed
-  const canonicalRFEForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'generic'];
+  const canonicalRFEForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'N-600', 'generic'];
   const canonicalNOIDForms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-601', 'I-290B', 'generic'];
   return canonicalRFEForms.includes(formType) || canonicalNOIDForms.includes(formType);
 }
@@ -508,6 +508,22 @@ export const FORM_VARIANT_REGISTRY = {
   'i-90-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-90', type: 'inquiry' as const },
   'i-140-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-140', type: 'inquiry' as const },
   'i-751-case-inquiry': { canonical: 'case-inquiry', formAdapter: 'I-751', type: 'inquiry' as const },
+  // Biometrics scheduling variants — all major form types requiring biometrics
+  'i-485-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-485', type: 'inquiry' as const },
+  'i-130-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-130', type: 'inquiry' as const },
+  'n-400-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'N-400', type: 'inquiry' as const },
+  'i-765-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-765', type: 'inquiry' as const },
+  'i-90-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-90', type: 'inquiry' as const },
+  'i-140-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-140', type: 'inquiry' as const },
+  'i-751-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-751', type: 'inquiry' as const },
+  'i-589-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-589', type: 'inquiry' as const },
+  'i-129-biometrics': { canonical: 'biometrics-scheduling', formAdapter: 'I-129', type: 'inquiry' as const },
+  // Naturalization / Citizenship variants — all major form types requiring naturalization interview support
+  'n-400-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'N-400', type: 'inquiry' as const },
+  'n-600-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'N-600', type: 'inquiry' as const },
+  'i-485-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-485', type: 'inquiry' as const },
+  'i-751-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-751', type: 'inquiry' as const },
+  'i-130-naturalization': { canonical: 'naturalization-citizenship', formAdapter: 'I-130', type: 'inquiry' as const },
 };
 
 export function resolveFormVariant(slug: string): { canonical: string; formAdapter: string; type: 'rfe' | 'noid' | 'inquiry' } | undefined {

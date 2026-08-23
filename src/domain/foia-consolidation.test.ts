@@ -33,15 +33,17 @@ describe('FOIA Variant Consolidation', () => {
     expect(catalog).toHaveLength(0);
   });
 
-  it('9 GOLD-CERTIFIED canonical workflows exist', () => {
+  it('11 GOLD-CERTIFIED canonical workflows exist', () => {
     const gold = WORKFLOW_REGISTRY.filter(w => w.stage === 'GOLD-CERTIFIED');
-    expect(gold.length).toBe(9);
+    expect(gold.length).toBe(11);
     const slugs = gold.map(w => w.slug).sort();
     expect(slugs).toEqual([
+      'biometrics-scheduling',
       'case-inquiry',
       'i-130-response',
       'i-797-notice',
       'immigration-appeal-letter',
+      'naturalization-citizenship',
       'noid-response',
       'rfe-response',
       'uscis-denial-rejection',
@@ -62,7 +64,7 @@ describe('FOIA Variant Consolidation', () => {
     expect(slugs).toEqual(['explanation-letter', 'respond-to-notice', 'supporting-documents']);
   });
 
-  it('total canonical workflows = 27 (9 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
-    expect(WORKFLOW_REGISTRY.length).toBe(27);
+  it('total canonical workflows = 29 (11 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
+    expect(WORKFLOW_REGISTRY.length).toBe(29);
   });
 });

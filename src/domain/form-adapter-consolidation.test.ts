@@ -295,12 +295,12 @@ describe('Consolidation: 15. Multilingual handling remains intact', () => {
 });
 
 describe('Consolidation: Registry correctness', () => {
-  it('all 25 form variants are registered', () => {
-    expect(Object.keys(FORM_VARIANT_REGISTRY).length).toBe(25);
+  it('all 39 form variants are registered', () => {
+    expect(Object.keys(FORM_VARIANT_REGISTRY).length).toBe(39);
   });
 
   it('all form variants are canonical (handled by shared engines)', () => {
-    const forms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'generic'];
+    const forms = ['I-485', 'I-130', 'I-140', 'I-751', 'N-400', 'I-129', 'I-90', 'I-765', 'I-864', 'I-693', 'N-600', 'generic'];
     for (const f of forms) {
       expect(isFormVariantCanonical(f)).toBe(true);
     }

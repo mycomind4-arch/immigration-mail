@@ -221,6 +221,30 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["Verify case is outside normal processing time before recommending a service request.", "Expedite requests must cite qualifying criteria.", "User-initiated — no notice received."],
     relatedTerms: ["uscis case status", "uscis service request", "uscis expedite request", "case outside processing time", "uscis case delayed"],
   },
+  {
+    slug: "biometrics-scheduling",
+    title: "Resolve a Biometrics Appointment Issue",
+    h1: "Need to reschedule or fix your biometrics appointment?",
+    description: "Reschedule your USCIS biometrics appointment, remedy a missed appointment, transfer ASC locations, or correct a notice discrepancy — with mailing and proof of delivery.",
+    intent: "biometrics scheduling / ASC appointment problem",
+    primaryKeyword: "uscis biometrics reschedule",
+    monthlySearchVolume: 6600,
+    cpc: 5.2,
+    notes: ["Reschedule requests must be submitted before the appointment date.", "Missed appointments require immediate remedy to avoid denial.", "ASC transfer requests require evidence of hardship.", "Notice discrepancies should be corrected before attending."],
+    relatedTerms: ["uscis biometrics appointment", "asc appointment reschedule", "missed biometrics appointment", "fingerprint appointment uscis", "uscis biometrics notice", "asc location transfer"],
+  },
+  {
+    slug: "naturalization-citizenship",
+    title: "Resolve a Naturalization / Citizenship Issue",
+    h1: "Need help with your N-400 interview, oath ceremony, or naturalization decision?",
+    description: "Prepare for your N-400 interview, study for the civics and English tests, reschedule your interview, remedy a missed interview, address oath ceremony problems, or respond to a post-interview RFE — with mailing and proof of delivery.",
+    intent: "naturalization interview / citizenship / oath ceremony problem",
+    primaryKeyword: "n-400 interview preparation",
+    monthlySearchVolume: 8100,
+    cpc: 6.5,
+    notes: ["Interview reschedule requests must be submitted before the interview date.", "Missed interviews require immediate remedy to avoid N-400 denial.", "Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).", "Oath ceremony document corrections may require Form N-565."],
+    relatedTerms: ["n-400 interview", "naturalization test", "civics test practice", "citizenship interview preparation", "oath ceremony", "missed naturalization interview", "n-400 reschedule", "post interview rfe n-400", "naturalization decision delay"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

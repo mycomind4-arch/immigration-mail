@@ -296,10 +296,65 @@ export const CASE_INQUIRY_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+export const BIOMETRICS_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'biometrics-scheduling',
+  workflowTitle: 'Resolve a Biometrics Appointment Issue',
+  vertical: 'Immigration', pipeline: 'P06 Biometrics / Scheduling',
+  domainAdapter: 'Biometrics Domain Adapter',
+  specialistModules: ['ASC Location Resolver', 'Reschedule Analyzer', 'Missed Appointment Remedy', 'Notice Discrepancy Detector', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'biometrics-comprehensive.test.ts', testCount: 146,
+  stages: allStagesPassed({
+    intake: 'BIOMETRICS_CASE_CREATED', document_ingestion: 'BIOMETRICS_NOTICE_OPTIONAL', classification: 'BIOMETRICS_EVENT_CLASSIFIED',
+    extraction: 'BIOMETRICS_RECEIPT_ASC_DATE', provenance: 'BIOMETRICS_PROVENANCE', fact_normalization: 'BIOMETRICS_FACTS',
+    deadlines: 'BIOMETRICS_APPOINTMENT_DEADLINE', issues: 'BIOMETRICS_ISSUES', evidence: 'BIOMETRICS_EVIDENCE',
+    authority: 'BIOMETRICS_AUTHORITY', risk: 'BIOMETRICS_RISK', strategy: 'BIOMETRICS_STRATEGY', drafting: 'BIOMETRICS_DRAFT',
+    validation: 'BIOMETRICS_VALIDATED', x_ray: 'BIOMETRICS_XRAY', blocking_gates: 'BIOMETRICS_GATES', human_review: 'BIOMETRICS_REVIEW',
+    explicit_approval: 'BIOMETRICS_APPROVED', payment: 'BIOMETRICS_PAID', fulfillment: 'BIOMETRICS_FULFILLED',
+    provider_submission: 'BIOMETRICS_PROVIDER', tracking: 'BIOMETRICS_TRACKING', proof: 'BIOMETRICS_PROOF',
+    audit: 'BIOMETRICS_AUDIT', idempotency: 'BIOMETRICS_IDEMPOTENT', owner_isolation: 'BIOMETRICS_ISOLATED', failure_retry: 'BIOMETRICS_RETRY',
+  }),
+};
+
+
+export const NATURALIZATION_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'naturalization-citizenship',
+  workflowTitle: 'Resolve a Naturalization / Citizenship Issue',
+  vertical: 'Immigration', pipeline: 'P07 Naturalization / Citizenship',
+  domainAdapter: 'Naturalization Domain Adapter',
+  specialistModules: ['Interview Preparation Guide', 'Civics Test Readiness Analyzer', 'Reschedule Analyzer', 'Missed Interview Remedy', 'Notice Discrepancy Detector', 'Oath Ceremony Resolver', 'Post-Interview RFE Handler', 'Delayed Decision Analyzer', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'naturalization-comprehensive.test.ts', testCount: 231,
+  stages: allStagesPassed({
+    intake: 'NATURALIZATION_CASE_CREATED', document_ingestion: 'NATURALIZATION_NOTICE_OPTIONAL', classification: 'NATURALIZATION_EVENT_CLASSIFIED',
+    extraction: 'NATURALIZATION_RECEIPT_INTERVIEW_DATE', provenance: 'NATURALIZATION_PROVENANCE', fact_normalization: 'NATURALIZATION_FACTS',
+    deadlines: 'NATURALIZATION_INTERVIEW_DEADLINE', issues: 'NATURALIZATION_ISSUES', evidence: 'NATURALIZATION_EVIDENCE',
+    authority: 'NATURALIZATION_AUTHORITY', risk: 'NATURALIZATION_RISK', strategy: 'NATURALIZATION_STRATEGY', drafting: 'NATURALIZATION_DRAFT',
+    validation: 'NATURALIZATION_VALIDATED', x_ray: 'NATURALIZATION_XRAY', blocking_gates: 'NATURALIZATION_GATES', human_review: 'NATURALIZATION_REVIEW',
+    explicit_approval: 'NATURALIZATION_APPROVED', payment: 'NATURALIZATION_PAID', fulfillment: 'NATURALIZATION_FULFILLED',
+    provider_submission: 'NATURALIZATION_PROVIDER', tracking: 'NATURALIZATION_TRACKING', proof: 'NATURALIZATION_PROOF',
+    audit: 'NATURALIZATION_AUDIT', idempotency: 'NATURALIZATION_IDEMPOTENT', owner_isolation: 'NATURALIZATION_ISOLATED', failure_retry: 'NATURALIZATION_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
-  CASE_INQUIRY_CERTIFICATION,
+  CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {
