@@ -293,6 +293,18 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["Eligibility category (e.g., (c)(9), (c)(8), (a)(5)) determines evidence requirements and filing procedures.", "USCIS recommends filing renewals 90-180 days before EAD expiration.", "Automatic extension rules changed on Oct. 30, 2025 — renewals filed on/after that date get 0 days.", "Filing fee: $520 paper, $470 online, $260 with I-485, free for initial asylum applicants.", "RFE/NOID for I-765 route to existing RFE/NOID engines with I-765 form adapter."],
     relatedTerms: ["i 765", "work permit", "ead renewal", "employment authorization", "ead category", "c9 ead", "c8 asylum ead", "work permit renewal", "ead replacement", "employment authorization document"],
   },
+  {
+    slug: "i131-travel-document",
+    title: "Advance Parole / Travel Document (I-131)",
+    h1: "Need to travel while your green card is pending? File your I-131 advance parole.",
+    description: "File Form I-131 for advance parole, re-entry permit, refugee travel document, or emergency advance parole — detect your document type, analyze travel risk (I-485 abandonment, dual-intent exception), verify evidence, and manage the full filing lifecycle.",
+    intent: "I-131 travel document or advance parole filing",
+    primaryKeyword: "advance parole",
+    monthlySearchVolume: 18100,
+    cpc: 14.0,
+    notes: ["Four document types: advance parole (pending I-485), re-entry permit (LPR), refugee travel document (refugee/asylee), TPS travel authorization.", "Travel without advance parole while I-485 is pending results in abandonment (H-1B/L-1 dual-intent exception applies).", "Emergency advance parole requires evidence of emergency at local USCIS field office.", "Re-entry permits valid up to 2 years; refugee travel documents valid 1 year; advance parole ~1 year.", "Filing fee: $630 paper, $580 online."],
+    relatedTerms: ["advance parole", "i 131", "travel document", "re-entry permit", "refugee travel document", "emergency advance parole", "travel while i-485 pending", "advance parole renewal", "combo card", "i-512"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

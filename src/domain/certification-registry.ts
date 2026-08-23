@@ -462,6 +462,34 @@ export const I765_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+
+export const I131_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'i131-travel-document',
+  workflowTitle: 'Advance Parole / Travel Document (I-131)',
+  vertical: 'Immigration', pipeline: 'P13 Travel Documents',
+  domainAdapter: 'I-131 Advance Parole / Travel Document Adapter',
+  specialistModules: ['Travel Doc Type Detector', 'Application Type Classifier', 'Underlying Status Analyzer', 'Travel Urgency Detector', 'Doc Expiration Analyzer', 'Travel Risk Analyzer', 'Emergency Evidence Analyzer', 'Evidence Gap Detector', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'i131-comprehensive.test.ts', testCount: 210,
+  stages: allStagesPassed({
+    intake: 'I131_CASE_CREATED', document_ingestion: 'I131_DOC_INGESTED', classification: 'I131_DOC_TYPE_CLASSIFIED',
+    extraction: 'I131_EVIDENCE_DETECTED', provenance: 'I131_PROVENANCE', fact_normalization: 'I131_FACTS',
+    deadlines: 'I131_EXPIRATION', issues: 'I131_ISSUES', evidence: 'I131_EVIDENCE',
+    authority: 'I131_AUTHORITY', risk: 'I131_RISK', strategy: 'I131_STRATEGY', drafting: 'I131_DRAFT',
+    validation: 'I131_VALIDATED', x_ray: 'I131_XRAY', blocking_gates: 'I131_GATES', human_review: 'I131_REVIEW',
+    explicit_approval: 'I131_APPROVED', payment: 'I131_PAID', fulfillment: 'I131_FULFILLED',
+    provider_submission: 'I131_PROVIDER', tracking: 'I131_TRACKING', proof: 'I131_PROOF',
+    audit: 'I131_AUDIT', idempotency: 'I131_IDEMPOTENT', owner_isolation: 'I131_ISOLATED', failure_retry: 'I131_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
@@ -469,6 +497,7 @@ export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   I751_CERTIFICATION,
   I601_CERTIFICATION,
   I765_CERTIFICATION,
+  I131_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {

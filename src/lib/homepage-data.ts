@@ -139,6 +139,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Advance Parole / Travel Document (I-131)',
+    purpose: 'Need to travel while your green card application is pending? File I-131 for advance parole, re-entry permit, or refugee travel document — we detect your document type, analyze travel risk, verify evidence, and prepare your application.',
+    route: '/i131-travel-document',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -254,6 +261,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'i751-removal-conditions': '/i751-removal-conditions',
     'i601-waiver': '/i601-waiver',
     'i765-employment-authorization': '/i765-employment-authorization',
+    'i131-travel-document': '/i131-travel-document',
   };
 
   return goldSlugs.filter(slug => {
@@ -287,6 +295,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
           'i751-removal-conditions': '/i751-removal-conditions',
           'i601-waiver': '/i601-waiver',
           'i765-employment-authorization': '/i765-employment-authorization',
+          'i131-travel-document': '/i131-travel-document',
         };
         return slugToRoute[w.slug] === c.route;
       });

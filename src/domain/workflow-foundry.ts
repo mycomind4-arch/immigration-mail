@@ -365,6 +365,17 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
 
 
 
+
+  {
+    slug: 'i131-travel-document',
+    title: 'Advance Parole / Travel Document (I-131)',
+    description: 'File I-131 for advance parole, re-entry permit, refugee travel document, or emergency advance parole — detect document type, analyze travel risk (I-485 abandonment, dual-intent exception, country of persecution), check expiration, verify underlying status, manage evidence, biometrics, and handle RFE/NOID and case-inquiry routing.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['travel_document', 'advance_parole', 'reentry_permit', 'refugee_travel', 'emergency_travel', 'replacement'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Four document types: advance parole, re-entry permit, refugee travel document, TPS travel authorization.', 'Travel without advance parole while I-485 is pending results in abandonment (H-1B/L-1 dual-intent exception applies).', 'Emergency advance parole requires evidence of emergency at local USCIS field office.', 'Re-entry permits valid up to 2 years; refugee travel documents valid 1 year; advance parole ~1 year.', 'RFE/NOID for I-131 route to existing RFE/NOID engines.'],
+  },
   {
     slug: 'i765-employment-authorization',
     title: 'Employment Authorization Document (I-765 EAD / Work Permit)',
