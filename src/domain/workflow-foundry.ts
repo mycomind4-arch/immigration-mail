@@ -242,8 +242,8 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
   {
     slug: 'i-797-notice',
     title: 'Understand an I-797 / I-797C Notice',
-    description: 'Understand a USCIS Notice of Action and what to do next.',
-    stage: 'CATALOG',
+    description: 'Understand a USCIS Notice of Action and route to the appropriate workflow.',
+    stage: 'EXECUTABLE',
     handlesIssueTypes: ['unknown', 'status_problem'],
     agencies: ['USCIS'],
     composable: true,

@@ -26,6 +26,7 @@ import { Route as AppealIndexRouteImport } from './routes/appeal/index'
 import { Route as AppealSlugRouteImport } from './routes/appeal/$slug'
 import { Route as I130IndexRouteImport } from './routes/i-130/index'
 import { Route as I130SlugRouteImport } from './routes/i-130/$slug'
+import { Route as I797NoticeIndexRouteImport } from './routes/i-797-notice/index'
 import { Route as NoidIndexRouteImport } from './routes/noid/index'
 import { Route as NoidSlugRouteImport } from './routes/noid/$slug'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
@@ -124,6 +125,11 @@ const I130SlugRoute = I130SlugRouteImport.update({
   path: '/i-130/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const I797NoticeIndexRoute = I797NoticeIndexRouteImport.update({
+  id: '/i-797-notice/',
+  path: '/i-797-notice/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoidIndexRoute = NoidIndexRouteImport.update({
   id: '/noid/',
   path: '/noid/',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/appeal/': typeof AppealIndexRoute
   '/i-130/': typeof I130IndexRoute
+  '/i-797-notice/': typeof I797NoticeIndexRoute
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/appeal': typeof AppealIndexRoute
   '/i-130': typeof I130IndexRoute
+  '/i-797-notice': typeof I797NoticeIndexRoute
   '/noid': typeof NoidIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/rfe': typeof RfeIndexRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
   '/appeal/': typeof AppealIndexRoute
   '/i-130/': typeof I130IndexRoute
+  '/i-797-notice/': typeof I797NoticeIndexRoute
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/workflows/supporting-documents'
     | '/appeal/'
     | '/i-130/'
+    | '/i-797-notice/'
     | '/noid/'
     | '/resources/'
     | '/rfe/'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/workflows/supporting-documents'
     | '/appeal'
     | '/i-130'
+    | '/i-797-notice'
     | '/noid'
     | '/resources'
     | '/rfe'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/workflows/supporting-documents'
     | '/appeal/'
     | '/i-130/'
+    | '/i-797-notice/'
     | '/noid/'
     | '/resources/'
     | '/rfe/'
@@ -400,6 +412,7 @@ export interface RootRouteChildren {
   VisaRefusalSlugRoute: typeof VisaRefusalSlugRoute
   AppealIndexRoute: typeof AppealIndexRoute
   I130IndexRoute: typeof I130IndexRoute
+  I797NoticeIndexRoute: typeof I797NoticeIndexRoute
   NoidIndexRoute: typeof NoidIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   RfeIndexRoute: typeof RfeIndexRoute
@@ -525,6 +538,13 @@ declare module '@tanstack/react-router' {
       path: '/i-130/$slug'
       fullPath: '/i-130/$slug'
       preLoaderRoute: typeof I130SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/i-797-notice/': {
+      id: '/i-797-notice/'
+      path: '/i-797-notice'
+      fullPath: '/i-797-notice/'
+      preLoaderRoute: typeof I797NoticeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/noid/': {
@@ -654,6 +674,7 @@ const rootRouteChildren: RootRouteChildren = {
   VisaRefusalSlugRoute: VisaRefusalSlugRoute,
   AppealIndexRoute: AppealIndexRoute,
   I130IndexRoute: I130IndexRoute,
+  I797NoticeIndexRoute: I797NoticeIndexRoute,
   NoidIndexRoute: NoidIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   RfeIndexRoute: RfeIndexRoute,
