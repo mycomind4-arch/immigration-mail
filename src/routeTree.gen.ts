@@ -22,6 +22,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RespondToAUscisNoticeRouteImport } from './routes/respond-to-a-uscis-notice'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WorkflowsRouteImport } from './routes/workflows'
+import { Route as NoidIndexRouteImport } from './routes/noid/index'
+import { Route as NoidSlugRouteImport } from './routes/noid/$slug'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as RfeIndexRouteImport } from './routes/rfe/index'
@@ -96,6 +98,16 @@ const WorkflowsRoute = WorkflowsRouteImport.update({
   path: '/workflows',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NoidIndexRoute = NoidIndexRouteImport.update({
+  id: '/noid/',
+  path: '/noid/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoidSlugRoute = NoidSlugRouteImport.update({
+  id: '/noid/$slug',
+  path: '/noid/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/resources/',
   path: '/resources/',
@@ -154,12 +166,14 @@ export interface FileRoutesByFullPath {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
 }
@@ -177,12 +191,14 @@ export interface FileRoutesByTo {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/noid': typeof NoidIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/rfe': typeof RfeIndexRoute
 }
@@ -201,12 +217,14 @@ export interface FileRoutesById {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/rfe/$slug': typeof RfeSlugRoute
   '/workflows/$workflowSlug': typeof WorkflowsWorkflowSlugRoute
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/rfe/': typeof RfeIndexRoute
 }
@@ -226,12 +244,14 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/noid/'
     | '/resources/'
     | '/rfe/'
   fileRoutesByTo: FileRoutesByTo
@@ -249,12 +269,14 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/noid'
     | '/resources'
     | '/rfe'
   id:
@@ -272,12 +294,14 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/noid/$slug'
     | '/resources/$slug'
     | '/rfe/$slug'
     | '/workflows/$workflowSlug'
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/noid/'
     | '/resources/'
     | '/rfe/'
   fileRoutesById: FileRoutesById
@@ -296,8 +320,10 @@ export interface RootRouteChildren {
   RespondToAUscisNoticeRoute: typeof RespondToAUscisNoticeRoute
   TermsRoute: typeof TermsRoute
   WorkflowsRoute: typeof WorkflowsRouteWithChildren
+  NoidSlugRoute: typeof NoidSlugRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
   RfeSlugRoute: typeof RfeSlugRoute
+  NoidIndexRoute: typeof NoidIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   RfeIndexRoute: typeof RfeIndexRoute
 }
@@ -395,6 +421,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/noid/': {
+      id: '/noid/'
+      path: '/noid'
+      fullPath: '/noid/'
+      preLoaderRoute: typeof NoidIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/noid/$slug': {
+      id: '/noid/$slug'
+      path: '/noid/$slug'
+      fullPath: '/noid/$slug'
+      preLoaderRoute: typeof NoidSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources/': {
       id: '/resources/'
       path: '/resources'
@@ -486,8 +526,10 @@ const rootRouteChildren: RootRouteChildren = {
   RespondToAUscisNoticeRoute: RespondToAUscisNoticeRoute,
   TermsRoute: TermsRoute,
   WorkflowsRoute: WorkflowsRouteWithChildren,
+  NoidSlugRoute: NoidSlugRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
   RfeSlugRoute: RfeSlugRoute,
+  NoidIndexRoute: NoidIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   RfeIndexRoute: RfeIndexRoute,
 }
