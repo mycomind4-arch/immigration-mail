@@ -1,53 +1,58 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { findNOIDPage } from "@/domain/noid-content";
+import { getAllFormProfiles, generateFormSpecificNOIDContent } from "@/domain/form-adapters";
 
 export const Route = createFileRoute('/noid/$slug')({
   head: ({ params }) => {
-    const page = findNOIDPage(`/noid/${params.slug}`);
-    if (!page) {
-      return { meta: [{ title: 'Page Not Found — Immigration Mail' }] };
-    }
+    const forms = getAllFormProfiles();
+    const form = forms.find(f => {
+      const content = generateFormSpecificNOIDContent(f.formType);
+      return content?.slug === params.slug;
+    });
+    const content = form ? generateFormSpecificNOIDContent(form.formType) : undefined;
+    if (!content) return { meta: [{ title: 'Page Not Found — Immigration Mail' }] };
     return {
       meta: [
-        { title: page.title },
-        { name: 'description', content: page.description },
+        { title: content.title },
+        { name: 'description', content: content.description },
       ],
-      links: [{ rel: 'canonical', href: page.canonical }],
-      ...(page.faqSchema ? {
-        script: [
-          {
-            type: 'application/ld+json',
-            children: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              mainEntity: page.faqSchema.map(faq => ({
-                '@type': 'Question',
-                name: faq.question,
-                acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-              })),
-            }),
-          },
-        ],
-      } : {}),
+      links: [{ rel: 'canonical', href: content.canonical }],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: content.faqSchema.map(faq => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          }),
+        },
+      ],
     };
   },
-  component: NOIDSupportingPage,
+  component: NOIDFormSpecificPage,
 });
 
-function NOIDSupportingPage() {
+function NOIDFormSpecificPage() {
   const { slug } = Route.useParams();
-  const page = findNOIDPage(`/noid/${slug}`);
+  const forms = getAllFormProfiles();
+  const form = forms.find(f => {
+    const content = generateFormSpecificNOIDContent(f.formType);
+    return content?.slug === slug;
+  });
+  const content = form ? generateFormSpecificNOIDContent(form.formType) : undefined;
 
-  if (!page) {
+  if (!content || !form) {
     return (
       <div className="min-h-screen">
         <SiteHeader />
         <main>
           <div className="mx-auto max-w-4xl px-6 py-24 text-center">
             <h1 className="text-3xl" style={{ fontFamily: 'var(--font-serif)' }}>Page not found</h1>
-            <p className="mt-4 text-ink-soft">This NOID resource page doesn't exist.</p>
             <Link to="/noid" className="mt-6 inline-flex rounded-full bg-primary px-6 py-3 text-primary-foreground">
               Back to NOID hub
             </Link>
@@ -58,7 +63,7 @@ function NOIDSupportingPage() {
     );
   }
 
-  const sections = page.content.split('\n## ');
+  const sections = content.content.split('\n## ');
 
   return (
     <div className="min-h-screen">
@@ -67,18 +72,11 @@ function NOIDSupportingPage() {
         <nav className="border-b border-rule/40 bg-paper-deep/20">
           <div className="mx-auto max-w-4xl px-6 py-3">
             <div className="flex items-center gap-2 text-sm text-ink-soft">
-              {page.breadcrumbs.map((crumb, idx) => (
-                <span key={idx} className="flex items-center gap-2">
-                  {idx > 0 && <span className="text-rule">/</span>}
-                  {idx < page.breadcrumbs.length - 1 ? (
-                    <Link to={crumb.path === '/' ? '/' : crumb.path.startsWith('/noid/') ? '/noid/$slug' : '/noid'} params={crumb.path === '/' ? {} : { slug: crumb.path.replace('/noid/', '') }} className="hover:text-ink">
-                      {crumb.label}
-                    </Link>
-                  ) : (
-                    <span className="text-ink">{crumb.label}</span>
-                  )}
-                </span>
-              ))}
+              <Link to="/" className="hover:text-ink">Home</Link>
+              <span className="text-rule">/</span>
+              <Link to="/noid" className="hover:text-ink">NOID</Link>
+              <span className="text-rule">/</span>
+              <span className="text-ink">{form.formType}</span>
             </div>
           </div>
         </nav>
@@ -86,20 +84,18 @@ function NOIDSupportingPage() {
         <section className="border-b border-rule/60">
           <div className="mx-auto max-w-4xl px-6 py-12 md:py-16">
             <h1 className="text-3xl leading-tight md:text-5xl" style={{ fontFamily: 'var(--font-serif)' }}>
-              {page.h1}
+              {content.h1}
             </h1>
-            <p className="mt-4 text-lg text-ink-soft max-w-2xl">{page.description}</p>
+            <p className="mt-4 text-lg text-ink-soft max-w-2xl">{content.description}</p>
           </div>
         </section>
 
-        {page.faqSchema && page.faqSchema.length > 0 && (
+        {content.faqSchema.length > 0 && (
           <section className="bg-paper-deep/40 border-b border-rule/60">
             <div className="mx-auto max-w-4xl px-6 py-12">
-              <h2 className="text-xl md:text-2xl mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
-                Common Questions
-              </h2>
+              <h2 className="text-xl md:text-2xl mb-6" style={{ fontFamily: 'var(--font-serif)' }}>Common Questions</h2>
               <div className="space-y-4">
-                {page.faqSchema.map((faq, idx) => (
+                {content.faqSchema.map((faq, idx) => (
                   <div key={idx} className="envelope-card p-5">
                     <h3 className="font-medium">{faq.question}</h3>
                     <p className="mt-2 text-sm text-ink-soft">{faq.answer}</p>
@@ -117,13 +113,11 @@ function NOIDSupportingPage() {
                 const [heading, ...body] = section.split('\n');
                 return (
                   <div key={idx}>
-                    <h2 className="text-xl md:text-2xl mb-3" style={{ fontFamily: 'var(--font-serif)' }}>
-                      {heading}
-                    </h2>
+                    <h2 className="text-xl md:text-2xl mb-3" style={{ fontFamily: 'var(--font-serif)' }}>{heading}</h2>
                     <div className="text-ink-soft space-y-2">
-                      {body.join('\n').trim().split('\n').map((line, i) => (
+                      {body.join('\n').trim().split('\n').map((line, i) =>
                         line.trim() && <p key={i}>{line.trim()}</p>
-                      ))}
+                      )}
                     </div>
                   </div>
                 );
@@ -136,10 +130,10 @@ function NOIDSupportingPage() {
           <div className="mx-auto max-w-4xl px-6 py-12">
             <div className="envelope-card p-8 text-center">
               <h2 className="text-xl md:text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>
-                Upload your NOID to get started
+                Upload your {form.formType} NOID to get started
               </h2>
               <p className="mt-3 text-ink-soft">
-                We'll read your notice, explain what USCIS is challenging, and help you build your response.
+                We'll read your NOID, identify the denial grounds, and help you prepare your response.
               </p>
               <Link
                 to="/respond-to-a-uscis-notice"
@@ -147,34 +141,6 @@ function NOIDSupportingPage() {
               >
                 Upload your NOID →
               </Link>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-t border-rule/60">
-          <div className="mx-auto max-w-4xl px-6 py-8">
-            <h3 className="text-sm font-medium text-ink-soft mb-3">Related Resources</h3>
-            <div className="flex flex-wrap gap-3">
-              {page.relatedPages.map(path => {
-                const relSlug = path.replace('/noid/', '');
-                if (path === '/noid') {
-                  return (
-                    <Link key={path} to="/noid" className="rounded-full border border-rule px-4 py-2 text-sm hover:border-stamp">
-                      NOID Hub
-                    </Link>
-                  );
-                }
-                return (
-                  <Link
-                    key={path}
-                    to="/noid/$slug"
-                    params={{ slug: relSlug }}
-                    className="rounded-full border border-rule px-4 py-2 text-sm hover:border-stamp"
-                  >
-                    {relSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                  </Link>
-                );
-              })}
             </div>
           </div>
         </section>

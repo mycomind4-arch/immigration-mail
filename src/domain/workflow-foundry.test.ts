@@ -75,7 +75,8 @@ describe('G7: Workflow registry', () => {
   it('stage counts distinguish catalog from executable', () => {
     const counts = getStageCounts();
     expect(counts.EXECUTABLE).toBe(3);
-    expect(counts.CATALOG).toBeGreaterThanOrEqual(15);
+    expect(counts.CATALOG).toBeGreaterThanOrEqual(11);
+    expect(counts.ALIAS).toBe(4);
     expect(counts['GOLD-CERTIFIED']).toBe(0);
   });
 });

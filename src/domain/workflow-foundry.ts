@@ -17,9 +17,9 @@ import type { CaseReasoning, CandidateWorkflow } from './case-reasoning';
 
 // ─── Workflow Stages ──────────────────────────────────────────────────────────
 
-export type WorkflowStage = 'CATALOG' | 'CONTRACT' | 'EXECUTABLE' | 'GOLD-CERTIFIED';
+export type WorkflowStage = 'ALIAS' | 'CATALOG' | 'CONTRACT' | 'EXECUTABLE' | 'GOLD-CERTIFIED';
 
-export const STAGE_ORDER: WorkflowStage[] = ['CATALOG', 'CONTRACT', 'EXECUTABLE', 'GOLD-CERTIFIED'];
+export const STAGE_ORDER: WorkflowStage[] = ['ALIAS', 'CATALOG', 'CONTRACT', 'EXECUTABLE', 'GOLD-CERTIFIED'];
 
 // ─── Workflow Registry Entry ─────────────────────────────────────────────────
 
@@ -157,45 +157,57 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     requiresDeadline: true,
     composable: true,
   },
+  // ─── Form-Specific Variants (ALIASES — not separate workflows) ───────────────
+  // These are keyword aliases that route to the canonical RFE/NOID engines
+  // via form-specific adapters. They do NOT have their own workflow engines.
+  // See: src/domain/form-adapters.ts — FORM_VARIANT_REGISTRY
   {
     slug: 'i-140-rfe-response',
     title: 'Respond to an I-140 RFE',
-    description: 'Prepare a response for an I-140 employment petition RFE.',
-    stage: 'CATALOG',
+    description: 'Form-specific alias for the canonical RFE engine. Routes to rfe-response with I-140 adapter.',
+    stage: 'ALIAS',
     handlesIssueTypes: ['rfe'],
     agencies: ['USCIS'],
     requiresDeadline: true,
     composable: true,
+    canonicalWorkflow: 'rfe-response',
+    formAdapter: 'I-140',
   },
   {
     slug: 'i-485-rfe-response',
     title: 'Respond to an I-485 RFE',
-    description: 'Prepare a response for an I-485 adjustment of status RFE.',
-    stage: 'CATALOG',
+    description: 'Form-specific alias for the canonical RFE engine. Routes to rfe-response with I-485 adapter.',
+    stage: 'ALIAS',
     handlesIssueTypes: ['rfe'],
     agencies: ['USCIS'],
     requiresDeadline: true,
     composable: true,
+    canonicalWorkflow: 'rfe-response',
+    formAdapter: 'I-485',
   },
   {
     slug: 'n-400-rfe-response',
     title: 'Respond to an N-400 RFE',
-    description: 'Prepare a response for an N-400 naturalization RFE.',
-    stage: 'CATALOG',
+    description: 'Form-specific alias for the canonical RFE engine. Routes to rfe-response with N-400 adapter.',
+    stage: 'ALIAS',
     handlesIssueTypes: ['rfe'],
     agencies: ['USCIS'],
     requiresDeadline: true,
     composable: true,
+    canonicalWorkflow: 'rfe-response',
+    formAdapter: 'N-400',
   },
   {
     slug: 'i-751-noid',
     title: 'Respond to an I-751 NOID',
-    description: 'Prepare a response for an I-751 conditional residency NOID.',
-    stage: 'CATALOG',
+    description: 'Form-specific alias for the canonical NOID engine. Routes to noid-response with I-751 adapter.',
+    stage: 'ALIAS',
     handlesIssueTypes: ['noid'],
     agencies: ['USCIS'],
     requiresDeadline: true,
     composable: true,
+    canonicalWorkflow: 'noid-response',
+    formAdapter: 'I-751',
   },
   {
     slug: 'visa-refusal-response',
@@ -258,6 +270,7 @@ export function isGoldCertified(slug: string): boolean {
 
 export function getStageCounts(): Record<WorkflowStage, number> {
   const counts: Record<WorkflowStage, number> = {
+    ALIAS: 0,
     CATALOG: 0,
     CONTRACT: 0,
     EXECUTABLE: 0,
