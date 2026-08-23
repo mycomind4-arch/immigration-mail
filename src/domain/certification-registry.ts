@@ -490,6 +490,34 @@ export const I131_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+
+export const I90_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'i90-green-card-renewal',
+  workflowTitle: 'Green Card Renewal / Replacement (I-90)',
+  vertical: 'Immigration', pipeline: 'P14 Green Card Renewal',
+  domainAdapter: 'I-90 Application to Replace Permanent Resident Card Adapter',
+  specialistModules: ['Card Type Detector', 'Filing Reason Classifier', 'Filing Window Analyzer', 'Naturalization Alternative Checker', 'I-90 vs I-751 Distinction', 'Evidence Gap Detector', 'Fee Analyzer', '36-Month Extension Analyzer', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'i90-comprehensive.test.ts', testCount: 171,
+  stages: allStagesPassed({
+    intake: 'I90_CASE_CREATED', document_ingestion: 'I90_DOC_INGESTED', classification: 'I90_CARD_TYPE_CLASSIFIED',
+    extraction: 'I90_EVIDENCE_DETECTED', provenance: 'I90_PROVENANCE', fact_normalization: 'I90_FACTS',
+    deadlines: 'I90_FILING_WINDOW', issues: 'I90_ISSUES', evidence: 'I90_EVIDENCE',
+    authority: 'I90_AUTHORITY', risk: 'I90_RISK', strategy: 'I90_STRATEGY', drafting: 'I90_DRAFT',
+    validation: 'I90_VALIDATED', x_ray: 'I90_XRAY', blocking_gates: 'I90_GATES', human_review: 'I90_REVIEW',
+    explicit_approval: 'I90_APPROVED', payment: 'I90_PAID', fulfillment: 'I90_FULFILLED',
+    provider_submission: 'I90_PROVIDER', tracking: 'I90_TRACKING', proof: 'I90_PROOF',
+    audit: 'I90_AUDIT', idempotency: 'I90_IDEMPOTENT', owner_isolation: 'I90_ISOLATED', failure_retry: 'I90_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
@@ -498,6 +526,7 @@ export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   I601_CERTIFICATION,
   I765_CERTIFICATION,
   I131_CERTIFICATION,
+  I90_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {

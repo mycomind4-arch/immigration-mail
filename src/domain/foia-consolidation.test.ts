@@ -33,9 +33,9 @@ describe('FOIA Variant Consolidation', () => {
     expect(catalog).toHaveLength(0);
   });
 
-  it('16 GOLD-CERTIFIED canonical workflows exist', () => {
+  it('17 GOLD-CERTIFIED canonical workflows exist', () => {
     const gold = WORKFLOW_REGISTRY.filter(w => w.stage === 'GOLD-CERTIFIED');
-    expect(gold.length).toBe(16);
+    expect(gold.length).toBe(17);
     const slugs = gold.map(w => w.slug).sort();
     expect(slugs).toEqual([
       'biometrics-scheduling',
@@ -47,6 +47,7 @@ describe('FOIA Variant Consolidation', () => {
       'i601-waiver',
       'i751-removal-conditions',
       'i765-employment-authorization',
+      'i90-green-card-renewal',
       'immigration-appeal-letter',
       'naturalization-citizenship',
       'noid-response',
@@ -69,7 +70,7 @@ describe('FOIA Variant Consolidation', () => {
     expect(slugs).toEqual(['explanation-letter', 'respond-to-notice', 'supporting-documents']);
   });
 
-  it('total canonical workflows = 34 (16 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
-    expect(WORKFLOW_REGISTRY.length).toBe(34);
+  it('total canonical workflows = 35 (17 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
+    expect(WORKFLOW_REGISTRY.length).toBe(35);
   });
 });

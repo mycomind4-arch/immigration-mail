@@ -146,6 +146,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Green Card Renewal / Replacement (I-90)',
+    purpose: 'Need to renew your green card or replace a lost/stolen one? We detect your card type, check the filing window, verify evidence, and prepare your I-90 application.',
+    route: '/i90-green-card-renewal',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -262,6 +269,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'i601-waiver': '/i601-waiver',
     'i765-employment-authorization': '/i765-employment-authorization',
     'i131-travel-document': '/i131-travel-document',
+    'i90-green-card-renewal': '/i90-green-card-renewal',
   };
 
   return goldSlugs.filter(slug => {
@@ -296,6 +304,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
           'i601-waiver': '/i601-waiver',
           'i765-employment-authorization': '/i765-employment-authorization',
           'i131-travel-document': '/i131-travel-document',
+          'i90-green-card-renewal': '/i90-green-card-renewal',
         };
         return slugToRoute[w.slug] === c.route;
       });

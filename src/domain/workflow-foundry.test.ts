@@ -71,6 +71,7 @@ describe('G7: Workflow registry', () => {
   expect(classifyStage('i601-waiver')).toBe('GOLD-CERTIFIED');
   expect(classifyStage('i765-employment-authorization')).toBe('GOLD-CERTIFIED');
   expect(classifyStage('i131-travel-document')).toBe('GOLD-CERTIFIED');
+  expect(classifyStage('i90-green-card-renewal')).toBe('GOLD-CERTIFIED');
   });
 
   it('isExecutable returns true only for EXECUTABLE and GOLD', () => {
@@ -98,7 +99,7 @@ describe('G7: Workflow registry', () => {
     expect(counts.EXECUTABLE).toBe(3);
     expect(counts.CATALOG).toBe(0);
     expect(counts.ALIAS).toBe(15);
-    expect(counts['GOLD-CERTIFIED']).toBe(16);
+    expect(counts['GOLD-CERTIFIED']).toBe(17);
   });
 });
 

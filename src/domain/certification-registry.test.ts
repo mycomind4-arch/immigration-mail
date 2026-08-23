@@ -17,19 +17,20 @@ import {
   I601_CERTIFICATION,
   I765_CERTIFICATION,
   I131_CERTIFICATION,
+  I90_CERTIFICATION,
 } from './certification-registry';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 16 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(16);
+  it('contains 17 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(17);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 16 workflows have certification records', () => {
+  it('all 17 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'i131-travel-document', 'i601-waiver', 'i751-removal-conditions', 'i765-employment-authorization', 'immigration-appeal-letter',
+      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'i131-travel-document', 'i601-waiver', 'i751-removal-conditions', 'i765-employment-authorization', 'i90-green-card-renewal', 'immigration-appeal-letter',
       'naturalization-citizenship', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
@@ -56,7 +57,7 @@ describe('Certification Registry', () => {
   });
 
   it('every record has a valid pipeline archetype', () => {
-    const validPipelines = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11', 'P12', 'P13'];
+    const validPipelines = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11', 'P12', 'P13', 'P14'];
     for (const r of CERTIFICATION_REGISTRY) {
       const prefix = r.pipeline.split(' ')[0];
       expect(validPipelines).toContain(prefix);
@@ -216,6 +217,16 @@ describe('Certification Registry', () => {
     expect(failed).toHaveLength(0);
   });
 
+
+  it('I-90 has all stages passed', () => {
+    expect(I90_CERTIFICATION.certified).toBe(true);
+    expect(I90_CERTIFICATION.testCount).toBeGreaterThanOrEqual(171);
+    expect(I90_CERTIFICATION.pipeline).toContain('P14');
+    expect(I90_CERTIFICATION.domainAdapter).toContain('I-90');
+    const failed = Object.entries(I90_CERTIFICATION.stages).filter(([, v]) => !v.passed);
+    expect(failed).toHaveLength(0);
+  });
+
   it('getCertification returns correct record', () => {
     expect(getCertification('rfe-response')?.workflowTitle).toBe('Respond to a USCIS RFE');
     expect(getCertification('noid-response')?.workflowTitle).toBe('Respond to a USCIS NOID');
@@ -230,10 +241,11 @@ describe('Certification Registry', () => {
     expect(getCertification('i601-waiver')?.workflowTitle).toBe('Inadmissibility Waiver (I-601 / I-601A)');
     expect(getCertification('i765-employment-authorization')?.workflowTitle).toBe('Employment Authorization Document (I-765 EAD / Work Permit)');
     expect(getCertification('i131-travel-document')?.workflowTitle).toBe('Advance Parole / Travel Document (I-131)');
+    expect(getCertification('i90-green-card-renewal')?.workflowTitle).toBe('Green Card Renewal / Replacement (I-90)');
     expect(getCertification('nonexistent')).toBeUndefined();
   });
 
-  it('isCertified returns true for all 16 workflows', () => {
+  it('isCertified returns true for all 17 workflows', () => {
     expect(isCertified('rfe-response')).toBe(true);
     expect(isCertified('noid-response')).toBe(true);
     expect(isCertified('uscis-denial-rejection')).toBe(true);
@@ -250,11 +262,12 @@ describe('Certification Registry', () => {
     expect(isCertified('i601-waiver')).toBe(true);
     expect(isCertified('i765-employment-authorization')).toBe(true);
     expect(isCertified('i131-travel-document')).toBe(true);
+    expect(isCertified('i90-green-card-renewal')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
-  it('getAllCertifications returns all 16', () => {
-    expect(getAllCertifications()).toHaveLength(16);
+  it('getAllCertifications returns all 17', () => {
+    expect(getAllCertifications()).toHaveLength(17);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
@@ -274,7 +287,7 @@ describe('Certification Registry', () => {
 
   it('pipeline distribution covers multiple archetypes', () => {
     const pipelines = new Set(CERTIFICATION_REGISTRY.map(r => r.pipeline.split(' ')[0]));
-    expect(pipelines.size).toBeGreaterThanOrEqual(9); // P01, P02, P03, P05, P06, P08
+    expect(pipelines.size).toBeGreaterThanOrEqual(10); // P01, P02, P03, P05, P06, P08
   });
 
   it('specialist modules are unique per workflow', () => {

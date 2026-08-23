@@ -305,6 +305,18 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["Four document types: advance parole (pending I-485), re-entry permit (LPR), refugee travel document (refugee/asylee), TPS travel authorization.", "Travel without advance parole while I-485 is pending results in abandonment (H-1B/L-1 dual-intent exception applies).", "Emergency advance parole requires evidence of emergency at local USCIS field office.", "Re-entry permits valid up to 2 years; refugee travel documents valid 1 year; advance parole ~1 year.", "Filing fee: $630 paper, $580 online."],
     relatedTerms: ["advance parole", "i 131", "travel document", "re-entry permit", "refugee travel document", "emergency advance parole", "travel while i-485 pending", "advance parole renewal", "combo card", "i-512"],
   },
+  {
+    slug: "i90-green-card-renewal",
+    title: "Green Card Renewal / Replacement (I-90)",
+    h1: "Need to renew or replace your green card? File your I-90 application.",
+    description: "File Form I-90 to renew an expiring 10-year green card, replace a lost/stolen/damaged card, correct USCIS errors, or update your name — we detect your card type, check the 180-day filing window, verify evidence, and manage the full filing lifecycle.",
+    intent: "I-90 green card renewal or replacement filing",
+    primaryKeyword: "green card renewal",
+    monthlySearchVolume: 49500,
+    cpc: 12.0,
+    notes: ["I-90 is for 10-year permanent resident cards only — 2-year conditional residents must file I-751 instead.", "Filing window opens 180 days before card expiration.", "USCIS error filings are free ($0).", "36-month automatic extension of green card validity upon filing I-90 (since Sep 2024).", "Filing fee: $415 online, $465 paper. Biometrics included.", "Consider N-400 naturalization instead of I-90 if eligible."],
+    relatedTerms: ["green card renewal", "i-90", "green card replacement", "permanent resident card renewal", "lost green card", "green card expired", "i-90 filing fee", "green card name change", "uscis error green card", "form i-90"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

@@ -376,6 +376,17 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     composable: true,
     rules: ['Four document types: advance parole, re-entry permit, refugee travel document, TPS travel authorization.', 'Travel without advance parole while I-485 is pending results in abandonment (H-1B/L-1 dual-intent exception applies).', 'Emergency advance parole requires evidence of emergency at local USCIS field office.', 'Re-entry permits valid up to 2 years; refugee travel documents valid 1 year; advance parole ~1 year.', 'RFE/NOID for I-131 route to existing RFE/NOID engines.'],
   },
+
+  {
+    slug: 'i90-green-card-renewal',
+    title: 'Green Card Renewal / Replacement (I-90)',
+    description: 'File I-90 to renew an expiring 10-year green card, replace a lost/stolen/damaged card, correct USCIS errors or name changes, or handle special cases (commuter status, turning 14). Detects card type (10-year vs 2-year conditional), analyzes filing window (180 days), recommends N-400 naturalization alternative, and handles RFE/NOID/case-inquiry/biometrics routing.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['green_card_renewal', 'green_card_replacement', 'green_card_correction', 'uscis_error', 'name_change', 'lost_green_card', 'stolen_green_card'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['I-90 is for 10-year permanent resident cards only — 2-year conditional residents must file I-751 instead.', 'Filing window opens 180 days before card expiration.', 'USCIS error filings are free ($0).', '36-month automatic extension of green card validity upon filing I-90 (since Sep 2024).', 'Filing fee: $415 online, $465 paper. Biometrics included.'],
+  },
   {
     slug: 'i765-employment-authorization',
     title: 'Employment Authorization Document (I-765 EAD / Work Permit)',
