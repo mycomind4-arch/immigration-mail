@@ -269,6 +269,18 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
     notes: ["I-751 must be filed within the 90-day window before conditional residence expires.", "Joint filing requires both spouses to sign.", "Waiver filing requires documentation of the waiver ground.", "Denial may lead to NTA referral to immigration court."],
     relatedTerms: ["i 751", "form i 751", "remove conditions green card", "i 751 waiver", "i 751 filing window", "conditional residence", "i 751 interview", "stokes interview", "i 751 denied", "i 751 late filing"],
   },
+  {
+    slug: "i601-waiver",
+    title: "Inadmissibility Waiver (I-601 / I-601A)",
+    h1: "Found inadmissible? Need an I-601 or I-601A waiver?",
+    description: "File Form I-601 or I-601A to waive grounds of inadmissibility — detect your ground, determine your pathway, assess extreme hardship to your qualifying relative, manage evidence, and handle RFE/NOID, denial, and consular sequencing.",
+    intent: "I-601 / I-601A inadmissibility waiver filing",
+    primaryKeyword: "i 601 waiver",
+    monthlySearchVolume: 8100,
+    cpc: 11.5,
+    notes: ["I-601 covers broad grounds (unlawful presence, fraud, criminal, health, smuggling).", "I-601A only waives unlawful presence and requires physical presence in the US.", "Extreme hardship to a qualifying relative is required for most waivers.", "I-601A approval requires departure for consular visa interview after adjudication.", "Non-waivable grounds include terrorism, espionage, and permanent bar after removal."],
+    relatedTerms: ["i 601 waiver", "i 601a waiver", "provisional waiver", "inadmissibility waiver", "extreme hardship", "qualifying relative", "unlawful presence waiver", "fraud waiver immigration", "waiver of inadmissibility", "provisional unlawful presence waiver"],
+  },
 ] as const;
 
 export function getImmigrationWorkflow(slug: string) {

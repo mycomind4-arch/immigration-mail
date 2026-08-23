@@ -406,11 +406,40 @@ export const I751_CERTIFICATION: WorkflowCertificationRecord = {
   }),
 };
 
+
+export const I601_CERTIFICATION: WorkflowCertificationRecord = {
+  workflowSlug: 'i601-waiver',
+  workflowTitle: 'Inadmissibility Waiver (I-601 / I-601A)',
+  vertical: 'Immigration', pipeline: 'P11 Inadmissibility Waiver',
+  domainAdapter: 'I-601/I-601A Inadmissibility Waiver Adapter',
+  specialistModules: ['Inadmissibility Ground Detector', 'Pathway Determination Engine', 'Qualifying Relative Analyzer', 'Extreme Hardship Factor Assessor', 'I-601A Eligibility Gate Checker', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
+  security: 'verified',
+  pricing: 'verified',
+  mailing: 'verified',
+  tracking: 'verified',
+  proof: 'verified',
+  gold: 'verified',
+  testFile: 'i601-comprehensive.test.ts', testCount: 203,
+  stages: allStagesPassed({
+    intake: 'I601_CASE_CREATED', document_ingestion: 'I601_DOC_INGESTED', classification: 'I601_PATHWAY_CLASSIFIED',
+    extraction: 'I601_GROUND_DETECTED', provenance: 'I601_PROVENANCE', fact_normalization: 'I601_FACTS',
+    deadlines: 'I601_PROCESSING_TIME', issues: 'I601_ISSUES', evidence: 'I601_EVIDENCE',
+    authority: 'I601_AUTHORITY', risk: 'I601_RISK', strategy: 'I601_STRATEGY', drafting: 'I601_DRAFT',
+    validation: 'I601_VALIDATED', x_ray: 'I601_XRAY', blocking_gates: 'I601_GATES', human_review: 'I601_REVIEW',
+    explicit_approval: 'I601_APPROVED', payment: 'I601_PAID', fulfillment: 'I601_FULFILLED',
+    provider_submission: 'I601_PROVIDER', tracking: 'I601_TRACKING', proof: 'I601_PROOF',
+    audit: 'I601_AUDIT', idempotency: 'I601_IDEMPOTENT', owner_isolation: 'I601_ISOLATED', failure_retry: 'I601_RETRY',
+  }),
+};
+
 export const CERTIFICATION_REGISTRY: WorkflowCertificationRecord[] = [
   RFE_CERTIFICATION, NOID_CERTIFICATION, DENIAL_CERTIFICATION, VISA_REFUSAL_CERTIFICATION,
   I130_CERTIFICATION, FOIA_CERTIFICATION, APPEAL_CERTIFICATION, I797_CERTIFICATION,
   CASE_INQUIRY_CERTIFICATION, BIOMETRICS_CERTIFICATION, NATURALIZATION_CERTIFICATION, CONSULAR_CERTIFICATION,
   I751_CERTIFICATION,
+  I601_CERTIFICATION,
 ];
 
 export function getCertification(slug: string): WorkflowCertificationRecord | undefined {

@@ -125,6 +125,13 @@ export const CANONICAL_WORKFLOW_CARDS: readonly CanonicalWorkflowCard[] = [
     gold: true,
     badge: 'Gold Certified',
   },
+  {
+    title: 'Inadmissibility Waiver (I-601 / I-601A)',
+    purpose: 'Found inadmissible? Need to file I-601 or I-601A? We assess your ground, qualifying relative, and extreme hardship evidence, then prepare and mail your waiver letter.',
+    route: '/i601-waiver',
+    gold: true,
+    badge: 'Gold Certified',
+  },
 ];
 
 /**
@@ -238,6 +245,7 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     'naturalization-citizenship': '/naturalization-citizenship',
     'consular-processing': '/consular-processing',
     'i751-removal-conditions': '/i751-removal-conditions',
+    'i601-waiver': '/i601-waiver',
   };
 
   return goldSlugs.filter(slug => {
@@ -269,6 +277,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
           'supporting-documents': '/workflows/supporting-documents',
           'explanation-letter': '/workflows/explanation-letter',
           'i751-removal-conditions': '/i751-removal-conditions',
+          'i601-waiver': '/i601-waiver',
         };
         return slugToRoute[w.slug] === c.route;
       });

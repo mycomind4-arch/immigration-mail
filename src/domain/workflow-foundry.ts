@@ -363,6 +363,17 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     rules: ['Triggered by N-400 interview notice, oath ceremony notice, or post-interview evidence request.', 'Interview reschedule requests must be submitted before the interview date.', 'Missed interviews require immediate remedy to avoid N-400 denial.', 'Delayed decisions over 120 days may warrant writ of mandamus under INA § 336(b).'],
   },
 
+
+  {
+    slug: 'i601-waiver',
+    title: 'Inadmissibility Waiver (I-601 / I-601A)',
+    description: 'File I-601 or I-601A waiver of inadmissibility — detect ground, determine pathway, assess extreme hardship to qualifying relative, manage evidence, and handle RFE/NOID, denial, and consular sequencing.',
+    stage: 'GOLD-CERTIFIED',
+    handlesIssueTypes: ['inadmissibility', 'waiver', 'extreme_hardship', 'unlawful_presence', 'fraud_misrepresentation'],
+    agencies: ['USCIS'],
+    composable: true,
+    rules: ['Triggered by inadmissibility finding, waiver preparation need, or I-601/I-601A-related notice.', 'I-601A only waives unlawful presence and requires applicant to be physically present in the US.', 'I-601 covers broader grounds including fraud, criminal, health, and smuggling.', 'Extreme hardship to a qualifying relative is required for most waivers.', 'I-601A approval requires departure for consular visa interview after adjudication.'],
+  },
   {
     slug: 'i751-removal-conditions',
     title: 'Remove Conditions on Residence (I-751)',

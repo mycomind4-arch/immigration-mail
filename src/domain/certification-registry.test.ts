@@ -14,19 +14,20 @@ import {
   I797_CERTIFICATION,
   NATURALIZATION_CERTIFICATION,
   I751_CERTIFICATION,
+  I601_CERTIFICATION,
 } from './certification-registry';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
 
 describe('Certification Registry', () => {
-  it('contains 13 GOLD-CERTIFIED workflows', () => {
-    expect(CERTIFICATION_REGISTRY).toHaveLength(13);
+  it('contains 14 GOLD-CERTIFIED workflows', () => {
+    expect(CERTIFICATION_REGISTRY).toHaveLength(14);
     expect(CERTIFICATION_REGISTRY.every(r => r.certified)).toBe(true);
   });
 
-  it('all 13 workflows have certification records', () => {
+  it('all 14 workflows have certification records', () => {
     const slugs = CERTIFICATION_REGISTRY.map(r => r.workflowSlug).sort();
     expect(slugs).toEqual([
-      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'i751-removal-conditions', 'immigration-appeal-letter',
+      'biometrics-scheduling', 'case-inquiry', 'consular-processing', 'i-130-response', 'i-797-notice', 'i601-waiver', 'i751-removal-conditions', 'immigration-appeal-letter',
       'naturalization-citizenship', 'noid-response',
       'rfe-response', 'uscis-denial-rejection', 'uscis-foia', 'visa-refusal-response',
     ]);
@@ -53,7 +54,7 @@ describe('Certification Registry', () => {
   });
 
   it('every record has a valid pipeline archetype', () => {
-    const validPipelines = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10'];
+    const validPipelines = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11'];
     for (const r of CERTIFICATION_REGISTRY) {
       const prefix = r.pipeline.split(' ')[0];
       expect(validPipelines).toContain(prefix);
@@ -183,6 +184,16 @@ describe('Certification Registry', () => {
     expect(failed).toHaveLength(0);
   });
 
+
+  it('I-601 has all stages passed', () => {
+    expect(I601_CERTIFICATION.certified).toBe(true);
+    expect(I601_CERTIFICATION.testCount).toBeGreaterThanOrEqual(203);
+    expect(I601_CERTIFICATION.pipeline).toContain('P11');
+    expect(I601_CERTIFICATION.domainAdapter).toContain('I-601');
+    const failed = Object.entries(I601_CERTIFICATION.stages).filter(([, v]) => !v.passed);
+    expect(failed).toHaveLength(0);
+  });
+
   it('getCertification returns correct record', () => {
     expect(getCertification('rfe-response')?.workflowTitle).toBe('Respond to a USCIS RFE');
     expect(getCertification('noid-response')?.workflowTitle).toBe('Respond to a USCIS NOID');
@@ -194,10 +205,11 @@ describe('Certification Registry', () => {
     expect(getCertification('i-797-notice')?.workflowTitle).toBe('Understand an I-797 Notice');
     expect(getCertification('case-inquiry')?.workflowTitle).toBe('Submit a USCIS Case Inquiry');
     expect(getCertification('i751-removal-conditions')?.workflowTitle).toBe('Remove Conditions on Residence (I-751)');
+    expect(getCertification('i601-waiver')?.workflowTitle).toBe('Inadmissibility Waiver (I-601 / I-601A)');
     expect(getCertification('nonexistent')).toBeUndefined();
   });
 
-  it('isCertified returns true for all 13 workflows', () => {
+  it('isCertified returns true for all 14 workflows', () => {
     expect(isCertified('rfe-response')).toBe(true);
     expect(isCertified('noid-response')).toBe(true);
     expect(isCertified('uscis-denial-rejection')).toBe(true);
@@ -211,11 +223,12 @@ describe('Certification Registry', () => {
     expect(isCertified('naturalization-citizenship')).toBe(true);
     expect(isCertified('consular-processing')).toBe(true);
     expect(isCertified('i751-removal-conditions')).toBe(true);
+    expect(isCertified('i601-waiver')).toBe(true);
     expect(isCertified('nonexistent')).toBe(false);
   });
 
-  it('getAllCertifications returns all 13', () => {
-    expect(getAllCertifications()).toHaveLength(13);
+  it('getAllCertifications returns all 14', () => {
+    expect(getAllCertifications()).toHaveLength(14);
     expect(getAllCertifications()).toBe(CERTIFICATION_REGISTRY);
   });
 
@@ -235,7 +248,7 @@ describe('Certification Registry', () => {
 
   it('pipeline distribution covers multiple archetypes', () => {
     const pipelines = new Set(CERTIFICATION_REGISTRY.map(r => r.pipeline.split(' ')[0]));
-    expect(pipelines.size).toBeGreaterThanOrEqual(6); // P01, P02, P03, P05, P06, P08
+    expect(pipelines.size).toBeGreaterThanOrEqual(7); // P01, P02, P03, P05, P06, P08
   });
 
   it('specialist modules are unique per workflow', () => {

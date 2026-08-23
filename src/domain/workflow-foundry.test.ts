@@ -68,6 +68,7 @@ describe('G7: Workflow registry', () => {
   expect(classifyStage('naturalization-citizenship')).toBe('GOLD-CERTIFIED');
   expect(classifyStage('consular-processing')).toBe('GOLD-CERTIFIED');
   expect(classifyStage('i751-removal-conditions')).toBe('GOLD-CERTIFIED');
+  expect(classifyStage('i601-waiver')).toBe('GOLD-CERTIFIED');
   });
 
   it('isExecutable returns true only for EXECUTABLE and GOLD', () => {
@@ -95,7 +96,7 @@ describe('G7: Workflow registry', () => {
     expect(counts.EXECUTABLE).toBe(3);
     expect(counts.CATALOG).toBe(0);
     expect(counts.ALIAS).toBe(15);
-    expect(counts['GOLD-CERTIFIED']).toBe(13);
+    expect(counts['GOLD-CERTIFIED']).toBe(14);
   });
 });
 
