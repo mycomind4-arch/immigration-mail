@@ -22,6 +22,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RespondToAUscisNoticeRouteImport } from './routes/respond-to-a-uscis-notice'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WorkflowsRouteImport } from './routes/workflows'
+import { Route as AppealIndexRouteImport } from './routes/appeal/index'
+import { Route as AppealSlugRouteImport } from './routes/appeal/$slug'
 import { Route as I130IndexRouteImport } from './routes/i-130/index'
 import { Route as I130SlugRouteImport } from './routes/i-130/$slug'
 import { Route as NoidIndexRouteImport } from './routes/noid/index'
@@ -100,6 +102,16 @@ const TermsRoute = TermsRouteImport.update({
 const WorkflowsRoute = WorkflowsRouteImport.update({
   id: '/workflows',
   path: '/workflows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppealIndexRoute = AppealIndexRouteImport.update({
+  id: '/appeal/',
+  path: '/appeal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppealSlugRoute = AppealSlugRouteImport.update({
+  id: '/appeal/$slug',
+  path: '/appeal/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const I130IndexRoute = I130IndexRouteImport.update({
@@ -190,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/appeal/$slug': typeof AppealSlugRoute
   '/i-130/$slug': typeof I130SlugRoute
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -199,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/appeal/': typeof AppealIndexRoute
   '/i-130/': typeof I130IndexRoute
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
@@ -219,6 +233,7 @@ export interface FileRoutesByTo {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/appeal/$slug': typeof AppealSlugRoute
   '/i-130/$slug': typeof I130SlugRoute
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -228,6 +243,7 @@ export interface FileRoutesByTo {
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/appeal': typeof AppealIndexRoute
   '/i-130': typeof I130IndexRoute
   '/noid': typeof NoidIndexRoute
   '/resources': typeof ResourcesIndexRoute
@@ -249,6 +265,7 @@ export interface FileRoutesById {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
+  '/appeal/$slug': typeof AppealSlugRoute
   '/i-130/$slug': typeof I130SlugRoute
   '/noid/$slug': typeof NoidSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -258,6 +275,7 @@ export interface FileRoutesById {
   '/workflows/explanation-letter': typeof WorkflowsExplanationLetterRoute
   '/workflows/respond-to-notice': typeof WorkflowsRespondToNoticeRoute
   '/workflows/supporting-documents': typeof WorkflowsSupportingDocumentsRoute
+  '/appeal/': typeof AppealIndexRoute
   '/i-130/': typeof I130IndexRoute
   '/noid/': typeof NoidIndexRoute
   '/resources/': typeof ResourcesIndexRoute
@@ -280,6 +298,7 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/appeal/$slug'
     | '/i-130/$slug'
     | '/noid/$slug'
     | '/resources/$slug'
@@ -289,6 +308,7 @@ export interface FileRouteTypes {
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/appeal/'
     | '/i-130/'
     | '/noid/'
     | '/resources/'
@@ -309,6 +329,7 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/appeal/$slug'
     | '/i-130/$slug'
     | '/noid/$slug'
     | '/resources/$slug'
@@ -318,6 +339,7 @@ export interface FileRouteTypes {
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/appeal'
     | '/i-130'
     | '/noid'
     | '/resources'
@@ -338,6 +360,7 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/terms'
     | '/workflows'
+    | '/appeal/$slug'
     | '/i-130/$slug'
     | '/noid/$slug'
     | '/resources/$slug'
@@ -347,6 +370,7 @@ export interface FileRouteTypes {
     | '/workflows/explanation-letter'
     | '/workflows/respond-to-notice'
     | '/workflows/supporting-documents'
+    | '/appeal/'
     | '/i-130/'
     | '/noid/'
     | '/resources/'
@@ -368,11 +392,13 @@ export interface RootRouteChildren {
   RespondToAUscisNoticeRoute: typeof RespondToAUscisNoticeRoute
   TermsRoute: typeof TermsRoute
   WorkflowsRoute: typeof WorkflowsRouteWithChildren
+  AppealSlugRoute: typeof AppealSlugRoute
   I130SlugRoute: typeof I130SlugRoute
   NoidSlugRoute: typeof NoidSlugRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
   RfeSlugRoute: typeof RfeSlugRoute
   VisaRefusalSlugRoute: typeof VisaRefusalSlugRoute
+  AppealIndexRoute: typeof AppealIndexRoute
   I130IndexRoute: typeof I130IndexRoute
   NoidIndexRoute: typeof NoidIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
@@ -471,6 +497,20 @@ declare module '@tanstack/react-router' {
       path: '/workflows'
       fullPath: '/workflows'
       preLoaderRoute: typeof WorkflowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appeal/': {
+      id: '/appeal/'
+      path: '/appeal'
+      fullPath: '/appeal/'
+      preLoaderRoute: typeof AppealIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appeal/$slug': {
+      id: '/appeal/$slug'
+      path: '/appeal/$slug'
+      fullPath: '/appeal/$slug'
+      preLoaderRoute: typeof AppealSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/i-130/': {
@@ -606,11 +646,13 @@ const rootRouteChildren: RootRouteChildren = {
   RespondToAUscisNoticeRoute: RespondToAUscisNoticeRoute,
   TermsRoute: TermsRoute,
   WorkflowsRoute: WorkflowsRouteWithChildren,
+  AppealSlugRoute: AppealSlugRoute,
   I130SlugRoute: I130SlugRoute,
   NoidSlugRoute: NoidSlugRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
   RfeSlugRoute: RfeSlugRoute,
   VisaRefusalSlugRoute: VisaRefusalSlugRoute,
+  AppealIndexRoute: AppealIndexRoute,
   I130IndexRoute: I130IndexRoute,
   NoidIndexRoute: NoidIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,

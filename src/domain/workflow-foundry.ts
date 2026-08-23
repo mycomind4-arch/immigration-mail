@@ -222,7 +222,7 @@ export const WORKFLOW_REGISTRY: WorkflowRegistryEntry[] = [
     slug: 'immigration-appeal-letter',
     title: 'Prepare an Immigration Appeal Letter',
     description: 'Prepare an appeal letter for a denied immigration application.',
-    stage: 'CATALOG',
+    stage: 'EXECUTABLE',
     handlesIssueTypes: ['denial', 'procedural_posture'],
     agencies: ['USCIS', 'EOIR', 'DOS'],
     requiresDeadline: true,

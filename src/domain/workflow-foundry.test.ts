@@ -56,6 +56,7 @@ describe('G7: Workflow registry', () => {
     expect(classifyStage('supporting-documents')).toBe('EXECUTABLE');
     expect(classifyStage('explanation-letter')).toBe('EXECUTABLE');
     expect(classifyStage('rfe-response')).toBe('CATALOG');
+    expect(classifyStage('immigration-appeal-letter')).toBe('EXECUTABLE');
     expect(classifyStage('uscis-foia')).toBe('CATALOG');
   });
 
@@ -74,7 +75,7 @@ describe('G7: Workflow registry', () => {
 
   it('stage counts distinguish catalog from executable', () => {
     const counts = getStageCounts();
-    expect(counts.EXECUTABLE).toBe(3);
+    expect(counts.EXECUTABLE).toBe(4);
     expect(counts.CATALOG).toBeGreaterThanOrEqual(11);
     expect(counts.ALIAS).toBe(4);
     expect(counts['GOLD-CERTIFIED']).toBe(0);
@@ -163,7 +164,7 @@ describe('G7: Stage integrity', () => {
     // Catalog workflows should not be executable
     expect(isExecutable('rfe-response')).toBe(false);
     expect(isExecutable('noid-response')).toBe(false);
-    expect(isExecutable('immigration-appeal-letter')).toBe(false);
+    expect(isExecutable('immigration-appeal-letter')).toBe(true);
   });
 
   it('uses reasoner to select workflows (not keyword matching)', () => {
