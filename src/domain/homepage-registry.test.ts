@@ -308,7 +308,7 @@ describe('Homepage + Registry Certification', () => {
       const rfeAliases = WORKFLOW_REGISTRY.filter(
         w => w.stage === 'ALIAS' && (w as any).canonicalWorkflow === 'rfe-response'
       );
-      expect(rfeAliases.length).toBeGreaterThanOrEqual(3);
+      expect(rfeAliases.length).toBeGreaterThanOrEqual(6);
       for (const a of rfeAliases) {
         expect((a as any).canonicalWorkflow).toBe('rfe-response');
       }
@@ -383,7 +383,7 @@ describe('Homepage + Registry Certification', () => {
       const counts = getStageCounts();
       expect(counts['GOLD-CERTIFIED']).toBe(8);
       expect(counts.EXECUTABLE).toBe(3);
-      expect(counts.ALIAS).toBeGreaterThanOrEqual(7);
+      expect(counts.ALIAS).toBeGreaterThanOrEqual(15);
     });
   });
 });

@@ -480,10 +480,19 @@ export function generateFormSpecificNOIDContent(formType: string): FormSpecificC
 // ─── Registry: Form Variant → Canonical Workflow ─────────────────────────────
 
 export const FORM_VARIANT_REGISTRY = {
+  // RFE form variants → canonical RFE engine
   'i-140-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-140', type: 'rfe' as const },
   'i-485-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-485', type: 'rfe' as const },
   'n-400-rfe-response': { canonical: 'rfe-response', formAdapter: 'N-400', type: 'rfe' as const },
+  'i-130-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-130', type: 'rfe' as const },
+  'i-751-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-751', type: 'rfe' as const },
+  'h-1b-rfe-response': { canonical: 'rfe-response', formAdapter: 'I-129', type: 'rfe' as const },
+  // NOID form variants → canonical NOID engine
+  'i-485-noid': { canonical: 'noid-response', formAdapter: 'I-485', type: 'noid' as const },
+  'i-130-noid': { canonical: 'noid-response', formAdapter: 'I-130', type: 'noid' as const },
+  'i-140-noid': { canonical: 'noid-response', formAdapter: 'I-140', type: 'noid' as const },
   'i-751-noid': { canonical: 'noid-response', formAdapter: 'I-751', type: 'noid' as const },
+  'n-400-noid': { canonical: 'noid-response', formAdapter: 'N-400', type: 'noid' as const },
 };
 
 export function resolveFormVariant(slug: string): { canonical: string; formAdapter: string; type: 'rfe' | 'noid' } | undefined {

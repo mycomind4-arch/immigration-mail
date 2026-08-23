@@ -41,9 +41,65 @@ describe('Certification Registry', () => {
     }
   });
 
+  // ── Enhanced field validation ──
+
+  it('every record has a vertical', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.vertical).toBe('Immigration');
+    }
+  });
+
+  it('every record has a valid pipeline archetype', () => {
+    const validPipelines = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10'];
+    for (const r of CERTIFICATION_REGISTRY) {
+      const prefix = r.pipeline.split(' ')[0];
+      expect(validPipelines).toContain(prefix);
+    }
+  });
+
+  it('every record has a domain adapter', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.domainAdapter.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('every record has at least one specialist module', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.specialistModules.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('every record has maturity GOLD-CERTIFIED', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.maturity).toBe('GOLD-CERTIFIED');
+    }
+  });
+
+  it('every record has build=true', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(r.build).toBe(true);
+    }
+  });
+
+  it('every record has seoContent flag', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(typeof r.seoContent).toBe('boolean');
+    }
+  });
+
+  it('every record has aiCoverage flag', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(typeof r.aiCoverage).toBe('boolean');
+    }
+  });
+
+  // ── Per-workflow checks ──
+
   it('RFE has all stages passed', () => {
     expect(RFE_CERTIFICATION.certified).toBe(true);
     expect(RFE_CERTIFICATION.testCount).toBeGreaterThanOrEqual(70);
+    expect(RFE_CERTIFICATION.pipeline).toContain('P02');
+    expect(RFE_CERTIFICATION.domainAdapter).toContain('RFE');
     const failed = Object.entries(RFE_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -51,6 +107,8 @@ describe('Certification Registry', () => {
   it('NOID has all stages passed', () => {
     expect(NOID_CERTIFICATION.certified).toBe(true);
     expect(NOID_CERTIFICATION.testCount).toBeGreaterThanOrEqual(67);
+    expect(NOID_CERTIFICATION.pipeline).toContain('P02');
+    expect(NOID_CERTIFICATION.domainAdapter).toContain('NOID');
     const failed = Object.entries(NOID_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -58,6 +116,8 @@ describe('Certification Registry', () => {
   it('Denial has all stages passed', () => {
     expect(DENIAL_CERTIFICATION.certified).toBe(true);
     expect(DENIAL_CERTIFICATION.testCount).toBeGreaterThanOrEqual(34);
+    expect(DENIAL_CERTIFICATION.pipeline).toContain('P03');
+    expect(DENIAL_CERTIFICATION.domainAdapter).toContain('Denial');
     const failed = Object.entries(DENIAL_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -65,6 +125,8 @@ describe('Certification Registry', () => {
   it('Visa Refusal has all stages passed', () => {
     expect(VISA_REFUSAL_CERTIFICATION.certified).toBe(true);
     expect(VISA_REFUSAL_CERTIFICATION.testCount).toBeGreaterThanOrEqual(52);
+    expect(VISA_REFUSAL_CERTIFICATION.pipeline).toContain('P02');
+    expect(VISA_REFUSAL_CERTIFICATION.domainAdapter).toContain('Visa');
     const failed = Object.entries(VISA_REFUSAL_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -72,6 +134,8 @@ describe('Certification Registry', () => {
   it('I-130 has all stages passed', () => {
     expect(I130_CERTIFICATION.certified).toBe(true);
     expect(I130_CERTIFICATION.testCount).toBeGreaterThanOrEqual(71);
+    expect(I130_CERTIFICATION.pipeline).toContain('P05');
+    expect(I130_CERTIFICATION.domainAdapter).toContain('I-130');
     const failed = Object.entries(I130_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -79,6 +143,8 @@ describe('Certification Registry', () => {
   it('FOIA has all stages passed', () => {
     expect(FOIA_CERTIFICATION.certified).toBe(true);
     expect(FOIA_CERTIFICATION.testCount).toBeGreaterThanOrEqual(49);
+    expect(FOIA_CERTIFICATION.pipeline).toContain('P08');
+    expect(FOIA_CERTIFICATION.domainAdapter).toContain('FOIA');
     const failed = Object.entries(FOIA_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -86,6 +152,8 @@ describe('Certification Registry', () => {
   it('Appeal has all stages passed', () => {
     expect(APPEAL_CERTIFICATION.certified).toBe(true);
     expect(APPEAL_CERTIFICATION.testCount).toBeGreaterThanOrEqual(55);
+    expect(APPEAL_CERTIFICATION.pipeline).toContain('P03');
+    expect(APPEAL_CERTIFICATION.domainAdapter).toContain('Appeal');
     const failed = Object.entries(APPEAL_CERTIFICATION.stages).filter(([, v]) => !v.passed);
     expect(failed).toHaveLength(0);
   });
@@ -93,6 +161,8 @@ describe('Certification Registry', () => {
   it('I-797 is certified as routing-only workflow', () => {
     expect(I797_CERTIFICATION.certified).toBe(true);
     expect(I797_CERTIFICATION.testCount).toBeGreaterThanOrEqual(35);
+    expect(I797_CERTIFICATION.pipeline).toContain('P01');
+    expect(I797_CERTIFICATION.domainAdapter).toContain('I-797');
     expect(I797_CERTIFICATION.stages.drafting.evidence).toBe('I797_NO_DRAFT_ROUTING');
     expect(I797_CERTIFICATION.stages.payment.evidence).toBe('NOT_APPLICABLE_ROUTING_ONLY');
     expect(I797_CERTIFICATION.stages.fulfillment.evidence).toBe('NOT_APPLICABLE_ROUTING_ONLY');
@@ -140,6 +210,17 @@ describe('Certification Registry', () => {
     for (const r of CERTIFICATION_REGISTRY) {
       expect(r.testFile.length).toBeGreaterThan(0);
       expect(r.testCount).toBeGreaterThan(0);
+    }
+  });
+
+  it('pipeline distribution covers multiple archetypes', () => {
+    const pipelines = new Set(CERTIFICATION_REGISTRY.map(r => r.pipeline.split(' ')[0]));
+    expect(pipelines.size).toBeGreaterThanOrEqual(4); // P01, P02, P03, P05, P08
+  });
+
+  it('specialist modules are unique per workflow', () => {
+    for (const r of CERTIFICATION_REGISTRY) {
+      expect(new Set(r.specialistModules).size).toBe(r.specialistModules.length);
     }
   });
 });

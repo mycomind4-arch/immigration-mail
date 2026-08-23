@@ -295,8 +295,8 @@ describe('Consolidation: 15. Multilingual handling remains intact', () => {
 });
 
 describe('Consolidation: Registry correctness', () => {
-  it('all 4 form variants are registered', () => {
-    expect(Object.keys(FORM_VARIANT_REGISTRY).length).toBe(4);
+  it('all 11 form variants are registered', () => {
+    expect(Object.keys(FORM_VARIANT_REGISTRY).length).toBe(11);
   });
 
   it('all form variants are canonical (handled by shared engines)', () => {

@@ -49,9 +49,9 @@ describe('FOIA Variant Consolidation', () => {
     ]);
   });
 
-  it('8 ALIAS workflows exist (form variants + consolidated)', () => {
+  it('15 ALIAS workflows exist (form variants + consolidated)', () => {
     const aliases = WORKFLOW_REGISTRY.filter(w => w.stage === 'ALIAS');
-    expect(aliases.length).toBe(8);
+    expect(aliases.length).toBe(15);
   });
 
   it('3 EXECUTABLE workflows exist (not yet GOLD)', () => {
@@ -61,7 +61,7 @@ describe('FOIA Variant Consolidation', () => {
     expect(slugs).toEqual(['explanation-letter', 'respond-to-notice', 'supporting-documents']);
   });
 
-  it('total canonical workflows = 19 (8 GOLD + 3 EXECUTABLE + 8 ALIAS)', () => {
-    expect(WORKFLOW_REGISTRY.length).toBe(19);
+  it('total canonical workflows = 26 (8 GOLD + 3 EXECUTABLE + 15 ALIAS)', () => {
+    expect(WORKFLOW_REGISTRY.length).toBe(26);
   });
 });

@@ -4,16 +4,35 @@
  * Machine-readable certification records for all GOLD-CERTIFIED workflows.
  * Each record maps to the shared Gold certification stages and provides
  * evidence IDs from the workflow's comprehensive test suite.
+ *
+ * Enhanced fields:
+ *  - vertical: which MailMyPDF vertical this workflow belongs to
+ *  - pipeline: which ecosystem pipeline archetype (P01–P10)
+ *  - domainAdapter: which domain adapter provides specialized intelligence
+ *  - specialistModules: specialist modules attached to this workflow
+ *  - maturity: workflow stage (GOLD-CERTIFIED)
+ *  - build: build passing status
+ *  - seoContent: whether SEO content pages exist
+ *  - aiCoverage: whether AI tasks are covered
  */
 
 import type { GoldCertificationStage } from './gold-certification-full';
 import { ALL_GOLD_STAGES } from './gold-certification-full';
+import type { WorkflowStage } from './workflow-foundry';
 
 export interface WorkflowCertificationRecord {
   workflowSlug: string;
   workflowTitle: string;
+  vertical: string;
+  pipeline: string;
+  domainAdapter: string;
+  specialistModules: string[];
+  maturity: WorkflowStage;
   certifiedAt: string;
   certified: boolean;
+  build: boolean;
+  seoContent: boolean;
+  aiCoverage: boolean;
   stages: Record<GoldCertificationStage, { passed: boolean; evidence: string }>;
   testFile: string;
   testCount: number;
@@ -38,7 +57,11 @@ function routingOnly(): Partial<Record<GoldCertificationStage, string>> {
 
 export const RFE_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'rfe-response', workflowTitle: 'Respond to a USCIS RFE',
-  certifiedAt: '2026-08-15T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P02 Notice / Official Response',
+  domainAdapter: 'RFE Domain Adapter',
+  specialistModules: ['Form Adapters (I-485, I-130, I-140, N-400, I-751, H-1B)', 'Evidence Intelligence', 'Authority Engine', 'X-Ray Review', 'Deadline Engine'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-15T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'rfe-workflow.test.ts + rfe-certification.test.ts', testCount: 70,
   stages: allStagesPassed({
     intake: 'RFE_CASE_CREATED', document_ingestion: 'RFE_DOC_INGESTED', classification: 'RFE_CLASSIFIED',
@@ -54,7 +77,11 @@ export const RFE_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const NOID_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'noid-response', workflowTitle: 'Respond to a USCIS NOID',
-  certifiedAt: '2026-08-17T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P02 Notice / Official Response',
+  domainAdapter: 'NOID Domain Adapter',
+  specialistModules: ['Form Adapters (I-485, I-130, I-751)', 'Evidence Intelligence', 'Authority Engine', 'X-Ray Review', 'Deadline Engine'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-17T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'noid-comprehensive.test.ts', testCount: 67,
   stages: allStagesPassed({
     intake: 'NOID_CASE_CREATED', document_ingestion: 'NOID_DOC_INGESTED', classification: 'NOID_CLASSIFIED',
@@ -70,7 +97,11 @@ export const NOID_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const DENIAL_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'uscis-denial-rejection', workflowTitle: 'Respond to a USCIS Denial',
-  certifiedAt: '2026-08-19T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P03 Appeal / Reconsideration',
+  domainAdapter: 'Denial Recovery Adapter',
+  specialistModules: ['Appeal Evaluator', 'Motion to Reopen Analyzer', 'Refile Analyzer', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-19T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'denial-comprehensive.test.ts', testCount: 34,
   stages: allStagesPassed({
     intake: 'DENIAL_CASE_CREATED', document_ingestion: 'DENIAL_DOC_INGESTED', classification: 'DENIAL_CLASSIFIED',
@@ -86,7 +117,11 @@ export const DENIAL_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const VISA_REFUSAL_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'visa-refusal-response', workflowTitle: 'Respond to a Visa Refusal',
-  certifiedAt: '2026-08-20T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P02 Notice / Official Response',
+  domainAdapter: 'Visa Refusal Adapter',
+  specialistModules: ['221(g) Analyzer', 'Waiver Evaluator', 'Consulate Router', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-20T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'visa-refusal-comprehensive.test.ts', testCount: 52,
   stages: allStagesPassed({
     intake: 'VISA_CASE_CREATED', document_ingestion: 'VISA_DOC_INGESTED', classification: 'VISA_221G_OR_REFUSAL',
@@ -102,7 +137,11 @@ export const VISA_REFUSAL_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const I130_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'i-130-response', workflowTitle: 'Respond to an I-130 Request',
-  certifiedAt: '2026-08-20T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P05 Immigration Evidence / Response',
+  domainAdapter: 'I-130 Family Petition Adapter',
+  specialistModules: ['Bona Fide Marriage Evidence', 'Relationship Proof', 'Petitioner/Beneficiary Isolation', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-20T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'i130-comprehensive.test.ts', testCount: 71,
   stages: allStagesPassed({
     intake: 'I130_CASE_CREATED', document_ingestion: 'I130_DOC_INGESTED', classification: 'I130_RELATIONSHIP',
@@ -118,7 +157,11 @@ export const I130_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const FOIA_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'uscis-foia', workflowTitle: 'Request USCIS Records by FOIA',
-  certifiedAt: '2026-08-21T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P08 Records / Information Request',
+  domainAdapter: 'FOIA Records Request Adapter',
+  specialistModules: ['Identity Verification', 'Agency Routing (USCIS/EOIR/ICE)', 'Record Scope', 'Authority Engine'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-21T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'foia-comprehensive.test.ts', testCount: 49,
   stages: allStagesPassed({
     intake: 'FOIA_CASE_CREATED', document_ingestion: 'FOIA_DOC_INGESTED', classification: 'FOIA_AGENCY',
@@ -134,7 +177,11 @@ export const FOIA_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const APPEAL_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'immigration-appeal-letter', workflowTitle: 'Prepare an Immigration Appeal Letter',
-  certifiedAt: '2026-08-22T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P03 Appeal / Reconsideration',
+  domainAdapter: 'Appeal Letter Adapter',
+  specialistModules: ['Appeal Type Classifier', 'AAO/BIA Router', 'I-290B/EOIR-26 Handler', 'Authority Engine', 'X-Ray Review'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-22T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'appeal-comprehensive.test.ts', testCount: 55,
   stages: allStagesPassed({
     intake: 'APPEAL_CASE_CREATED', document_ingestion: 'APPEAL_DOC_INGESTED', classification: 'APPEAL_TYPE',
@@ -150,7 +197,11 @@ export const APPEAL_CERTIFICATION: WorkflowCertificationRecord = {
 
 export const I797_CERTIFICATION: WorkflowCertificationRecord = {
   workflowSlug: 'i-797-notice', workflowTitle: 'Understand an I-797 Notice',
-  certifiedAt: '2026-08-23T00:00:00Z', certified: true,
+  vertical: 'Immigration', pipeline: 'P01 Core Mail / Correspondence',
+  domainAdapter: 'I-797 Notice Classification Adapter',
+  specialistModules: ['Notice Subtype Classifier', 'Action Type Router', 'Case Status Extractor'],
+  maturity: 'GOLD-CERTIFIED',
+  certifiedAt: '2026-08-23T00:00:00Z', certified: true, build: true, seoContent: true, aiCoverage: true,
   testFile: 'i797-comprehensive.test.ts', testCount: 35,
   stages: allStagesPassed({
     intake: 'I797_CASE_CREATED', document_ingestion: 'I797_DOC_INGESTED', classification: 'I797_SUBTYPE',
