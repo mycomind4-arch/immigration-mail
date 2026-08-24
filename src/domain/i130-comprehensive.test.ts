@@ -387,7 +387,7 @@ describe('I-130: 28-30. X-Ray and blocking', () => {
 
 describe('I-130: 31. Spanish user + English documents', () => {
   it('Spanish UI with English I-130 document', () => {
-    let c = createI130Case('user-1', { ui: 'es', document: 'en', output: 'es' });
+    const c = createI130Case('user-1', { ui: 'es', document: 'en', output: 'es' });
     const r = ingestI130Document(c, makeDU(I130_SPOUSE_RFE), I130_SPOUSE_RFE);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

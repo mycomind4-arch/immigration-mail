@@ -45,7 +45,7 @@ const guides = [
 
 function ResourcesIndex() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
 
       <section className="border-b border-rule/60 bg-paper-deep/20 py-16 md:py-20">

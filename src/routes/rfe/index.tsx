@@ -21,7 +21,7 @@ function RFELandingPage() {
   const forms = getAllFormProfiles().filter(f => f.formType !== 'generic');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">

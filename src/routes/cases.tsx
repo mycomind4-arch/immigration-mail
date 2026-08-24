@@ -110,7 +110,7 @@ function CasesPage() {
 
   if (authLoading || (!user && !authLoading)) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen page-fade">
         <SiteHeader />
         <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
           <div className="flex flex-col items-center justify-center py-16">
@@ -126,7 +126,7 @@ function CasesPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         {/* Header */}

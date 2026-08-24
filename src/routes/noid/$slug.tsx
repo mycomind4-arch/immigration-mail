@@ -48,7 +48,7 @@ function NOIDFormSpecificPage() {
 
   if (!content || !form) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen page-fade">
         <SiteHeader />
         <main>
           <div className="mx-auto max-w-4xl px-6 py-24 text-center">
@@ -66,7 +66,7 @@ function NOIDFormSpecificPage() {
   const sections = content.content.split('\n## ');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <nav className="border-b border-rule/40 bg-paper-deep/20">

@@ -208,7 +208,7 @@ function processDocumentUpload(
   });
 
   // Create or use existing case
-  let rfeCase = session.case ?? createRFESessionCase(session);
+  const rfeCase = session.case ?? createRFESessionCase(session);
 
   // Ingest the RFE document
   const result = ingestRFEDocument(rfeCase, du, undefined, doc.text);

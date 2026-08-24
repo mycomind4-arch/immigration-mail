@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { CANONICAL_WORKFLOW_CARDS, GENERAL_WORKFLOW_CARDS, CONCIERGE_CONFIG, HOMEPAGE_LANGUAGES } from "@/lib/homepage-data";
+import { CANONICAL_WORKFLOW_CARDS, GENERAL_WORKFLOW_CARDS } from "@/lib/homepage-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,14 +33,13 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
-      <ConciergeHero />
-      <TrustBar />
+      <Hero />
+      <TrustStrip />
       <SpecializedWorkflows />
       <GeneralWorkflows />
       <HowItWorks />
-      <Features />
       <DocumentIntelligence />
       <Pricing />
       <Privacy />
@@ -51,256 +50,132 @@ function LandingPage() {
   );
 }
 
-/* ── Shared icons ─────────────────────────────────────────────────────── */
+/* ── Icons ─────────────────────────────────────────────────────────────── */
 function ArrowRight() {
   return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>;
 }
 function CheckIcon() {
   return <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>;
 }
-function MicIcon() {
-  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" /></svg>;
-}
-function UploadIcon() {
-  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>;
-}
-function ChatIcon() {
-  return <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8M8 8h8M2 12c0-2.8 0-4.2.5-5.4a6 6 0 0 1 3.1-3.1C6.8 3 8.2 3 11 3h2c2.8 0 4.2 0 5.4.5a6 6 0 0 1 3.1 3.1c.5 1.2.5 2.6.5 5.4s0 4.2-.5 5.4a6 6 0 0 1-3.1 3.1c-1.2.5-2.6.5-5.4.5h-2c-2.8 0-4.2 0-5.4-.5a6 6 0 0 1-3.1-3.1C2 16.2 2 14.8 2 12z" /></svg>;
-}
 
-/* ── Logo mark for hero illustration ──────────────────────────────────── */
-function StampMark() {
-  return (
-    <div className="relative flex h-16 w-14 flex-col items-center justify-center rounded-sm border-2 border-dashed border-stamp bg-stamp/10 text-stamp">
-      <div className="font-serif text-lg leading-none italic">USA</div>
-      <div className="mt-1 font-mono text-[9px] uppercase tracking-widest">forever</div>
-      <div className="absolute -bottom-2 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-stamp/40 bg-stamp/20" />
-    </div>
-  );
-}
-
-/* ── AI Concierge Hero ─────────────────────────────────────────────────── */
-function ConciergeHero() {
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-16 md:grid-cols-[1.1fr_1fr] md:gap-12 md:py-28">
-        <div className="flex flex-col justify-center">
-          {/* Language toggle */}
-          <div className="flex gap-2" data-testid="lang-toggle">
-            <span className="rounded-full border border-stamp/30 bg-stamp/10 px-3 py-1 text-xs font-medium text-stamp" data-lang="en">
-              {HOMEPAGE_LANGUAGES.en.label}
-            </span>
-            <span className="rounded-full border border-input px-3 py-1 text-xs text-muted-foreground" data-lang="es">
-              {HOMEPAGE_LANGUAGES.es.label}
-            </span>
-          </div>
-
-          <div className="postmark w-fit mt-4">Immigration correspondence</div>
-          <h1 className="mt-4 text-3xl leading-[1.08] sm:text-5xl md:mt-6 md:text-7xl md:leading-[1.05]" data-testid="concierge-headline">
-            {CONCIERGE_CONFIG.headline}
+      {/* Premium hero image on the right, editorial layout */}
+      <div className="mx-auto grid max-w-6xl gap-0 px-4 sm:px-6 md:grid-cols-[1.15fr_1fr]">
+        {/* Left: Headline + CTAs */}
+        <div className="flex flex-col justify-center py-10 sm:py-16 md:py-24 md:pr-10">
+          <div className="eyebrow">Immigration correspondence</div>
+          <h1 className="mt-4 text-4xl leading-[1.05] sm:text-5xl md:text-6xl md:leading-[1.03]" data-testid="concierge-headline">
+            Prepare your immigration correspondence with confidence.
           </h1>
-          <p className="mt-4 max-w-lg text-base text-ink-soft sm:mt-6 sm:text-lg">
-            {CONCIERGE_CONFIG.subheadline}
+          <p className="mt-5 max-w-lg text-base text-ink-soft sm:text-lg">
+            Turn complicated immigration matters into organized, documented action.
+            Build your correspondence, review before sending, and mail with proof of delivery.
           </p>
-          <p className="mt-3 max-w-lg text-sm text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             No account required · Private &amp; secure · Not a law firm — you control the facts
           </p>
 
-          {/* Concierge CTAs */}
-          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center" data-testid="concierge-ctas">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Link
-              to={CONCIERGE_CONFIG.primaryCta.route}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
+              to="/workflows/respond-to-notice"
+              className="btn-primary text-base"
               data-testid="cta-start-conversation"
             >
-              <ChatIcon /> {CONCIERGE_CONFIG.primaryCta.label}
+              Start a Case <ArrowRight />
             </Link>
             <Link
-              to={CONCIERGE_CONFIG.secondaryCta.route}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-              data-testid="cta-upload-document"
+              to="/workflows"
+              className="btn-secondary"
             >
-              <UploadIcon /> {CONCIERGE_CONFIG.secondaryCta.label}
-            </Link>
-            <Link
-              to={CONCIERGE_CONFIG.voiceCta.route}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-              data-testid="cta-talk-to-me"
-            >
-              <MicIcon /> {CONCIERGE_CONFIG.voiceCta.label}
+              Explore Immigration Workflows
             </Link>
           </div>
 
-          {/* Concierge examples */}
-          <div className="mt-6" data-testid="concierge-examples">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Try saying</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {CONCIERGE_CONFIG.examples.map((ex) => (
-                <span key={ex} className="rounded-full border border-rule bg-paper-deep/50 px-3 py-1.5 text-xs text-ink-soft">
-                  "{ex}"
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground sm:mt-6">
-            <span className="flex items-center gap-1.5"><CheckIcon /> USPS Tracking</span>
-            <span className="flex items-center gap-1.5"><CheckIcon /> Certified Mail</span>
-            <span className="flex items-center gap-1.5"><CheckIcon /> Proof of Delivery</span>
-            <span className="flex items-center gap-1.5"><CheckIcon /> Secure Documents</span>
+          {/* Trust indicators */}
+          <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5"><CheckIcon /> Document-focused</span>
+            <span className="flex items-center gap-1.5"><CheckIcon /> Private by design</span>
+            <span className="flex items-center gap-1.5"><CheckIcon /> Review before sending</span>
+            <span className="flex items-center gap-1.5"><CheckIcon /> Professional mailing</span>
           </div>
         </div>
 
-        {/* Envelope illustration */}
-        <div className="hidden py-4 sm:block">
-          <EnvelopeIllustration />
+        {/* Right: Hero image */}
+        <div className="relative hidden md:block">
+          <div className="absolute inset-0 -mr-6 lg:-mr-10">
+            <img
+              src="/img/hero.jpg"
+              alt="A private immigration document office with organized case folders and warm ivory documents"
+              className="h-full w-full rounded-l-2xl object-cover"
+              loading="eager"
+            />
+          </div>
         </div>
+      </div>
+
+      {/* Mobile hero image */}
+      <div className="md:hidden px-4 pb-6">
+        <img
+          src="/img/hero.jpg"
+          alt="A private immigration document office with organized case folders and warm ivory documents"
+          className="h-64 w-full rounded-xl object-cover"
+          loading="eager"
+        />
       </div>
     </section>
   );
 }
 
-function EnvelopeIllustration() {
-  return (
-    <div className="relative mx-auto flex w-full max-w-md items-center justify-center py-4">
-      <div className="postmark-circle h-28 w-28 -right-4 top-2" aria-hidden>
-        <div className="text-center leading-tight">
-          Los Angeles<br />CA 90001
-        </div>
-      </div>
-      <div className="absolute inset-0 -rotate-3 rounded-2xl bg-paper-deep" aria-hidden />
-      <div className="envelope-card relative w-full rotate-1 p-6" style={{ animation: "float 6s ease-in-out infinite" }}>
-        <div className="flex items-start justify-between">
-          <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            From
-            <div className="mt-1 font-sans text-sm normal-case tracking-normal text-foreground">
-              Immigration Mail
-              <div className="text-xs text-muted-foreground">Print Center · Los Angeles, CA</div>
-            </div>
-          </div>
-          <StampMark />
-        </div>
-
-        <div className="mt-10 border-l-2 border-dashed border-rule pl-4">
-          <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">To</div>
-          <div className="mt-1 font-serif text-2xl leading-tight text-foreground">
-            USCIS
-          </div>
-          <div className="font-mono text-sm text-ink-soft">
-            Attn: Texas Service Center<br />
-            P.O. Box 851041<br />
-            Mesquite, TX 75185
-          </div>
-        </div>
-
-        <div className="mt-8 flex items-center justify-between border-t border-dashed border-rule pt-4">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="font-mono uppercase tracking-widest">RFE Response</span>
-          </div>
-          <div className="postmark">3 pages · certified</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ── Trust bar ────────────────────────────────────────────────────────── */
-function TrustBar() {
+/* ── Trust Strip ──────────────────────────────────────────────────────── */
+function TrustStrip() {
   const items = [
-    "USPS Tracking",
-    "Certified Mail available",
-    "Proof of delivery",
-    "Secure document handling",
-    "No printer needed",
+    { label: "Private", icon: "M12 3l8 4v6c0 5-3.5 7-8 8-4.5-1-8-3-8-8V7l8-4z" },
+    { label: "Organized", icon: "M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4" },
+    { label: "Reviewable", icon: "M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" },
+    { label: "Trackable", icon: "M22 12h-4l-3 9L9 3l-3 9H2" },
   ];
   return (
-    <section className="border-y border-rule/60 bg-paper-deep/30">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-3 sm:gap-x-8">
+    <section className="border-b border-rule/60">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {items.map((item) => (
-            <span key={item} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <CheckIcon /> {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── Specialized Workflows ─────────────────────────────────────────────── */
-function SpecializedWorkflows() {
-  return (
-    <section id="specialized" className="border-b border-rule/60 bg-paper-deep/20">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
-        <div className="max-w-2xl">
-          <div className="postmark w-fit">Specialized workflows</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Immigration-specific guided paths</h2>
-          <p className="mt-4 text-sm text-muted-foreground sm:text-base">
-            Each workflow includes document intelligence, deadline analysis, evidence checklists,
-            authority verification, adversarial X-Ray review, and physical mail with tracking.
-          </p>
-        </div>
-        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
-          {CANONICAL_WORKFLOW_CARDS.map((w) => (
-            <Link
-              key={w.title}
-              to={w.route}
-              className="envelope-card envelope-card-hover block p-5 sm:p-6"
-            >
-              <div className="flex items-start justify-between">
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
-                  <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 12l2 2 4-4M5 3h10l4 4v14H5V3z" />
-                  </svg>
-                </span>
-                {w.badge && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-stamp/30 bg-stamp/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-stamp">
-                    {w.badge}
-                  </span>
-                )}
-              </div>
-              <h3 className="mt-5 font-serif text-2xl">{w.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{w.purpose}</p>
-              <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-stamp">
-                Learn more <ArrowRight />
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── General Workflows ─────────────────────────────────────────────────── */
-function GeneralWorkflows() {
-  return (
-    <section id="workflows" className="border-b border-rule/60">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
-        <div className="max-w-2xl">
-          <div className="postmark w-fit">What you can send</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">General starting points</h2>
-          <p className="mt-4 text-sm text-muted-foreground sm:text-base">
-            Don't see your specific situation? Start with a general workflow — we'll route you
-            to the right specialized path once we understand what you need.
-          </p>
-        </div>
-        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
-          {GENERAL_WORKFLOW_CARDS.map((w) => (
-            <Link
-              key={w.title}
-              to={w.route}
-              className="envelope-card envelope-card-hover block p-5 sm:p-6"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-rule bg-paper-deep">
-                <svg className="h-6 w-6 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4" />
+            <div key={item.label} className="flex items-center gap-2.5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-rule bg-paper-deep">
+                <svg className="h-4 w-4 text-brass" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                  <path d={item.icon} />
                 </svg>
               </span>
-              <h3 className="mt-5 font-serif text-2xl">{w.title}</h3>
+              <span className="text-sm font-medium text-ink-soft">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Specialized Workflows ────────────────────────────────────────────── */
+function SpecializedWorkflows() {
+  return (
+    <section className="border-b border-rule/60">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="max-w-2xl">
+          <div className="eyebrow">Immigration workflows</div>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">Find the workflow that matches your situation</h2>
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+            Each workflow guides you through organizing documents, building correspondence, reviewing, and mailing.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CANONICAL_WORKFLOW_CARDS.map((w) => (
+            <Link key={w.route} to={w.route} className="envelope-card envelope-card-hover p-5 sm:p-6 block">
+              {w.badge && <div className="eyebrow">{w.badge}</div>}
+              <h3 className="mt-2 font-serif text-xl">{w.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{w.purpose}</p>
-              <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-stamp">
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brass">
                 Start <ArrowRight />
               </span>
             </Link>
@@ -311,31 +186,27 @@ function GeneralWorkflows() {
   );
 }
 
-/* ── How it works ─────────────────────────────────────────────────────── */
-const STEPS = [
-  { n: "01", t: "Tell us what happened", d: "Use the AI Concierge in your own words — type, upload, or talk. We'll figure out what you need." },
-  { n: "02", t: "We organize the facts", d: "AI identifies the document type, extracts deadlines, maps evidence, and drafts your correspondence." },
-  { n: "03", t: "Review everything", d: "Every word is editable. Nothing is mailed until you review and approve the final document." },
-  { n: "04", t: "Mail it", d: "Choose Standard, Certified, or Registered mail. We print, envelope, and mail via USPS." },
-  { n: "05", t: "Track it", d: "Get a USPS tracking number. Certified mail adds signature tracking and proof of delivery." },
-  { n: "06", t: "Keep your record", d: "Every mailing is recorded with its tracking number and delivery status — all in one place." },
-];
-
-function HowItWorks() {
+/* ── General Workflows ────────────────────────────────────────────────── */
+function GeneralWorkflows() {
   return (
-    <section id="how" className="border-b border-rule/60 bg-paper-deep/20">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+    <section className="border-b border-rule/60 bg-paper-deep/30">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="max-w-2xl">
-          <div className="postmark w-fit">Process</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">How Immigration Mail works</h2>
+          <div className="eyebrow">General starting points</div>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">Not sure which workflow you need?</h2>
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+            Start with a general workflow and we'll guide you from there.
+          </p>
         </div>
-        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-3 sm:mt-10">
-          {STEPS.map((s) => (
-            <div key={s.n} className="envelope-card p-5 sm:p-6">
-              <div className="font-mono text-xs text-stamp">{s.n}</div>
-              <div className="mt-3 font-serif text-xl sm:text-2xl">{s.t}</div>
-              <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
-            </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          {GENERAL_WORKFLOW_CARDS.map((w) => (
+            <Link key={w.route} to={w.route} className="envelope-card envelope-card-hover p-5 sm:p-6 block">
+              <h3 className="font-serif text-xl">{w.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{w.purpose}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brass">
+                Start <ArrowRight />
+              </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -343,34 +214,29 @@ function HowItWorks() {
   );
 }
 
-/* ── Features ────────────────────────────────────────────────────────── */
-const FEATURES = [
-  { icon: "M5 3h10l4 4v14H5V3zM9 7h6M9 11h6M9 15h4", title: "AI Concierge", desc: "Tell us what happened in your own words. We figure out the right workflow and guide you through it." },
-  { icon: "M12 2a5 5 0 0 1 5 5c0 1.5-.5 3-1.5 4 .5 1 1.5 1.5 1.5 3a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3c0-1.5 1-2 1.5-3-1-1-1.5-2.5-1.5-4a5 5 0 0 1 5-5z", title: "AI-assisted drafting", desc: "Organize your facts into a professional draft. Everything is editable. The AI never invents facts, deadlines, or legal conclusions." },
-  { icon: "M22 12h-4l-3 9L9 3l-3 9H2", title: "Physical mail with tracking", desc: "Your correspondence is printed, enveloped, and mailed via USPS. Track delivery and keep proof of service." },
-  { icon: "M12 3l8 4v6c0 5-3.5 7-8 8-4.5-1-8-3-8-8V7l8-4zM9 12l2 2 4-4", title: "Proof of delivery", desc: "Certified mail options include signature tracking — your record that the correspondence arrived." },
-  { icon: "M5 3h14v18l-7-3-7 3V3zM9 12l2 2 4-4", title: "Secure document handling", desc: "Documents are stored securely, never shared, and never used for marketing or AI training." },
-  { icon: "M12 6v6l4 2M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z", title: "Document intelligence", desc: "Upload any notice, letter, or decision. We identify the type, extract deadlines, and explain what to do next." },
+/* ── How It Works ─────────────────────────────────────────────────────── */
+const STEPS = [
+  { n: "01", t: "Choose your workflow", d: "Select the workflow that matches your notice, request, or situation." },
+  { n: "02", t: "Organize your documents", d: "Upload notices, identify deadlines, and map what evidence you need." },
+  { n: "03", t: "Build your correspondence", d: "We help draft a professional letter from your facts. Everything is editable." },
+  { n: "04", t: "Review and approve", d: "Review every word. Nothing is mailed until you approve the final version." },
+  { n: "05", t: "Mail and track", d: "Choose Standard, Certified, or Registered mail. We print, envelope, and send via USPS." },
 ];
 
-function Features() {
+function HowItWorks() {
   return (
-    <section className="border-b border-rule/60">
+    <section id="how" className="border-b border-rule/60">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
-          <div className="postmark w-fit">Why Immigration Mail</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Built for immigration deadlines</h2>
+          <div className="eyebrow">Process</div>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">How Immigration Mail works</h2>
         </div>
-        <div className="mt-8 grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 sm:mt-10">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="envelope-card p-5 sm:p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-rule bg-paper-deep">
-                <svg className="h-5 w-5 text-stamp" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d={f.icon} />
-                </svg>
-              </span>
-              <h3 className="mt-4 font-serif text-xl">{f.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
+        <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
+          {STEPS.map((s) => (
+            <div key={s.n} className="envelope-card p-5 sm:p-6">
+              <div className="font-mono text-xs text-brass">{s.n}</div>
+              <div className="mt-3 font-serif text-xl sm:text-2xl">{s.t}</div>
+              <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
             </div>
           ))}
         </div>
@@ -382,13 +248,13 @@ function Features() {
 /* ── Document Intelligence ──────────────────────────────────────────────── */
 function DocumentIntelligence() {
   return (
-    <section className="border-b border-rule/60 bg-paper-deep/20">
+    <section className="border-b border-rule/60 bg-paper-deep/30">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="grid gap-8 md:grid-cols-2 md:items-center">
           <div>
-            <div className="postmark w-fit">New · Document intelligence</div>
-            <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">
-              What does this <span className="italic text-stamp">letter</span> mean?
+            <div className="eyebrow">Document intelligence</div>
+            <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">
+              What does this <span className="italic text-brass">letter</span> mean?
             </h2>
             <p className="mt-4 text-sm text-muted-foreground sm:text-base">
               Upload any immigration document — a notice, letter, or decision — and get a
@@ -396,28 +262,22 @@ function DocumentIntelligence() {
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
               Our AI identifies the document type, extracts deadlines and requested actions,
-              and flags anything you need to verify. No legal jargon, no guesswork.
+              and flags anything you need to verify.
             </p>
-            <Link
-              to="/analyze"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
-            >
+            <Link to="/analyze" className="btn-primary mt-6">
               Try document analysis <ArrowRight />
             </Link>
           </div>
 
           <div className="relative">
-            <div className="postmark-circle h-20 w-20 -right-2 top-0" aria-hidden>
-              <div className="text-center leading-tight">Analyzed</div>
-            </div>
             <div className="envelope-card relative p-5 sm:p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="postmark w-fit">Identified</div>
+                  <div className="eyebrow">Identified</div>
                   <h3 className="mt-2 font-serif text-xl">Request for Evidence</h3>
                   <p className="text-xs text-muted-foreground">USCIS · Texas Service Center</p>
                 </div>
-                <span className="rounded-full bg-stamp/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp">RFE</span>
+                <span className="badge-base badge-brass">RFE</span>
               </div>
               <div className="mt-5 space-y-3">
                 {[
@@ -427,13 +287,13 @@ function DocumentIntelligence() {
                   { l: "Requested items", v: "Medical I-693, proof of status" },
                 ].map((row) => (
                   <div key={row.l} className="flex items-start justify-between gap-3 border-b border-rule/40 pb-3">
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">{row.l}</span>
-                    <span className={`text-right text-sm font-medium ${row.urgent ? "text-stamp" : "text-foreground"}`}>{row.v}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{row.l}</span>
+                    <span className={`text-right text-sm font-medium ${row.urgent ? "text-brass" : "text-foreground"}`}>{row.v}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 rounded-md border border-stamp/30 bg-stamp/5 px-3 py-2 text-xs text-ink-soft">
-                <span className="font-mono uppercase tracking-widest text-stamp">Next step</span>
+              <div className="alert alert-info mt-4">
+                <span className="font-mono uppercase tracking-widest text-brass text-xs">Next step</span>
                 <p className="mt-1">Gather the requested documents and prepare your response within 87 days.</p>
               </div>
             </div>
@@ -453,39 +313,31 @@ const PRICING = [
 
 function Pricing() {
   return (
-    <section id="pricing" className="border-b border-rule/60 bg-paper-deep/20">
+    <section id="pricing" className="border-b border-rule/60">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
-          <div className="postmark w-fit">Pricing</div>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl">Pay per mailing. No subscription.</h2>
+          <div className="eyebrow">Pricing</div>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">Pay per mailing. No subscription.</h2>
           <p className="mt-4 text-sm text-muted-foreground sm:text-base">
             Prices include printing, paper, envelope, and postage. Page-count tiers apply.
           </p>
         </div>
         <div className="mt-8 grid gap-4 sm:gap-5 md:grid-cols-3 sm:mt-10">
           {PRICING.map((p) => (
-            <div key={p.type} className={`envelope-card p-5 sm:p-6 ${p.featured ? "ring-1 ring-stamp/40" : ""}`}>
-              {p.featured && (
-                <div className="postmark w-fit mb-3">Recommended</div>
-              )}
+            <div key={p.type} className={`envelope-card p-5 sm:p-6 ${p.featured ? "ring-1 ring-brass/40" : ""}`}>
+              {p.featured && <div className="eyebrow mb-2">Recommended</div>}
               <h3 className="font-serif text-2xl">{p.type}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{p.desc}</p>
-              <p className="mt-4 text-4xl font-serif">{p.price}</p>
-              <p className="text-xs text-muted-foreground">per mailing, starting</p>
-              <ul className="mt-5 space-y-2">
+              <p className="mt-4 text-3xl font-serif">{p.price}</p>
+              <ul className="mt-5 space-y-2 text-sm text-ink-soft">
                 {p.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-ink-soft">
-                    <CheckIcon /> {f}
+                  <li key={f} className="flex items-start gap-2">
+                    <CheckIcon /><span>{f}</span>
                   </li>
                 ))}
               </ul>
-              <Link
-                to="/respond-to-a-uscis-notice"
-                className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-transform hover:-translate-y-0.5 ${
-                  p.featured ? "bg-primary text-primary-foreground shadow-stamp" : "border border-input text-foreground hover:bg-muted"
-                }`}
-              >
-                Start <ArrowRight />
+              <Link to="/workflows/respond-to-notice" className={`mt-6 w-full ${p.featured ? "btn-primary" : "btn-secondary"}`}>
+                Choose {p.type}
               </Link>
             </div>
           ))}
@@ -498,25 +350,30 @@ function Pricing() {
 /* ── Privacy ──────────────────────────────────────────────────────────── */
 function Privacy() {
   return (
-    <section className="border-b border-rule/60">
-      <div className="mx-auto grid max-w-6xl gap-4 px-4 py-12 sm:gap-8 sm:px-6 sm:py-16 md:grid-cols-2">
-        <div className="envelope-card p-6 sm:p-8">
-          <div className="postmark w-fit">Privacy</div>
-          <h3 className="mt-4 font-serif text-2xl sm:text-3xl">Your documents stay private</h3>
-          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Uploaded documents are used only to process, print, and mail your order.
-            We do not use customer documents for AI training, resale, or marketing.
-            You can request deletion at any time.
-          </p>
-        </div>
-        <div className="envelope-card p-6 sm:p-8">
-          <div className="postmark w-fit">Important</div>
-          <h3 className="mt-4 font-serif text-2xl sm:text-3xl">Not a law firm</h3>
-          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Immigration Mail is a correspondence tool, not a law firm. We do not provide
-            legal advice or representation. AI assists with organization but never invents
-            facts or draws legal conclusions. You review everything before it's sent.
-          </p>
+    <section className="border-b border-rule/60 bg-paper-deep/30">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="grid gap-6 md:grid-cols-3">
+          <div>
+            <div className="eyebrow">Private by design</div>
+            <h3 className="mt-3 font-serif text-xl">Your documents stay yours</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Documents are stored securely, never shared, and never used for marketing or AI training.
+            </p>
+          </div>
+          <div>
+            <div className="eyebrow">Reviewable</div>
+            <h3 className="mt-3 font-serif text-xl">You approve every word</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Nothing is mailed until you review and approve the final correspondence. AI suggestions are clearly labeled.
+            </p>
+          </div>
+          <div>
+            <div className="eyebrow">Honest about scope</div>
+            <h3 className="mt-3 font-serif text-xl">Not a law firm</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Immigration Mail organizes documents and prepares correspondence. It does not provide legal advice or representation.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -524,27 +381,27 @@ function Privacy() {
 }
 
 /* ── FAQ ──────────────────────────────────────────────────────────────── */
-const FAQ_ITEMS = [
-  { q: "Is this legal advice?", a: "No. Immigration Mail is a correspondence tool, not a law firm. We help you prepare and send documents — we do not provide legal advice, and AI never invents facts or legal conclusions." },
-  { q: "How does the mailing work?", a: "Your final document is printed, placed in an envelope, and mailed via USPS. You can choose Standard, Certified, or Registered mail for proof of delivery." },
-  { q: "Is my data secure?", a: "All documents are stored with encryption, never shared with third parties, and never used for marketing or AI training. You can request full deletion at any time." },
-  { q: "What types of mail can I send?", a: "Standard, Certified, and Registered mail. Costs start at $4.99 per mailing, including printing, paper, envelope, and postage." },
-  { q: "Do I need an account?", a: "No. You can prepare, pay, and send as a guest. Your order status link will be sent by email." },
-  { q: "Can I edit the draft?", a: "Absolutely. Every draft is fully editable. The AI helps organize your facts — but you review and approve everything before it's mailed." },
+const FAQS = [
+  { q: "Is Immigration Mail a law firm?", a: "No. Immigration Mail provides document preparation and mailing tools. It does not provide legal advice or representation. Users are responsible for reviewing their documents and verifying requirements." },
+  { q: "Can I review my correspondence before it's mailed?", a: "Yes. Every workflow is designed so you review and approve the final correspondence before a mailing is created. Nothing is sent without your approval." },
+  { q: "How does mailing work?", a: "We print, envelope, and mail your correspondence via USPS. Choose Standard, Certified, or Registered mail. All options include tracking, and Certified mail adds proof of delivery." },
+  { q: "Is my data secure?", a: "Documents are stored securely and never shared with third parties. We do not use your documents for marketing or AI training." },
 ];
 
 function FAQ() {
   return (
     <section className="border-b border-rule/60">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
-        <div className="postmark mx-auto w-fit">FAQ</div>
-        <h2 className="mt-4 text-center text-2xl sm:text-3xl md:text-4xl">Questions people ask</h2>
-        <div className="mt-8 divide-y divide-rule/70 border-y border-rule/70 sm:mt-10">
-          {FAQ_ITEMS.map((item) => (
-            <details key={item.q} className="group py-4 sm:py-5">
-              <summary className="flex cursor-pointer items-center justify-between gap-3 list-none">
-                <span className="font-serif text-lg sm:text-xl">{item.q}</span>
-                <span className="shrink-0 text-stamp transition-transform group-open:rotate-45">＋</span>
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="max-w-2xl">
+          <div className="eyebrow">FAQ</div>
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl">Common questions</h2>
+        </div>
+        <div className="mt-6 space-y-4">
+          {FAQS.map((item) => (
+            <details key={item.q} className="envelope-card p-5 sm:p-6 group">
+              <summary className="flex cursor-pointer items-center justify-between font-serif text-lg text-foreground">
+                {item.q}
+                <span className="text-brass transition-transform group-open:rotate-45 text-2xl leading-none">+</span>
               </summary>
               <p className="mt-3 text-sm text-muted-foreground">{item.a}</p>
             </details>
@@ -558,28 +415,26 @@ function FAQ() {
 /* ── Final CTA ───────────────────────────────────────────────────────── */
 function FinalCTA() {
   return (
-    <section className="border-b border-rule/60">
-      <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-20">
-        <div className="postmark mx-auto w-fit">Ready to start</div>
-        <h2 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">
-          Tell us what <span className="italic text-stamp">happened.</span>
-        </h2>
-        <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground sm:text-base">
-          Start a conversation, upload a document, or talk to us. We'll handle the rest.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            to={CONCIERGE_CONFIG.primaryCta.route}
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5"
-          >
-            <ChatIcon /> {CONCIERGE_CONFIG.primaryCta.label}
-          </Link>
-          <Link
-            to={CONCIERGE_CONFIG.secondaryCta.route}
-            className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted"
-          >
-            <UploadIcon /> {CONCIERGE_CONFIG.secondaryCta.label}
-          </Link>
+    <section className="relative overflow-hidden">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+        <div className="relative overflow-hidden rounded-2xl border border-rule">
+          <img src="/img/office-interior.jpg" alt="A private client office with organized document folders" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+          <div className="relative bg-navy/85 px-6 py-14 sm:px-10 sm:py-20 md:px-16">
+            <h2 className="max-w-lg text-3xl text-paper sm:text-4xl md:text-5xl" style={{ fontFamily: "var(--font-serif)" }}>
+              Ready to prepare your correspondence?
+            </h2>
+            <p className="mt-4 max-w-md text-sm text-paper/70 sm:text-base">
+              Start with the workflow that matches your situation. No account required to begin.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link to="/workflows/respond-to-notice" className="btn-primary text-base">
+                Start a Case <ArrowRight />
+              </Link>
+              <Link to="/workflows" className="btn-secondary bg-paper/10 border-paper/20 text-paper hover:bg-paper/20">
+                Browse Workflows
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

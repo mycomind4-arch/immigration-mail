@@ -227,7 +227,7 @@ describe('NOID Workflow Engine', () => {
   });
 
   it('idempotency: duplicate fulfillment blocked', () => {
-    let c = runFullPipeline();
+    const c = runFullPipeline();
     const originalOrderId = c.fulfillment!.providerOrderId;
     const r = submitNOIDToFulfillment(c, makeRecipient(), 'noid-idem-key');
     expect(r.case.fulfillment?.providerOrderId).toBe(originalOrderId);
@@ -244,7 +244,7 @@ describe('NOID Workflow Engine', () => {
   });
 
   it('Spanish language preserved through pipeline', () => {
-    let c = createNOIDCase('user-1', { ui: 'es', assistant: 'es', output: 'es' });
+    const c = createNOIDCase('user-1', { ui: 'es', assistant: 'es', output: 'es' });
     const r = ingestNOIDDocument(c, makeDU(), NOID_TEXT);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

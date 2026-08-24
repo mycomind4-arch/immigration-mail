@@ -16,7 +16,7 @@ export const Route = createFileRoute('/uscis-denial/')({
 
 function DenialLandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">

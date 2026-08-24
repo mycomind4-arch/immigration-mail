@@ -286,7 +286,7 @@ describe('Visa: 18-19. X-Ray', () => {
     expect(r.case.xray!.overallVerdict).toBe('PASS');
   });
   it('X-Ray blocks when safeToActUpon is false', () => {
-    let c: any = { ...createVisaCase('user-1'), state: 'xray_complete', xray: { safeToActUpon: false, overallVerdict: 'FAIL', findings: [] } };
+    const c: any = { ...createVisaCase('user-1'), state: 'xray_complete', xray: { safeToActUpon: false, overallVerdict: 'FAIL', findings: [] } };
     const r = moveToVisaUserReview(c);
     expect(r.case.state).toBe('blocked');
   });
@@ -338,7 +338,7 @@ describe('Visa: 27. Owner isolation', () => {
 
 describe('Visa: 28. Multilingual', () => {
   it('Spanish UI with English document', () => {
-    let c = createVisaCase('user-1', { ui: 'es', document: 'en', output: 'es' });
+    const c = createVisaCase('user-1', { ui: 'es', document: 'en', output: 'es' });
     const r = ingestVisaRefusalDocument(c, makeDU(REFUSAL_214B), REFUSAL_214B);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

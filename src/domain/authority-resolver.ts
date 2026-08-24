@@ -280,7 +280,7 @@ export function resolveAuthority(input: AuthorityMatchInput): ReconciledCaseReas
     const finding = authorityFindings.find(f => f.issueId === issue.id);
     if (!finding) return issue;
 
-    let reconciled = { ...issue };
+    const reconciled = { ...issue };
 
     if (finding.effect === 'strengthened') {
       // Increase confidence but cap at 0.95
@@ -327,7 +327,7 @@ export function resolveAuthority(input: AuthorityMatchInput): ReconciledCaseReas
 
   // ── Reconcile candidate workflows ──
   let reconciledCandidates: CandidateWorkflow[] = [...reasoning.candidateWorkflows];
-  let reconciledRejections: RejectedWorkflow[] = [...reasoning.incompatibleWorkflows];
+  const reconciledRejections: RejectedWorkflow[] = [...reasoning.incompatibleWorkflows];
 
   // If any blocked authority finding affects a workflow candidate
   for (const finding of authorityFindings) {

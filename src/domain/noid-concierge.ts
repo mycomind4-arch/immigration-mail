@@ -169,7 +169,7 @@ function processNOIDDocumentUpload(
     language: 'en',
   });
 
-  let noidCase = session.case ?? createNOIDCase(`user-${session.id}`, session.language);
+  const noidCase = session.case ?? createNOIDCase(`user-${session.id}`, session.language);
 
   const result = ingestNOIDDocument(noidCase, du, doc.text);
 

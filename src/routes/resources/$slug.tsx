@@ -62,7 +62,7 @@ function GuidePage() {
   const guide = guides[slug];
   if (!guide) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen page-fade">
         <SiteHeader />
         <main className="mx-auto max-w-lg px-6 py-32 text-center">
           <h1 className="font-serif text-4xl">Guide not found</h1>
@@ -74,7 +74,7 @@ function GuidePage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <article>
         <section className="border-b border-rule/60 bg-paper-deep/20 py-12 md:py-16">

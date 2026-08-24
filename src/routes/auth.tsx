@@ -63,29 +63,34 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="overflow-hidden rounded-2xl border border-rule md:grid md:grid-cols-2">
-          <div className="hidden p-8 md:block md:p-10" style={{ background: "linear-gradient(135deg, oklch(0.25 0.05 260) 0%, oklch(0.2 0.04 258) 100%)" }}>
-            <div className="postmark w-fit">Immigration Mail</div>
-            <h1 className="mt-8 font-serif text-3xl text-white">Your immigration correspondence, organized and sent.</h1>
-            <p className="mt-4 text-sm leading-7 text-white/60">Use the same MailMyPDF Account across the ecosystem while keeping your immigration cases private to your account.</p>
+          {/* Side panel */}
+          <div className="hidden p-8 md:block md:p-10 relative overflow-hidden" style={{ background: "linear-gradient(135deg, oklch(0.30 0.05 255) 0%, oklch(0.24 0.03 260) 100%)" }}>
+            <img src="/img/abstract-layers.jpg" alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" loading="eager" />
+            <div className="relative">
+              <div className="postmark w-fit" style={{ borderColor: "color-mix(in oklab, var(--brass) 50%, transparent)", color: "var(--brass)" }}>Immigration Mail</div>
+              <h1 className="mt-8 font-serif text-3xl" style={{ color: "oklch(0.975 0.012 80)" }}>Your immigration correspondence, organized and sent.</h1>
+              <p className="mt-4 text-sm leading-7" style={{ color: "oklch(0.975 0.012 80 / 0.6)" }}>Use the same MailMyPDF Account across the ecosystem while keeping your immigration cases private to your account.</p>
+            </div>
           </div>
+          {/* Form */}
           <div className="flex flex-col justify-center bg-card p-6 sm:p-8 md:p-10">
             <h2 className="font-serif text-2xl">{isSignUp ? "Create your MailMyPDF Account" : "Welcome back"}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{mode === "magic" ? "We'll email you a secure sign-in link." : "Sign in to save cases, drafts, and mailing history."}</p>
-            {error && <div className="mt-4 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive">{error}</div>}
-            {notice && <div className="mt-4 rounded-lg border border-stamp/20 bg-stamp/10 p-3 text-xs text-foreground">{notice}</div>}
+            {error && <div className="alert alert-error mt-4">{error}</div>}
+            {notice && <div className="alert alert-info mt-4">{notice}</div>}
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
               <div><label className="input-label" htmlFor="email">Email address</label><input id="email" className="input-field" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting} autoCapitalize="none" autoCorrect="off" /></div>
               {mode === "password" && <div><label className="input-label" htmlFor="password">Password</label><input id="password" className="input-field" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={isSubmitting} /></div>}
-              <button type="submit" disabled={isSubmitting || authLoading} className="mt-2 inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-stamp disabled:opacity-30">{isSubmitting ? "Working…" : mode === "magic" ? "Email me a sign-in link →" : isSignUp ? "Create account →" : "Sign in →"}</button>
+              <button type="submit" disabled={isSubmitting || authLoading} className="btn-primary mt-2 w-full" style={{ background: "var(--navy)" }}>{isSubmitting ? "Working…" : mode === "magic" ? "Email me a sign-in link →" : isSignUp ? "Create account →" : "Sign in →"}</button>
             </form>
             <div className="mt-5 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
-              <button type="button" onClick={() => { setMode(mode === "password" ? "magic" : "password"); setNotice(null); setError(null); }} className="text-stamp underline">{mode === "password" ? "Use a magic link" : "Use password"}</button>
-              {!isSignUp && mode === "password" && <button type="button" onClick={handleReset} disabled={isSubmitting} className="text-stamp underline">Forgot password?</button>}
-              {mode === "password" && <button type="button" onClick={() => { setIsSignUp(!isSignUp); setError(null); setNotice(null); }} className="text-stamp underline">{isSignUp ? "Already have an account? Sign in" : "Create an account"}</button>}
+              <button type="button" onClick={() => { setMode(mode === "password" ? "magic" : "password"); setNotice(null); setError(null); }} className="text-brass underline">{mode === "password" ? "Use a magic link" : "Use password"}</button>
+              {!isSignUp && mode === "password" && <button type="button" onClick={handleReset} disabled={isSubmitting} className="text-brass underline">Forgot password?</button>}
+              {mode === "password" && <button type="button" onClick={() => { setIsSignUp(!isSignUp); setError(null); setNotice(null); }} className="text-brass underline">{isSignUp ? "Already have an account? Sign in" : "Create an account"}</button>}
             </div>
             <p className="mt-6 text-center text-xs text-muted-foreground"><Link to="/privacy" className="underline">Privacy</Link> · <Link to="/terms" className="underline">Terms</Link></p>
           </div>

@@ -24,7 +24,7 @@ const sections = [
 
 function TermsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="flex items-center gap-3">

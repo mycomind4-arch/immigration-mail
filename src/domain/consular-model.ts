@@ -357,7 +357,7 @@ export function analyzeConsular(
   const visaCategory = detectVisaCategory(text);
   const documentStatus = detectDocumentTypes(text);
   const detectedFormType = (formType || detectFormType(text) || 'DS-260').toUpperCase();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const detectedNVC = (nvcCaseNumber || extractNVCCaseNumber(text))?.toUpperCase();
   const detectedInvoiceId = extractInvoiceId(text);
   const detectedEmbassyCode = extractEmbassyCode(text);

@@ -33,7 +33,7 @@ function I130LandingPage() {
   const sections = page.content.split('\n## ');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">

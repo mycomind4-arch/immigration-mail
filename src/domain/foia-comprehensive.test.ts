@@ -301,7 +301,7 @@ describe('FOIA: 29-30. Owner isolation and AI context', () => {
 
 describe('FOIA: 31. Spanish', () => {
   it('Spanish UI with English request', () => {
-    let c = createFOIACase('user-1', { ui: 'es', document: 'en', output: 'es' });
+    const c = createFOIACase('user-1', { ui: 'es', document: 'en', output: 'es' });
     const r = ingestFOIARequest(c, makeDU(USCIS_FOIA), USCIS_FOIA);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

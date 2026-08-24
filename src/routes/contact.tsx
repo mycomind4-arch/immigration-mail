@@ -17,7 +17,7 @@ function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">

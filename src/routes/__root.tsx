@@ -14,7 +14,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Immigration Mail — Prepare and mail important immigration correspondence" },
       { name: "description", content: "Guided workflows to prepare, review, send, and track important immigration correspondence. Physical mail with proof of delivery. Not a law firm — you control the facts." },
       { name: "robots", content: "index,follow" },
-      { name: "theme-color", content: "#1a2340" },
+      { name: "theme-color", content: "#2a3340" },
       { property: "og:title", content: "Immigration Mail — Prepare and mail important immigration correspondence" },
       { property: "og:description", content: "Prepare, review, send, track, and keep a record of important immigration correspondence." },
       { property: "og:type", content: "website" },
@@ -81,5 +81,5 @@ function CheckoutReturnHandler() {
 }
 
 function NotFoundPage() {
-  return <div className="min-h-screen"><SiteHeader /><main className="mx-auto max-w-lg px-6 py-32 text-center"><div className="postmark mx-auto w-fit">404</div><h1 className="mt-6 text-6xl" style={{ fontFamily: "var(--font-serif)" }}>Lost in <span className="italic text-stamp">transit.</span></h1><p className="mt-4 text-muted-foreground">The page you're looking for doesn't exist or has moved. Let's get you back on track.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/" className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted">← Home</Link><Link to="/workflows/respond-to-notice" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5">Start a letter</Link></div></main><SiteFooter /></div>;
+  return <div className="min-h-screen page-fade"><SiteHeader /><main className="mx-auto max-w-lg px-6 py-32 text-center"><div className="postmark mx-auto w-fit">404</div><h1 className="mt-6 text-6xl" style={{ fontFamily: "var(--font-serif)" }}>Lost in <span className="italic text-stamp">transit.</span></h1><p className="mt-4 text-muted-foreground">The page you're looking for doesn't exist or has moved. Let's get you back on track.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Link to="/" className="inline-flex items-center gap-2 rounded-full border border-input px-5 py-3 text-sm font-medium transition-colors hover:bg-muted">← Home</Link><Link to="/workflows/respond-to-notice" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-stamp transition-transform hover:-translate-y-0.5">Start a letter</Link></div></main><SiteFooter /></div>;
 }

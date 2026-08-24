@@ -377,7 +377,7 @@ describe('NOID: 25-27. X-Ray', () => {
 
 describe('NOID: 28. Spanish user + English NOID', () => {
   it('Spanish UI with English document', () => {
-    let c = createNOIDCase('user-1', { ui: 'es', document: 'en', output: 'es' });
+    const c = createNOIDCase('user-1', { ui: 'es', document: 'en', output: 'es' });
     const r = ingestNOIDDocument(c, makeDU(NOID_I485), NOID_I485);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

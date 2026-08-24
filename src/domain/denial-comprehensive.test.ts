@@ -291,7 +291,7 @@ describe('Denial: Security Regression', () => {
 
 describe('Denial: Spanish Support', () => {
   it('Spanish UI with English document', () => {
-    let c = createDenialCase('user-1', { ui: 'es', document: 'en', output: 'es' });
+    const c = createDenialCase('user-1', { ui: 'es', document: 'en', output: 'es' });
     const r = ingestDenialDocument(c, makeDU(DENIAL_I485), DENIAL_I485);
     expect(r.case.language.ui).toBe('es');
     expect(r.result.userMessageEs).toBeDefined();

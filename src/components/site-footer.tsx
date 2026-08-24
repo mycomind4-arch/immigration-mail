@@ -13,27 +13,29 @@ export function SiteFooter() {
             </div>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               Prepare, review, and mail important immigration correspondence with confidence.
-              Guided workflows — not blank-page AI chat.
+              Guided workflows with physical mail, tracking, and proof of delivery.
             </p>
+            <p className="mt-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">A MailMyPDF product</p>
           </div>
           <div>
             <div className="text-xs uppercase tracking-widest text-muted-foreground">Product</div>
             <ul className="mt-3 space-y-2 text-sm">
-              <li><Link to="/workflows/respond-to-notice" className="text-ink-soft hover:text-stamp transition-colors">Respond to a Notice</Link></li>
-              <li><Link to="/workflows/supporting-documents" className="text-ink-soft hover:text-stamp transition-colors">Supporting Documents</Link></li>
-              <li><Link to="/workflows/explanation-letter" className="text-ink-soft hover:text-stamp transition-colors">Explanation Letter</Link></li>
-              <li><Link to="/pricing" className="text-ink-soft hover:text-stamp transition-colors">Pricing</Link></li>
-              <li><Link to="/dashboard" className="text-ink-soft hover:text-stamp transition-colors">My Mailings</Link></li>
-              <li><Link to="/faq" className="text-ink-soft hover:text-stamp transition-colors">FAQ</Link></li>
+              <li><Link to="/workflows" className="text-ink-soft hover:text-brass transition-colors">Workflows</Link></li>
+              <li><Link to="/workflows/respond-to-notice" className="text-ink-soft hover:text-brass transition-colors">Respond to a Notice</Link></li>
+              <li><Link to="/workflows/supporting-documents" className="text-ink-soft hover:text-brass transition-colors">Supporting Documents</Link></li>
+              <li><Link to="/workflows/explanation-letter" className="text-ink-soft hover:text-brass transition-colors">Explanation Letter</Link></li>
+              <li><Link to="/pricing" className="text-ink-soft hover:text-brass transition-colors">Pricing</Link></li>
+              <li><Link to="/dashboard" className="text-ink-soft hover:text-brass transition-colors">My Mailings</Link></li>
             </ul>
           </div>
           <div>
             <div className="text-xs uppercase tracking-widest text-muted-foreground">Company</div>
             <ul className="mt-3 space-y-2 text-sm">
-              <li><Link to="/about" className="text-ink-soft hover:text-stamp transition-colors">About</Link></li>
-              <li><Link to="/contact" className="text-ink-soft hover:text-stamp transition-colors">Contact</Link></li>
-              <li><Link to="/privacy" className="text-ink-soft hover:text-stamp transition-colors">Privacy</Link></li>
-              <li><Link to="/terms" className="text-ink-soft hover:text-stamp transition-colors">Terms</Link></li>
+              <li><Link to="/about" className="text-ink-soft hover:text-brass transition-colors">About</Link></li>
+              <li><Link to="/faq" className="text-ink-soft hover:text-brass transition-colors">FAQ</Link></li>
+              <li><Link to="/contact" className="text-ink-soft hover:text-brass transition-colors">Contact</Link></li>
+              <li><Link to="/privacy" className="text-ink-soft hover:text-brass transition-colors">Privacy</Link></li>
+              <li><Link to="/terms" className="text-ink-soft hover:text-brass transition-colors">Terms</Link></li>
             </ul>
           </div>
         </div>

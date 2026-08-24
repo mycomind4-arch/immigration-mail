@@ -16,7 +16,7 @@ export const Route = createFileRoute('/i-797-notice/')({
 
 function I797LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen page-fade">
       <SiteHeader />
       <main>
         <section className="border-b border-rule/60">

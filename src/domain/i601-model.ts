@@ -562,7 +562,7 @@ export function buildI601Strategy(analysis: I601Analysis): I601Strategy {
   let pathwayNote = '';
   let hardshipNote = '';
   let discretionaryNote = '';
-  let consularNote = a.consularSequencingNote;
+  const consularNote = a.consularSequencingNote;
   const eligibilityGates: string[] = [];
 
   if (!a.waiverAvailable && a.inadmissibilityGround !== 'unknown') {
