@@ -11,15 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as MailAPdfRouteImport } from './routes/mail-a-pdf'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ProductsRouteImport } from './routes/products'
 import { Route as RespondToAUscisNoticeRouteImport } from './routes/respond-to-a-uscis-notice'
+import { Route as StartRouteImport } from './routes/start'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WorkflowsRouteImport } from './routes/workflows'
 import { Route as AppealIndexRouteImport } from './routes/appeal/index'
@@ -52,6 +57,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnalyzeRoute = AnalyzeRouteImport.update({
   id: '/analyze',
   path: '/analyze',
@@ -82,6 +92,16 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MailAPdfRoute = MailAPdfRouteImport.update({
+  id: '/mail-a-pdf',
+  path: '/mail-a-pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -92,9 +112,19 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RespondToAUscisNoticeRoute = RespondToAUscisNoticeRouteImport.update({
   id: '/respond-to-a-uscis-notice',
   path: '/respond-to-a-uscis-notice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartRoute = StartRouteImport.update({
+  id: '/start',
+  path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -209,15 +239,20 @@ const WorkflowsSupportingDocumentsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/mail-a-pdf': typeof MailAPdfRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/products': typeof ProductsRoute
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/appeal/$slug': typeof AppealSlugRoute
@@ -243,15 +278,20 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/mail-a-pdf': typeof MailAPdfRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/products': typeof ProductsRoute
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/appeal/$slug': typeof AppealSlugRoute
@@ -278,15 +318,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/account': typeof AccountRoute
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/mail-a-pdf': typeof MailAPdfRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
+  '/products': typeof ProductsRoute
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/workflows': typeof WorkflowsRouteWithChildren
   '/appeal/$slug': typeof AppealSlugRoute
@@ -314,15 +359,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/account'
     | '/analyze'
     | '/auth'
     | '/cases'
     | '/contact'
     | '/dashboard'
     | '/faq'
+    | '/how-it-works'
+    | '/mail-a-pdf'
     | '/pricing'
     | '/privacy'
+    | '/products'
     | '/respond-to-a-uscis-notice'
+    | '/start'
     | '/terms'
     | '/workflows'
     | '/appeal/$slug'
@@ -348,15 +398,20 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/account'
     | '/analyze'
     | '/auth'
     | '/cases'
     | '/contact'
     | '/dashboard'
     | '/faq'
+    | '/how-it-works'
+    | '/mail-a-pdf'
     | '/pricing'
     | '/privacy'
+    | '/products'
     | '/respond-to-a-uscis-notice'
+    | '/start'
     | '/terms'
     | '/workflows'
     | '/appeal/$slug'
@@ -382,15 +437,20 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/account'
     | '/analyze'
     | '/auth'
     | '/cases'
     | '/contact'
     | '/dashboard'
     | '/faq'
+    | '/how-it-works'
+    | '/mail-a-pdf'
     | '/pricing'
     | '/privacy'
+    | '/products'
     | '/respond-to-a-uscis-notice'
+    | '/start'
     | '/terms'
     | '/workflows'
     | '/appeal/$slug'
@@ -417,15 +477,20 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AccountRoute: typeof AccountRoute
   AnalyzeRoute: typeof AnalyzeRoute
   AuthRoute: typeof AuthRoute
   CasesRoute: typeof CasesRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  MailAPdfRoute: typeof MailAPdfRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
+  ProductsRoute: typeof ProductsRoute
   RespondToAUscisNoticeRoute: typeof RespondToAUscisNoticeRoute
+  StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
   WorkflowsRoute: typeof WorkflowsRouteWithChildren
   AppealSlugRoute: typeof AppealSlugRoute
@@ -459,6 +524,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analyze': {
@@ -503,6 +575,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mail-a-pdf': {
+      id: '/mail-a-pdf'
+      path: '/mail-a-pdf'
+      fullPath: '/mail-a-pdf'
+      preLoaderRoute: typeof MailAPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -517,11 +603,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/respond-to-a-uscis-notice': {
       id: '/respond-to-a-uscis-notice'
       path: '/respond-to-a-uscis-notice'
       fullPath: '/respond-to-a-uscis-notice'
       preLoaderRoute: typeof RespondToAUscisNoticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -695,15 +795,20 @@ const WorkflowsRouteWithChildren = WorkflowsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AccountRoute: AccountRoute,
   AnalyzeRoute: AnalyzeRoute,
   AuthRoute: AuthRoute,
   CasesRoute: CasesRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  MailAPdfRoute: MailAPdfRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
+  ProductsRoute: ProductsRoute,
   RespondToAUscisNoticeRoute: RespondToAUscisNoticeRoute,
+  StartRoute: StartRoute,
   TermsRoute: TermsRoute,
   WorkflowsRoute: WorkflowsRouteWithChildren,
   AppealSlugRoute: AppealSlugRoute,

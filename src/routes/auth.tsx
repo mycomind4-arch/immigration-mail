@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -19,9 +19,10 @@ function AuthPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user, loading: authLoading, signIn, signUp, signInWithMagicLink, resetPassword } = useAuth();
   const navigate = useNavigate();
+  const searchParams = useSearch({ from: "/auth" }) as { returnTo?: string };
 
   useEffect(() => {
-    if (!authLoading && user) navigate({ to: "/dashboard" });
+    if (!authLoading && user) navigate({ to: (searchParams?.returnTo || "/dashboard") as "/dashboard" });
   }, [user, authLoading, navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -40,11 +41,11 @@ function AuthPage() {
         const result = await signUp(email.trim(), password);
         if (result.error) setError(result.error);
         else if (result.needsConfirmation) setNotice("Check your email to confirm your account before signing in.");
-        else navigate({ to: "/dashboard" });
+        else navigate({ to: (searchParams?.returnTo || "/dashboard") as "/dashboard" });
       } else {
         const result = await signIn(email.trim(), password);
         if (result.error) setError(result.error);
-        else navigate({ to: "/dashboard" });
+        else navigate({ to: (searchParams?.returnTo || "/dashboard") as "/dashboard" });
       }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Authentication failed.");
