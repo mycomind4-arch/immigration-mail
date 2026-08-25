@@ -62,18 +62,18 @@ export interface TaskRouting {
 
 // Simple routing: cheap models for classification, strong models for reasoning
 export const TASK_ROUTING: Record<AITask, TaskRouting> = {
-  classification: { task: 'classification', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'gemini', fallbackModel: 'gemini-1.5-flash', minConfidence: 0.7 },
-  conversation: { task: 'conversation', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  document_analysis: { task: 'document_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  extraction: { task: 'extraction', preferredProvider: 'openai', preferredModel: 'gpt-4o', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  rfe_analysis: { task: 'rfe_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  evidence_analysis: { task: 'evidence_analysis', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  authority_resolution: { task: 'authority_resolution', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  strategy_generation: { task: 'strategy_generation', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  drafting: { task: 'drafting', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o' },
-  translation: { task: 'translation', preferredProvider: 'openai', preferredModel: 'gpt-4o-mini', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  validation: { task: 'validation', preferredProvider: 'openai', preferredModel: 'gpt-4o', fallbackProvider: 'claude', fallbackModel: 'claude-3-5-sonnet' },
-  xray: { task: 'xray', preferredProvider: 'claude', preferredModel: 'claude-3-5-sonnet', fallbackProvider: 'openai', fallbackModel: 'gpt-4o', minConfidence: 0.85 },
+  classification: { task: 'classification', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514', minConfidence: 0.7 },
+  conversation: { task: 'conversation', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  document_analysis: { task: 'document_analysis', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  extraction: { task: 'extraction', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  rfe_analysis: { task: 'rfe_analysis', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  evidence_analysis: { task: 'evidence_analysis', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  authority_resolution: { task: 'authority_resolution', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  strategy_generation: { task: 'strategy_generation', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  drafting: { task: 'drafting', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  translation: { task: 'translation', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  validation: { task: 'validation', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514' },
+  xray: { task: 'xray', preferredProvider: 'gemini', preferredModel: 'gemini-2.0-flash', fallbackProvider: 'claude', fallbackModel: 'claude-sonnet-4-20250514', minConfidence: 0.85 },
 };
 
 // ─── Provider Adapter Interface ──────────────────────────────────────────────
