@@ -1,16 +1,22 @@
+/**
+ * Document Analysis — Multi-LLM Powered
+ *
+ * Uses the multi-provider LLM service with automatic fallback.
+ * Task routing: document_analysis → Claude (preferred) → OpenAI (fallback) → Gemini
+ *
+ * Security: document text is wrapped as untrusted data.
+ * Fallback: if the preferred provider fails, the next available provider is tried.
+ */
+
 import { createServerFn } from "@tanstack/react-start";
 import { ANALYSIS_SYSTEM_PROMPT, type DocumentAnalysis, emptyAnalysis } from "../lib/document-analysis";
 import { limitDocumentText, sanitizeUserContext, wrapUntrustedDocumentText } from "../domain/ai-input-policy";
-
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o";
-const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL || "https://api.openai.com/v1";
+import { callTaskLLM } from "../domain/llm-service";
 
 export interface AnalyzeDocumentInput { text: string; userContext?: string; }
 export interface AnalyzeDocumentOutput { analysis: DocumentAnalysis; error: string | null; }
 
 export const analyzeDocument = createServerFn("POST", async (input: AnalyzeDocumentInput): Promise<AnalyzeDocumentOutput> => {
-  if (!OPENAI_API_KEY) return { analysis: emptyAnalysis, error: "Document analysis is not configured. An OPENAI_API_KEY is required on the server." };
   if (!input?.text || input.text.trim().length < 10) return { analysis: emptyAnalysis, error: "Not enough text was extracted from the document to analyze. Please try a clearer scan or higher-quality upload." };
 
   const bounded = limitDocumentText(input.text);
@@ -24,25 +30,22 @@ export const analyzeDocument = createServerFn("POST", async (input: AnalyzeDocum
   ].filter(Boolean).join("\n\n");
 
   try {
-    const response = await fetch(`${OPENAI_BASE_URL}/chat/completions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${OPENAI_API_KEY}` },
-      body: JSON.stringify({
-        model: OPENAI_MODEL,
-        messages: [{ role: "system", content: ANALYSIS_SYSTEM_PROMPT }, { role: "user", content: userPrompt }],
+    const response = await callTaskLLM(
+      [
+        { role: "system", content: ANALYSIS_SYSTEM_PROMPT },
+        { role: "user", content: userPrompt },
+      ],
+      {
+        task: "document_analysis",
         temperature: 0.1,
-        max_tokens: 4096,
-        response_format: { type: "json_object" },
-      }),
-    });
-    if (!response.ok) {
-      const errText = await response.text().catch(() => "Unknown error");
-      console.error("OpenAI API error:", response.status, errText);
-      return { analysis: emptyAnalysis, error: `The analysis service returned an error (${response.status}). Please try again.` };
+        maxTokens: 4096,
+      },
+    );
+
+    const content = response.text;
+    if (!content || !content.trim()) {
+      return { analysis: emptyAnalysis, error: "The analysis service returned an empty response. Please try again." };
     }
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-    if (!content) return { analysis: emptyAnalysis, error: "The analysis service returned an empty response. Please try again." };
 
     let parsed: DocumentAnalysis;
     try { parsed = JSON.parse(content); }

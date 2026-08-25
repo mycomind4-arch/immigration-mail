@@ -123,6 +123,8 @@ export interface RFECase {
   tracking?: RFETracking;
   // Proof
   proof?: RFEProof;
+  // AI Enhancements (optional, multi-LLM)
+  aiEnhancements?: RFEAIEnhancements;
   // Audit
   auditLog: { timestamp: string; action: string; details: string }[];
 }
@@ -920,4 +922,183 @@ export function moveToUserReview(rfeCase: RFECase): { case: RFECase; result: RFE
     },
     result: { state: 'user_review', success: true, userMessage: 'Here\'s what we\'re proposing to send. Please review everything carefully.' },
   };
+}
+
+// ─── Multi-LLM AI Enhancement Layer ──────────────────────────────────────────
+//
+// These async functions add AI-powered enhancements to the deterministic
+// workflow steps. They are OPTIONAL — the workflow works perfectly without
+// them. When called, they enrich the user experience with AI insights.
+//
+// AI NEVER bypasses deterministic gates. AI output is validated and
+// non-blocking. The deterministic state machine is always the source of truth.
+
+import type {
+  AIExplanationEnhancement,
+  AIStrategyEnhancement,
+  AIDraftEnhancement,
+  AIXRayEnhancement,
+} from './ai-workflow-enhancer';
+
+export interface RFEAIEnhancements {
+  documentExplanation?: AIExplanationEnhancement;
+  strategy?: AIStrategyEnhancement;
+  draft?: AIDraftEnhancement;
+  xray?: AIXRayEnhancement;
+}
+
+// ── Async: Enhance Document Understanding ────────────────────────────────────
+
+export async function enhanceRFEUnderstanding(
+  rfeCase: RFECase,
+  rawDocumentText: string,
+): Promise<RFECase> {
+  if (!rfeCase.documentUnderstanding) return rfeCase;
+
+  try {
+    const { enhanceDocumentUnderstanding } = await import('./ai-workflow-enhancer');
+    const enhancement = await enhanceDocumentUnderstanding(
+      rawDocumentText,
+      'RFE',
+      rfeCase.rfeAnalysis?.deadline,
+      rfeCase.id,
+    );
+
+    return {
+      ...rfeCase,
+      aiEnhancements: {
+        ...rfeCase.aiEnhancements,
+        documentExplanation: enhancement,
+      },
+      auditLog: [
+        ...rfeCase.auditLog,
+        { timestamp: new Date().toISOString(), action: 'ai_explanation_enhanced', details: `Provider: ${enhancement.provider}` },
+      ],
+    };
+  } catch {
+    // AI enhancement is optional — fail silently
+    return rfeCase;
+  }
+}
+
+// ── Async: Enhance Strategy Generation ────────────────────────────────────────
+
+export async function enhanceRFEStrategy(
+  rfeCase: RFECase,
+): Promise<RFECase> {
+  if (!rfeCase.strategy) return rfeCase;
+
+  try {
+    const { enhanceStrategyGeneration } = await import('./ai-workflow-enhancer');
+    const facts: Record<string, unknown> = {
+      receiptNumber: rfeCase.rfeAnalysis?.identifiers?.receiptNumber,
+      formType: rfeCase.rfeAnalysis?.identifiers?.formType,
+      deadline: rfeCase.rfeAnalysis?.deadline,
+      requestedItems: rfeCase.evidenceChecklist?.map(e => e.description) ?? [],
+    };
+    const evidenceItems = rfeCase.evidenceChecklist?.map(e => e.description) ?? [];
+
+    const enhancement = await enhanceStrategyGeneration(
+      'RFE',
+      facts,
+      evidenceItems,
+      rfeCase.rfeAnalysis?.deadline,
+      rfeCase.id,
+    );
+
+    return {
+      ...rfeCase,
+      aiEnhancements: {
+        ...rfeCase.aiEnhancements,
+        strategy: enhancement,
+      },
+      auditLog: [
+        ...rfeCase.auditLog,
+        { timestamp: new Date().toISOString(), action: 'ai_strategy_enhanced', details: `Provider: ${enhancement.provider}` },
+      ],
+    };
+  } catch {
+    return rfeCase;
+  }
+}
+
+// ── Async: Enhance Draft Generation ───────────────────────────────────────────
+
+export async function enhanceRFEDraft(
+  rfeCase: RFECase,
+): Promise<RFECase> {
+  if (!rfeCase.drafts || !rfeCase.rfeAnalysis) return rfeCase;
+
+  try {
+    const { enhanceDraftGeneration } = await import('./ai-workflow-enhancer');
+    const facts: Record<string, unknown> = {
+      receiptNumber: rfeCase.rfeAnalysis.identifiers?.receiptNumber,
+      formType: rfeCase.rfeAnalysis.identifiers?.formType,
+      deadline: rfeCase.rfeAnalysis?.deadline,
+    };
+    const evidenceItems = rfeCase.evidenceChecklist
+      ?.filter(e => e.status === 'have_it' || e.status === 'uploaded')
+      .map(e => e.description) ?? [];
+
+    const enhancement = await enhanceDraftGeneration(
+      'RFE',
+      rfeCase.rfeAnalysis.identifiers?.receiptNumber || 'N/A',
+      facts,
+      evidenceItems,
+      rfeCase.strategy?.recommendedApproach || rfeCase.drafts.userFacingSummary,
+      rfeCase.id,
+    );
+
+    return {
+      ...rfeCase,
+      aiEnhancements: {
+        ...rfeCase.aiEnhancements,
+        draft: enhancement,
+      },
+      auditLog: [
+        ...rfeCase.auditLog,
+        { timestamp: new Date().toISOString(), action: 'ai_draft_enhanced', details: `Provider: ${enhancement.provider}` },
+      ],
+    };
+  } catch {
+    return rfeCase;
+  }
+}
+
+// ── Async: Enhance X-Ray Review ───────────────────────────────────────────────
+
+export async function enhanceRFEXRay(
+  rfeCase: RFECase,
+): Promise<RFECase> {
+  if (!rfeCase.drafts || !rfeCase.xray) return rfeCase;
+
+  try {
+    const { enhanceXRayReview } = await import('./ai-workflow-enhancer');
+    const facts: Record<string, unknown> = {
+      receiptNumber: rfeCase.rfeAnalysis?.identifiers?.receiptNumber,
+      formType: rfeCase.rfeAnalysis?.identifiers?.formType,
+    };
+    const evidenceItems = rfeCase.evidenceChecklist?.map(e => e.description) ?? [];
+
+    const enhancement = await enhanceXRayReview(
+      rfeCase.drafts.responseLetter,
+      facts,
+      evidenceItems,
+      rfeCase.id,
+    );
+
+    return {
+      ...rfeCase,
+      aiEnhancements: {
+        ...rfeCase.aiEnhancements,
+        xray: enhancement,
+      },
+      auditLog: [
+        ...rfeCase.auditLog,
+        { timestamp: new Date().toISOString(), action: 'ai_xray_enhanced', details: `Provider: ${enhancement.provider}, Severity: ${enhancement.severity}` },
+      ],
+    };
+  } catch {
+    return rfeCase;
+  }
 }
