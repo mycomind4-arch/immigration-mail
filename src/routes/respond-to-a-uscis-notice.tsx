@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { getImmigrationWorkflow } from "@/lib/immigration-workflows";
+import { getImmigrationWorkflow, getWorkflowRoute } from "@/lib/immigration-workflows";
 
 export const Route = createFileRoute('/respond-to-a-uscis-notice')({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -51,7 +51,7 @@ function Page(){
         <div className="eyebrow">Selected workflow</div>
         <h2 className="mt-3 text-2xl md:text-3xl font-serif">{workflow.title}</h2>
         <p className="mt-5 text-base text-ink-soft">{workflow.notes.join(' ')}</p>
-        <Link to="/workflows/$workflowSlug" params={{workflowSlug: workflow.slug}} className="btn-primary mt-8">Review workflow guidance →</Link>
+        <Link to={getWorkflowRoute(workflow.slug)} className="btn-primary mt-8">Review workflow guidance →</Link>
         <p className="mt-8 text-sm leading-6 text-muted-foreground">Immigration Mail helps organize documents and correspondence. It does not determine eligibility, guarantee an outcome, or replace legal advice.</p>
       </div>
     </section>

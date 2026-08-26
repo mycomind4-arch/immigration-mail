@@ -13,6 +13,7 @@
  */
 
 import { CERTIFICATION_REGISTRY, isCertified } from '@/domain/certification-registry';
+import { getWorkflowRoute } from '@/lib/immigration-workflows';
 import { WORKFLOW_REGISTRY, isGoldCertified, isExecutable, classifyStage } from '@/domain/workflow-foundry';
 
 export interface CanonicalWorkflowCard {
@@ -251,29 +252,8 @@ export function getGoldWorkflowsWithoutCards(): string[] {
     .filter(w => w.stage === 'GOLD-CERTIFIED')
     .map(w => w.slug);
 
-  // Map gold slugs to expected routes
-  const slugToRoute: Record<string, string> = {
-    'rfe-response': '/rfe',
-    'noid-response': '/noid',
-    'uscis-denial-rejection': '/uscis-denial',
-    'visa-refusal-response': '/visa-refusal',
-    'i-130-response': '/i-130',
-    'uscis-foia': '/uscis-foia',
-    'immigration-appeal-letter': '/appeal',
-    'i-797-notice': '/i-797-notice',
-    'case-inquiry': '/workflows/case-inquiry',
-    'biometrics-scheduling': '/workflows/biometrics-scheduling',
-    'naturalization-citizenship': '/workflows/naturalization-citizenship',
-    'consular-processing': '/workflows/consular-processing',
-    'i751-removal-conditions': '/workflows/i751-removal-conditions',
-    'i601-waiver': '/workflows/i601-waiver',
-    'i765-employment-authorization': '/workflows/i765-employment-authorization',
-    'i131-travel-document': '/workflows/i131-travel-document',
-    'i90-green-card-renewal': '/workflows/i90-green-card-renewal',
-  };
-
   return goldSlugs.filter(slug => {
-    const route = slugToRoute[slug];
+    const route = getWorkflowRoute(slug);
     return route && !cardRoutes.has(route);
   });
 }
@@ -286,28 +266,7 @@ export function getNonExecutableCardsOnHomepage(): string[] {
   return allCards
     .filter(c => !c.gold && !generalRoutes.has(c.route))
     .filter(c => {
-      // Check if the route maps to a non-executable workflow
-      const foundryEntry = WORKFLOW_REGISTRY.find(w => {
-        const slugToRoute: Record<string, string> = {
-          'rfe-response': '/rfe',
-          'noid-response': '/noid',
-          'uscis-denial-rejection': '/uscis-denial',
-          'visa-refusal-response': '/visa-refusal',
-          'i-130-response': '/i-130',
-          'uscis-foia': '/uscis-foia',
-          'immigration-appeal-letter': '/appeal',
-          'i-797-notice': '/i-797-notice',
-          'respond-to-notice': '/workflows/respond-to-notice',
-          'supporting-documents': '/workflows/supporting-documents',
-          'explanation-letter': '/workflows/explanation-letter',
-          'i751-removal-conditions': '/workflows/i751-removal-conditions',
-          'i601-waiver': '/workflows/i601-waiver',
-          'i765-employment-authorization': '/workflows/i765-employment-authorization',
-          'i131-travel-document': '/workflows/i131-travel-document',
-          'i90-green-card-renewal': '/workflows/i90-green-card-renewal',
-        };
-        return slugToRoute[w.slug] === c.route;
-      });
+      const foundryEntry = WORKFLOW_REGISTRY.find(w => getWorkflowRoute(w.slug) === c.route);
       return foundryEntry && !isExecutable(foundryEntry.slug);
     })
     .map(c => c.title);

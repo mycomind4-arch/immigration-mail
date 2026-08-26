@@ -22,7 +22,7 @@ export function SiteFooter() {
             <ul className="mt-3 space-y-2 text-sm">
               <li><Link to="/workflows" className="text-ink-soft hover:text-brass transition-colors">Workflows</Link></li>
               <li><Link to="/workflows/respond-to-notice" className="text-ink-soft hover:text-brass transition-colors">Respond to a Notice</Link></li>
-              <li><Link to="/workflows/supporting-evidence-letter" className="text-ink-soft hover:text-brass transition-colors">Supporting Evidence Letter</Link></li>
+              <li><Link to="/workflows/supporting-documents" className="text-ink-soft hover:text-brass transition-colors">Supporting Documents</Link></li>
               <li><Link to="/workflows/case-inquiry" className="text-ink-soft hover:text-brass transition-colors">Case Inquiry</Link></li>
               <li><Link to="/pricing" className="text-ink-soft hover:text-brass transition-colors">Pricing</Link></li>
               <li><Link to="/dashboard" className="text-ink-soft hover:text-brass transition-colors">My Mailings</Link></li>

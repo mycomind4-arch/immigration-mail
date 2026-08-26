@@ -322,3 +322,40 @@ export const IMMIGRATION_WORKFLOWS: readonly ImmigrationWorkflow[] = [
 export function getImmigrationWorkflow(slug: string) {
   return IMMIGRATION_WORKFLOWS.find((workflow) => workflow.slug === slug) ?? null;
 }
+
+/**
+ * Maps a workflow slug to its user-facing route.
+ *
+ * 8 workflows have dedicated route files with full interactive UIs
+ * (/rfe, /noid, /uscis-denial, etc.). The rest use the /workflows/$slug
+ * catch-all which serves an SEO landing page.
+ *
+ * This is the single source of truth — homepage-data.ts, the workflows
+ * directory, the footer, and respond-to-a-uscis-notice.tsx all import this.
+ */
+const SLUG_TO_DEDICATED_ROUTE: Record<string, string> = {
+  'rfe-response': '/rfe',
+  'noid-response': '/noid',
+  'uscis-denial-rejection': '/uscis-denial',
+  'visa-refusal-response': '/visa-refusal',
+  'i-130-response': '/i-130',
+  'uscis-foia': '/uscis-foia',
+  'immigration-appeal-letter': '/appeal',
+  'i-797-notice': '/i-797-notice',
+  // General workflows with dedicated route files
+  'respond-to-notice': '/workflows/respond-to-notice',
+  'supporting-evidence-letter': '/workflows/supporting-documents',
+  'explanation-letter': '/workflows/explanation-letter',
+};
+
+export function getWorkflowRoute(slug: string): string {
+  return SLUG_TO_DEDICATED_ROUTE[slug] ?? `/workflows/${slug}`;
+}
+
+/**
+ * Returns true if the workflow slug has a dedicated interactive route
+ * (as opposed to just the catch-all SEO landing page).
+ */
+export function hasDedicatedRoute(slug: string): boolean {
+  return slug in SLUG_TO_DEDICATED_ROUTE;
+}

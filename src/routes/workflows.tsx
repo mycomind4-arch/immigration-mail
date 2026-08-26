@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { IMMIGRATION_WORKFLOWS } from "@/lib/immigration-workflows";
+import { IMMIGRATION_WORKFLOWS, getWorkflowRoute } from "@/lib/immigration-workflows";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -43,7 +43,7 @@ function WorkflowDirectory() {
           <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
             <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
               {IMMIGRATION_WORKFLOWS.map((workflow) => (
-                <Link key={workflow.slug} to="/workflows/$workflowSlug" params={{ workflowSlug: workflow.slug }} className="envelope-card envelope-card-hover p-5 sm:p-6 block">
+                <Link key={workflow.slug} to={getWorkflowRoute(workflow.slug)} className="envelope-card envelope-card-hover p-5 sm:p-6 block">
                   <div className="flex items-center justify-between gap-4">
                     <span className="badge-base badge-navy">{workflow.intent}</span>
                   </div>
