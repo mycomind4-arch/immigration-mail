@@ -857,3 +857,309 @@ describe('RFE Workflow — Consequential gate separation', () => {
     }
   });
 });
+
+// ─── Regression: RFE Evidence Extraction Completeness ──────────────────────────
+// Bug fix: extractRequestedActions() and detectRequestedEvidenceItems() silently
+// dropped itemized list items from RFE notices, causing the pipeline to miss most
+// requested evidence while every step reported success.
+
+describe('RFE Evidence Extraction — Regression: itemized list parsing', () => {
+  const reproductionCaseText = `U.S. Citizenship and Immigration Services
+Request for Evidence
+Application: I-485 Application to Register Permanent Residence
+Receipt Number: MSC2198765432
+Alien Number: A123456789
+
+We have reviewed your Form I-485 based on a marriage to a U.S. citizen. The evidence you submitted is
+insufficient to establish that your marriage is bona fide.
+
+You must respond no later than October 14, 2026.
+
+Please submit the following:
+1. Joint bank account statements covering the last 12 months
+2. Joint lease or mortgage documents
+3. Birth certificates of any children born of the marriage
+4. Affidavits from friends or family with personal knowledge of the relationship
+5. Evidence of joint insurance policies (health, auto, or life)
+
+Failure to respond by the deadline may result in denial of your application.`;
+
+  it('extracts all 5 numbered list items from the reproduction case', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    // The list items should be in du.listItems
+    expect(du.listItems.length).toBe(5);
+    expect(du.listItems[0]).toContain('Joint bank account statements');
+    expect(du.listItems[1]).toContain('Joint lease or mortgage');
+    expect(du.listItems[2]).toContain('Birth certificates of any children');
+    expect(du.listItems[3]).toContain('Affidavits from friends or family');
+    expect(du.listItems[4]).toContain('Evidence of joint insurance policies');
+  });
+
+  it('requestedActions includes all 5 list items (not zero)', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    // Before the fix: requestedActions was [] for this notice
+    // After the fix: should include all 5 list items plus any generic phrase matches
+    expect(du.requestedActions.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('detectRequestedEvidenceItems extracts all 5 items with correct categories', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    const analysis = analyzeRFE(du, reproductionCaseText);
+
+    // Must extract exactly 5 distinct items (no false positives)
+    expect(analysis.requestedItems.length).toBe(5);
+
+    // Verify categories
+    const categories = analysis.requestedItems.map(i => i.category);
+    expect(categories).toContain('financial');         // Joint bank account statements
+    expect(categories).toContain('residence');          // Joint lease or mortgage documents
+    expect(categories).toContain('relationship');       // Birth certificates of children born of the marriage
+    expect(categories).toContain('affidavit');          // Affidavits from friends or family
+    expect(categories).toContain('insurance');          // Evidence of joint insurance policies
+  });
+
+  it('does NOT produce a false positive "identity" item from birth certificate mention', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    const analysis = analyzeRFE(du, reproductionCaseText);
+
+    // Before the fix: "Passport, birth certificate, or identity document" was a false positive
+    // triggered by the word "birth certificate" appearing in item #3
+    const falsePositive = analysis.requestedItems.find(i =>
+      i.description.toLowerCase().includes('passport, birth certificate, or identity document')
+    );
+    expect(falsePositive).toBeUndefined();
+  });
+
+  it('extraction confidence is high when all list items are extracted', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    const analysis = analyzeRFE(du, reproductionCaseText);
+    expect(analysis.extractionConfidence).toBe('high');
+    expect(analysis.detectedListItemsCount).toBe(5);
+  });
+
+  it('X-Ray blocks mailing when extraction is incomplete', () => {
+    // Use unusual evidence items that won't match any pattern fallback.
+    // This simulates the old bug where listItems were detected but not extracted.
+    const unusualRFEText = `U.S. Citizenship and Immigration Services
+Request for Evidence
+Receipt Number: MSC2198765432
+
+You must respond no later than October 14, 2026.
+
+Please submit the following:
+1. Wedding photographs from the ceremony
+2. Receipts for joint purchases over $500
+3. Holiday cards addressed to both of you
+4. Gym membership cards showing joint membership
+5. Social media documentation of your relationship`;
+
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-unusual',
+      text: unusualRFEText,
+      source: { documentId: 'doc-unusual', confidence: 0.9 },
+      language: 'en',
+    });
+
+    // Simulate the old bug: DU detects list items but requestedActions doesn't include them
+    const buggyDu: DocumentUnderstanding = {
+      ...du,
+      listItems: du.listItems, // keep the 5 detected list items for the safety net
+      requestedActions: ['Respond to the notice.'], // old bug: only generic phrase, no list items
+    };
+
+    const c = createRFECase('user-1');
+    const { case: c1 } = ingestRFEDocument(c, buggyDu, 'I received an RFE', unusualRFEText);
+
+    // Verify the extraction is indeed incomplete
+    const listCount = c1.documentUnderstanding?.listItems?.length ?? 0;
+    const extractedCount = c1.evidenceChecklist.length;
+    expect(listCount).toBe(5);
+    expect(extractedCount).toBeLessThan(listCount);
+
+    // Run through the pipeline to X-Ray
+    const { case: c2 } = verifyAuthority(c1, [{
+      id: 'auth-1', sourceType: 'agency_manual', title: 'USCIS PM', citation: 'USCIS PM',
+      issuingAgency: 'USCIS', jurisdiction: 'federal', authorityLevel: 'agency_manual',
+      freshnessPolicy: 'annual_review', applicabilityConditions: [], verificationStatus: 'verified_current',
+      provenance: { discoveredBy: 'manual', retrievedAt: '2026-08-22T00:00:00Z' }, lastVerified: '2026-08-01',
+    }], 'USCIS', 'federal');
+    const { case: c3 } = buildResponseStrategy(c2);
+    const { case: c4 } = generateDrafts(c3);
+    const { case: c5, result } = runRFEXRay(c4);
+
+    expect(c5.state).toBe('blocked');
+    expect(result.success).toBe(false);
+    expect(result.blockingReason).toContain('incomplete');
+  });
+
+  it('full pipeline succeeds with correctly extracted items from reproduction case', () => {
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-rfe-repro',
+      text: reproductionCaseText,
+      source: { documentId: 'doc-rfe-repro', confidence: 0.9 },
+      language: 'en',
+    });
+
+    const c = createRFECase('user-1');
+    const { case: c1 } = ingestRFEDocument(c, du, 'I received a request for evidence from USCIS.', reproductionCaseText);
+
+    // Verify all 5 items made it into the evidence checklist
+    expect(c1.evidenceChecklist.length).toBe(5);
+
+    // Verify the extraction confidence is high (safety net should NOT block)
+    expect(c1.rfeAnalysis?.extractionConfidence).toBe('high');
+  });
+
+  // ── Additional phrasing-variant fixtures ────────────────────────────────────
+
+  it('parses bulleted list items', () => {
+    const bulletedText = `U.S. Citizenship and Immigration Services
+Request for Evidence
+Receipt Number: MSC1234567890
+
+Please submit the following evidence:
+• Joint tax returns for the last 3 years
+• Marriage certificate with certified translation
+• Two passport-style photographs
+• Medical examination (Form I-693) in sealed envelope
+
+You must respond no later than December 15, 2026.`;
+
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-bullet',
+      text: bulletedText,
+      source: { documentId: 'doc-bullet', confidence: 0.9 },
+      language: 'en',
+    });
+
+    expect(du.listItems.length).toBe(4);
+    expect(du.listItems[0]).toContain('Joint tax returns');
+    expect(du.listItems[3]).toContain('Medical examination');
+  });
+
+  it('parses lettered list items', () => {
+    const letteredText = `USCIS
+Request for Evidence
+Receipt: MSC1234567890
+
+Please provide:
+a) Evidence of cohabitation (lease, utility bills)
+b) Proof of joint financial accounts
+c) Photographs of the couple together
+
+Respond no later than January 30, 2027.`;
+
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-letter',
+      text: letteredText,
+      source: { documentId: 'doc-letter', confidence: 0.9 },
+      language: 'en',
+    });
+
+    expect(du.listItems.length).toBe(3);
+    expect(du.listItems[0]).toContain('cohabitation');
+    expect(du.listItems[2]).toContain('Photographs');
+  });
+
+  it('does not treat stray numbers as list items', () => {
+    const noListText = `USCIS
+Request for Evidence
+Receipt Number: MSC1234567890
+Your case was received on 8 CFR 274a.12.
+You must respond no later than December 15, 2026.
+Please submit the requested evidence.`;
+
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-nolist',
+      text: noListText,
+      source: { documentId: 'doc-nolist', confidence: 0.9 },
+      language: 'en',
+    });
+
+    // "8 CFR 274a.12" should not be treated as a list item
+    // and "1." alone (only one number) should not form a list
+    expect(du.listItems.length).toBe(0);
+  });
+
+  it('broadened bank statement pattern matches "bank account statements"', () => {
+    const text = 'Please submit joint bank account statements covering the last 12 months.';
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-bank',
+      text,
+      source: { documentId: 'doc-bank', confidence: 0.9 },
+      language: 'en',
+    });
+    const analysis = analyzeRFE(du, text);
+    const financialItem = analysis.requestedItems.find(i => i.category === 'financial');
+    expect(financialItem).toBeDefined();
+  });
+
+  it('broadened lease pattern matches "lease or mortgage documents"', () => {
+    const text = 'Please submit joint lease or mortgage documents.';
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-lease',
+      text,
+      source: { documentId: 'doc-lease', confidence: 0.9 },
+      language: 'en',
+    });
+    const analysis = analyzeRFE(du, text);
+    const residenceItem = analysis.requestedItems.find(i => i.category === 'residence');
+    expect(residenceItem).toBeDefined();
+  });
+
+  it('affidavit category is recognized', () => {
+    const text = 'Please submit affidavits from friends or family with personal knowledge of the relationship.';
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-affidavit',
+      text,
+      source: { documentId: 'doc-affidavit', confidence: 0.9 },
+      language: 'en',
+    });
+    const analysis = analyzeRFE(du, text);
+    const affidavitItem = analysis.requestedItems.find(i => i.category === 'affidavit');
+    expect(affidavitItem).toBeDefined();
+  });
+
+  it('insurance category is recognized', () => {
+    const text = 'Please submit evidence of joint insurance policies (health, auto, or life).';
+    const du = buildDocumentUnderstanding({
+      documentId: 'doc-insurance',
+      text,
+      source: { documentId: 'doc-insurance', confidence: 0.9 },
+      language: 'en',
+    });
+    const analysis = analyzeRFE(du, text);
+    const insuranceItem = analysis.requestedItems.find(i => i.category === 'insurance');
+    expect(insuranceItem).toBeDefined();
+  });
+});

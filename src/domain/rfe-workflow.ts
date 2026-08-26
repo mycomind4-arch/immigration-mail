@@ -27,7 +27,7 @@ import type { DocumentUnderstanding } from './document-understanding';
 import type { CaseReasoning, DetectedIssue } from './case-reasoning';
 import type { ReconciledCaseReasoning, AuthorityFinding } from './authority';
 import type { EvidenceAnalysisResult } from './evidence';
-import type { XRayResult } from './xray';
+import type { XRayResult, XRayVerdict } from './xray';
 import { reasonAboutCase, type ReasonerInput } from './case-reasoner';
 import { resolveAuthority } from './authority-resolver';
 import { analyzeEvidence } from './evidence';
@@ -653,6 +653,55 @@ export function runRFEXRay(rfeCase: RFECase): { case: RFECase; result: RFEWorkfl
     authorityFindings: rfeCase.authorityFindings,
     evidence: rfeCase.evidence,
   });
+
+  // ── Extraction completeness safety net ──────────────────────────────────────
+  // If the notice contained an itemized list of N items but fewer were extracted,
+  // block mailing and require human review. This catches silent under-extraction
+  // before a response packet goes out to USCIS.
+  const du = rfeCase.documentUnderstanding;
+  const rfeAnalysis = rfeCase.rfeAnalysis;
+  const listItemsCount = du?.listItems?.length ?? 0;
+  const extractedItemsCount = rfeCase.evidenceChecklist.length;
+  const extractionConfidence = rfeAnalysis?.extractionConfidence ?? 'high';
+
+  let blockedByExtraction = false;
+  let extractionBlockReason = '';
+
+  if (listItemsCount > 0 && extractedItemsCount < listItemsCount) {
+    blockedByExtraction = true;
+    extractionBlockReason = `Extraction may be incomplete: the notice contains ${listItemsCount} itemized list item(s) but only ${extractedItemsCount} evidence item(s) were extracted. Please review the notice manually before proceeding.`;
+  } else if (extractionConfidence === 'low') {
+    blockedByExtraction = true;
+    extractionBlockReason = `Extraction confidence is LOW. ${rfeAnalysis?.detectedListItemsCount ?? 0} list item(s) detected, ${extractedItemsCount} item(s) extracted. Please review the notice manually before proceeding.`;
+  }
+
+  if (blockedByExtraction) {
+    const augmentedXray: XRayResult = {
+      ...xray,
+      overallVerdict: 'BLOCK' as XRayVerdict,
+      safeToActUpon: false,
+      requiresHumanReview: [...xray.requiresHumanReview, extractionBlockReason],
+      userFacingSummary: `I found a potential extraction problem. ${extractionBlockReason}`,
+    };
+    return {
+      case: {
+        ...rfeCase,
+        state: 'blocked',
+        xray: augmentedXray,
+        updatedAt: new Date().toISOString(),
+        auditLog: [
+          ...rfeCase.auditLog,
+          { timestamp: new Date().toISOString(), action: 'xray_blocked', details: `Extraction completeness check: ${listItemsCount} list items vs ${extractedItemsCount} extracted. ${extractionBlockReason}` },
+        ],
+      },
+      result: {
+        state: 'blocked',
+        success: false,
+        blockingReason: extractionBlockReason,
+        userMessage: `I found a potential problem: ${extractionBlockReason}`,
+      },
+    };
+  }
 
   const newState: RFEWorkflowState = xray.safeToActUpon ? 'xray_complete' : 'blocked';
 
