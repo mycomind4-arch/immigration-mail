@@ -3,6 +3,13 @@
  *
  * Payment-protected, authenticated Immigration Mail mailing endpoint.
  *
+ * This is the browser-return path. It verifies payment and fulfills
+ * the mailing intent. The Stripe webhook at /api/webhooks/stripe
+ * handles the same flow server-to-server.
+ *
+ * Both paths are idempotent — the first to complete wins, the other
+ * returns the existing provider_order_id.
+ *
  * Verifies:
  *   1. Authenticated user.
  *   2. Stripe session is paid.
@@ -76,6 +83,7 @@ export default defineEventHandler(async (event) => {
   if (intentError || !intent) throw createError({ statusCode: 404, statusMessage: "Mailing intent not found." });
   if (intent.stripe_session_id && intent.stripe_session_id !== sessionId) throw createError({ statusCode: 409, statusMessage: "Stripe session does not match the stored intent." });
 
+  // ── Idempotency: already fulfilled ──────────────────────────
   if (intent.provider_order_id) {
     return { success: true, providerOrderId: intent.provider_order_id, trackingNumber: intent.tracking_number ?? null, status: intent.status, idempotent: true };
   }
@@ -120,7 +128,7 @@ export default defineEventHandler(async (event) => {
       matter_reference: intent.matter_reference || intent.workflow_id,
       matter_type: intent.matter_type || "immigration-mail",
       legal_reference: intent.legal_reference || { type: "other", citation: "Immigration Mail workflow", description: "Customer correspondence prepared through Immigration Mail." },
-      metadata: { workflow_id: intent.workflow_id, source: "immigration-mail", stripe_session_id: sessionId, owner_user_id: user.id, approval_id: intent.approval_id || null, approved_draft_hash: intent.approved_draft_hash || null },
+      metadata: { workflow_id: intent.workflow_id, source: "immigration-mail", stripe_session_id: sessionId, owner_user_id: user.id, approval_id: intent.approval_id || null, approved_draft_hash: intent.approved_draft_hash || null, fulfillment_source: "browser-return" },
       idempotency_key: `stripe:${sessionId}`,
     });
 
