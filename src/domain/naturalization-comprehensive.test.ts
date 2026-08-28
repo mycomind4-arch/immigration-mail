@@ -1556,20 +1556,25 @@ describe('Naturalization — Urgency Detection', () => {
     expect(detectUrgency('emergency interview help')).toBe('critical');
   });
 
+  // Use dynamic dates so tests don't break as calendar time advances
+  const pastDate = new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0];
+  const weekAway = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+  const farFuture = new Date(Date.now() + 100 * 86400000).toISOString().split('T')[0];
+
   it('detects critical urgency from interview date within 3 days', () => {
-    expect(detectUrgency('I need help', '2026-08-25', undefined)).toBe('critical');
+    expect(detectUrgency('I need help', pastDate, undefined)).toBe('critical');
   });
 
   it('detects time_sensitive urgency from interview date within 14 days', () => {
-    expect(detectUrgency('I need help', '2026-09-01', undefined)).toBe('time_sensitive');
+    expect(detectUrgency('I need help', weekAway, undefined)).toBe('time_sensitive');
   });
 
   it('detects routine urgency from interview date far away', () => {
-    expect(detectUrgency('I need help', '2026-12-25', undefined)).toBe('routine');
+    expect(detectUrgency('I need help', farFuture, undefined)).toBe('routine');
   });
 
   it('detects critical urgency from oath date within 3 days', () => {
-    expect(detectUrgency('I need help', undefined, '2026-08-25')).toBe('critical');
+    expect(detectUrgency('I need help', undefined, pastDate)).toBe('critical');
   });
 
   it('detects critical urgency from denied keyword', () => {
