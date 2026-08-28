@@ -42,7 +42,6 @@ import { Route as UscisDenialIndexRouteImport } from './routes/uscis-denial/inde
 import { Route as UscisFoiaIndexRouteImport } from './routes/uscis-foia/index'
 import { Route as VisaRefusalIndexRouteImport } from './routes/visa-refusal/index'
 import { Route as VisaRefusalSlugRouteImport } from './routes/visa-refusal/$slug'
-import { Route as WorkflowsIndexRouteImport } from './routes/workflows/index'
 import { Route as WorkflowsWorkflowSlugRouteImport } from './routes/workflows/$workflowSlug'
 import { Route as WorkflowsExplanationLetterRouteImport } from './routes/workflows/explanation-letter'
 import { Route as WorkflowsRespondToNoticeRouteImport } from './routes/workflows/respond-to-notice'
@@ -213,11 +212,6 @@ const VisaRefusalSlugRoute = VisaRefusalSlugRouteImport.update({
   path: '/visa-refusal/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkflowsIndexRoute = WorkflowsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => WorkflowsRoute,
-} as any)
 const WorkflowsWorkflowSlugRoute = WorkflowsWorkflowSlugRouteImport.update({
   id: '/$workflowSlug',
   path: '/$workflowSlug',
@@ -280,7 +274,6 @@ export interface FileRoutesByFullPath {
   '/uscis-denial/': typeof UscisDenialIndexRoute
   '/uscis-foia/': typeof UscisFoiaIndexRoute
   '/visa-refusal/': typeof VisaRefusalIndexRoute
-  '/workflows/': typeof WorkflowsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -300,6 +293,7 @@ export interface FileRoutesByTo {
   '/respond-to-a-uscis-notice': typeof RespondToAUscisNoticeRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/workflows': typeof WorkflowsRouteWithChildren
   '/appeal/$slug': typeof AppealSlugRoute
   '/i-130/$slug': typeof I130SlugRoute
   '/noid/$slug': typeof NoidSlugRoute
@@ -319,7 +313,6 @@ export interface FileRoutesByTo {
   '/uscis-denial': typeof UscisDenialIndexRoute
   '/uscis-foia': typeof UscisFoiaIndexRoute
   '/visa-refusal': typeof VisaRefusalIndexRoute
-  '/workflows': typeof WorkflowsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -360,7 +353,6 @@ export interface FileRoutesById {
   '/uscis-denial/': typeof UscisDenialIndexRoute
   '/uscis-foia/': typeof UscisFoiaIndexRoute
   '/visa-refusal/': typeof VisaRefusalIndexRoute
-  '/workflows/': typeof WorkflowsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -402,7 +394,6 @@ export interface FileRouteTypes {
     | '/uscis-denial/'
     | '/uscis-foia/'
     | '/visa-refusal/'
-    | '/workflows/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -422,6 +413,7 @@ export interface FileRouteTypes {
     | '/respond-to-a-uscis-notice'
     | '/start'
     | '/terms'
+    | '/workflows'
     | '/appeal/$slug'
     | '/i-130/$slug'
     | '/noid/$slug'
@@ -441,7 +433,6 @@ export interface FileRouteTypes {
     | '/uscis-denial'
     | '/uscis-foia'
     | '/visa-refusal'
-    | '/workflows'
   id:
     | '__root__'
     | '/'
@@ -481,7 +472,6 @@ export interface FileRouteTypes {
     | '/uscis-denial/'
     | '/uscis-foia/'
     | '/visa-refusal/'
-    | '/workflows/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -753,13 +743,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisaRefusalSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/workflows/': {
-      id: '/workflows/'
-      path: '/'
-      fullPath: '/workflows/'
-      preLoaderRoute: typeof WorkflowsIndexRouteImport
-      parentRoute: typeof WorkflowsRoute
-    }
     '/workflows/$workflowSlug': {
       id: '/workflows/$workflowSlug'
       path: '/$workflowSlug'
@@ -796,7 +779,6 @@ interface WorkflowsRouteChildren {
   WorkflowsExplanationLetterRoute: typeof WorkflowsExplanationLetterRoute
   WorkflowsRespondToNoticeRoute: typeof WorkflowsRespondToNoticeRoute
   WorkflowsSupportingDocumentsRoute: typeof WorkflowsSupportingDocumentsRoute
-  WorkflowsIndexRoute: typeof WorkflowsIndexRoute
 }
 
 const WorkflowsRouteChildren: WorkflowsRouteChildren = {
@@ -804,7 +786,6 @@ const WorkflowsRouteChildren: WorkflowsRouteChildren = {
   WorkflowsExplanationLetterRoute: WorkflowsExplanationLetterRoute,
   WorkflowsRespondToNoticeRoute: WorkflowsRespondToNoticeRoute,
   WorkflowsSupportingDocumentsRoute: WorkflowsSupportingDocumentsRoute,
-  WorkflowsIndexRoute: WorkflowsIndexRoute,
 }
 
 const WorkflowsRouteWithChildren = WorkflowsRoute._addFileChildren(
