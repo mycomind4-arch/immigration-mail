@@ -6,14 +6,14 @@
  * SECURITY: Requires a server-side approval reference. The draft and
  * recipient are loaded from the immutable approval record, NOT from
  * client-supplied values. This closes the approval-bypass gap.
+ *
+ * Pricing is centralized via @mailmypdf/pricing.
  */
 
 import { createError, defineEventHandler, getRequestHeaders, getRequestURL, readBody, type H3Event } from "h3";
 import { createClient } from "@supabase/supabase-js";
 import { requireAuthenticatedUser } from "../../src/lib/auth-guard";
-
-const PRICES = { standard: 499, certified: 1494, registered: 3249 } as const;
-const LABELS = { standard: "Standard Mailing", certified: "Certified Mailing", registered: "Registered Mailing" } as const;
+import { PRICES, LABELS, isValidPricingKey, type PricingKey } from "@mailmypdf/pricing";
 
 function authRequest(event: H3Event): Request {
   return new Request(getRequestURL(event).toString(), { headers: getRequestHeaders(event) as HeadersInit });
@@ -35,24 +35,23 @@ export default defineEventHandler(async (event) => {
     workflowId?: string;
     workflowTitle?: string;
     correspondenceId?: string;
-    mailingMethod?: keyof typeof PRICES;
+    mailingMethod?: string;
     matterReference?: string;
     matterType?: string;
     legalReference?: unknown;
-    // Legacy fields — ignored when approvalId is present
-    draftContent?: string;
-    recipient?: { name?: string; org?: string; address1?: string; address2?: string; city?: string; state?: string; zip?: string };
   }>(event);
 
   const approvalId = input?.approvalId?.trim();
   const workflowId = input?.workflowId?.trim();
-  const method = input?.mailingMethod;
+  const methodRaw = input?.mailingMethod;
 
   if (!approvalId) {
     throw createError({ statusCode: 400, statusMessage: "Server-side approval is required before checkout. Call /api/approve first." });
   }
   if (!workflowId) throw createError({ statusCode: 400, statusMessage: "Workflow ID is required." });
-  if (!method || !(method in PRICES)) throw createError({ statusCode: 400, statusMessage: "Invalid mailing method." });
+  if (!methodRaw || !isValidPricingKey(methodRaw)) throw createError({ statusCode: 400, statusMessage: "Invalid mailing method." });
+
+  const method = methodRaw as PricingKey;
 
   const supabase = serviceSupabase();
 
