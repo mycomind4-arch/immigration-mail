@@ -1,9 +1,12 @@
 /**
  * RFE Pricing Engine
  *
- * Separates SERVICE PRICE from POSTAGE from OPTIONAL ADD-ONS.
- * Never disguises postage as product revenue.
+ * Pricing is delegated to the canonical @mailmypdf/pricing engine.
+ * Local pricing constants have been removed.
+ * Utility types and helpers are kept for backward compatibility.
  */
+
+import { calculateQuote, LABELS, type MailClass } from "@mailmypdf/pricing";
 
 import type { MailingMethod } from './rfe-workflow';
 
@@ -63,10 +66,20 @@ export interface PricingResult {
 }
 
 export function calculatePricing(input: PricingInput): PricingResult {
+  // Delegate to canonical @mailmypdf/pricing engine
+  const mailClass = input.mailingMethod as MailClass;
+  const quote = calculateQuote({
+    workflowId: "rfe",
+    verticalId: "immigration-mail",
+    actualPages: Math.max(1, Math.ceil((input.estimatedWeightOunces || 1) / 2)),
+    mailClass,
+  });
+
+  const servicePrice = quote.basePriceCents / 100;
+  const postage = quote.mailCents / 100;
+  const total = quote.totalCents / 100;
+
   const tier = PRICING_TIERS[input.complexity];
-  const postageRate = POSTAGE_RATES[input.mailingMethod];
-  const servicePrice = tier.servicePrice;
-  const postage = +(postageRate.base + postageRate.perOunce * input.estimatedWeightOunces).toFixed(2);
   const addOns = input.selectedAddOns
     .map(id => AVAILABLE_ADDONS.find(a => a.id === id))
     .filter((a): a is AddOnService => a !== undefined)
@@ -74,13 +87,14 @@ export function calculatePricing(input: PricingInput): PricingResult {
   const addOnsTotal = addOns.reduce((s, a) => s + a.price, 0);
   const taxRate = input.taxRate ?? 0;
   const tax = +((servicePrice + addOnsTotal) * taxRate).toFixed(2);
-  const total = +(servicePrice + postage + addOnsTotal + tax).toFixed(2);
+  const grandTotal = +(total + addOnsTotal + tax).toFixed(2);
+
   return {
-    servicePrice, postage, addOns, addOnsTotal, tax, total,
+    servicePrice, postage, addOns, addOnsTotal, tax, total: grandTotal,
     mailingMethod: input.mailingMethod, currency: 'USD',
     breakdown: [
       { label: `${tier.name} Service`, amount: servicePrice, isPostage: false },
-      { label: postageRate.description, amount: postage, isPostage: true },
+      { label: LABELS[mailClass] || 'Mailing', amount: postage, isPostage: true },
       ...addOns.map(a => ({ label: a.name, amount: a.price, isPostage: false })),
       ...(tax > 0 ? [{ label: 'Tax', amount: tax, isPostage: false }] : []),
     ],
