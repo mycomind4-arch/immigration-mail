@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { PRICES, BAND_LABELS, getPricingProfilesByVertical } from "@mailmypdf/pricing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -6,20 +7,20 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: "Pricing — Immigration Mail" },
-      { name: "description", content: "Simple per-mailing pricing. Standard $4.99, Certified $14.94, Registered $32.49. No subscription." },
+      { name: "description", content: "Pay for the workflow preparation, then choose your mailing. Preparation starts at $12.99. Mailing from $4.99." },
     ],
   }),
   component: PricingPage,
 });
 
 const tiers = [
-  { type: "Standard", price: "$4.99", desc: "Standard delivery for non-urgent mail", features: ["3–7 business days", "USPS tracking included", "Professional printing & envelope", "Mailing record retained"] },
-  { type: "Certified", price: "$14.94", desc: "Trackable delivery with confirmation", features: ["3–7 business days", "Delivery tracking + confirmation", "Proof of delivery", "Mailing record retained"], featured: true },
-  { type: "Registered", price: "$32.49", desc: "Highest security for sensitive documents", features: ["5–10 business days", "Secure handling + tracking", "Insured delivery", "Signature required"] },
+  { type: "Standard", price: `$${(PRICES.standard / 100).toFixed(2)}`, desc: "Standard delivery for non-urgent mail", features: ["3–7 business days", "USPS tracking included", "Professional printing & envelope", "Mailing record retained"] },
+  { type: "Certified", price: `$${(PRICES.certified / 100).toFixed(2)}`, desc: "Trackable delivery with confirmation", features: ["3–7 business days", "Delivery tracking + confirmation", "Proof of delivery", "Mailing record retained"], featured: true },
+  { type: "Registered", price: `$${(PRICES.registered / 100).toFixed(2)}`, desc: "Highest security for sensitive documents", features: ["5–10 business days", "Secure handling + tracking", "Insured delivery", "Signature required"] },
 ];
 
 const faqs = [
-  { q: "Is there a subscription?", a: "No. You pay per mailing — no monthly fee, no commitment." },
+  { q: "How does pricing work?", a: "You pay for the workflow preparation — the analysis, document drafting, and review — then choose how to send it. Mailing is a separate service." },
   { q: "What payment methods do you accept?", a: "All major credit and debit cards via Stripe." },
   { q: "Can I get a refund?", a: "If your mailing hasn't been submitted for processing yet, you can request a full refund." },
   { q: "Does the price include postage?", a: "Yes. Printing, paper, envelope, and USPS postage are all included." },
@@ -33,8 +34,8 @@ function PricingPage() {
         <section className="border-b border-rule/60">
           <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
             <div className="postmark w-fit">Pricing</div>
-            <h1 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">Pay per mailing. No subscription.</h1>
-            <p className="mt-4 text-sm text-muted-foreground sm:text-base">Every price includes printing, paper, envelope, and postage. Page-count tiers apply.</p>
+            <h1 className="mt-4 font-serif text-3xl sm:text-4xl md:text-5xl">Pay for the work, then choose your mailing.</h1>
+            <p className="mt-4 text-sm text-muted-foreground sm:text-base">Every workflow has a preparation fee based on its complexity. Mailing is separate.</p>
           </div>
         </section>
         <section className="border-b border-rule/60 bg-paper-deep/20">
