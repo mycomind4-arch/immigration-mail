@@ -6,14 +6,26 @@
  * SECURITY: Requires a server-side approval reference. The draft and
  * recipient are loaded from the immutable approval record, NOT from
  * client-supplied values. This closes the approval-bypass gap.
+ *
+ * PRICING: Uses the canonical @mailmypdf/pricing engine to calculate
+ * the full quote (workflow preparation fee + mailing service + extra pages).
+ * The server resolves the workflow and calculates the amount — the client
+ * never controls price.
  */
 
 import { createError, defineEventHandler, getRequestHeaders, getRequestURL, readBody, type H3Event } from "h3";
 import { createClient } from "@supabase/supabase-js";
 import { requireAuthenticatedUser } from "../../src/lib/auth-guard";
-
-const PRICES = { standard: 499, certified: 1494, registered: 3249 } as const;
-const LABELS = { standard: "Standard Mailing", certified: "Certified Mailing", registered: "Registered Mailing" } as const;
+import {
+  calculateQuote,
+  getWorkflowPricingProfile,
+  serializeQuote,
+  PRICES,
+  LABELS,
+  isValidPricingKey,
+  type PricingKey,
+  type MailClass,
+} from "@mailmypdf/pricing";
 
 function authRequest(event: H3Event): Request {
   return new Request(getRequestURL(event).toString(), { headers: getRequestHeaders(event) as HeadersInit });
@@ -26,6 +38,10 @@ function serviceSupabase() {
   return createClient(url, serviceRole, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 
+function estimatePageCount(draft: string): number {
+  return Math.max(1, Math.ceil(draft.length / 3000));
+}
+
 export default defineEventHandler(async (event) => {
   if (event.method !== "POST") throw createError({ statusCode: 405, statusMessage: "Method not allowed." });
   const user = await requireAuthenticatedUser(authRequest(event));
@@ -35,28 +51,28 @@ export default defineEventHandler(async (event) => {
     workflowId?: string;
     workflowTitle?: string;
     correspondenceId?: string;
-    mailingMethod?: keyof typeof PRICES;
+    mailingMethod?: string;
     matterReference?: string;
     matterType?: string;
     legalReference?: unknown;
-    // Legacy fields — ignored when approvalId is present
     draftContent?: string;
     recipient?: { name?: string; org?: string; address1?: string; address2?: string; city?: string; state?: string; zip?: string };
   }>(event);
 
   const approvalId = input?.approvalId?.trim();
   const workflowId = input?.workflowId?.trim();
-  const method = input?.mailingMethod;
+  const methodRaw = input?.mailingMethod;
 
   if (!approvalId) {
     throw createError({ statusCode: 400, statusMessage: "Server-side approval is required before checkout. Call /api/approve first." });
   }
   if (!workflowId) throw createError({ statusCode: 400, statusMessage: "Workflow ID is required." });
-  if (!method || !(method in PRICES)) throw createError({ statusCode: 400, statusMessage: "Invalid mailing method." });
+  if (!methodRaw || !isValidPricingKey(methodRaw)) throw createError({ statusCode: 400, statusMessage: "Invalid mailing method." });
 
+  const method = methodRaw as PricingKey;
+  const mailClass: MailClass = method as MailClass;
   const supabase = serviceSupabase();
 
-  // Load the immutable approval record
   const { data: approval, error: approvalError } = await supabase
     .from("approvals")
     .select("id, user_id, case_id, workflow_id, draft_content, recipient, draft_hash, recipient_hash, status, approved_at")
@@ -72,7 +88,6 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 409, statusMessage: "Approval does not match the requested workflow." });
   }
 
-  // Use approved draft and recipient
   const draft = approval.draft_content as string;
   const recipient = approval.recipient as { name?: string; org?: string; address1?: string; address2?: string; city?: string; state?: string; zip?: string };
 
@@ -82,6 +97,33 @@ export default defineEventHandler(async (event) => {
   }
   if (!/^[A-Za-z]{2}$/.test(recipient.state)) throw createError({ statusCode: 409, statusMessage: "Approved recipient state is invalid." });
   if (!/^\d{5}(-\d{4})?$/.test(recipient.zip)) throw createError({ statusCode: 409, statusMessage: "Approved recipient ZIP code is invalid." });
+
+  // ── Canonical pricing — server-authoritative quote ─────────
+  const profile = getWorkflowPricingProfile(workflowId);
+  let quoteTotalCents: number;
+  let quoteSnapshot: string | null = null;
+  let stripeLineItemName: string;
+  let stripeLineItemDescription: string;
+
+  if (profile && profile.commercialStatus === "production") {
+    const actualPages = estimatePageCount(draft);
+    const quote = calculateQuote({
+      workflowId,
+      verticalId: profile.verticalId,
+      actualPages,
+      mailClass,
+    });
+    quoteTotalCents = quote.totalCents;
+    quoteSnapshot = serializeQuote(quote);
+
+    const workflowTitle = input?.workflowTitle?.trim() || workflowId;
+    stripeLineItemName = `${workflowTitle} — ${LABELS[method]}`;
+    stripeLineItemDescription = `Workflow preparation (${profile.band}: $${(quote.basePriceCents / 100).toFixed(2)}) + ${LABELS[method]}${quote.extraPageCost > 0 ? ` + ${Math.max(0, actualPages - profile.includedPages)} extra pages` : ""}`;
+  } else {
+    quoteTotalCents = PRICES[method];
+    stripeLineItemName = LABELS[method];
+    stripeLineItemDescription = `${input?.workflowTitle?.trim() || workflowId} · ${LABELS[method]}`;
+  }
 
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) throw createError({ statusCode: 503, statusMessage: "Stripe is not configured." });
@@ -103,6 +145,7 @@ export default defineEventHandler(async (event) => {
     approval_id: approvalId,
     approved_draft_hash: approval.draft_hash,
     approved_recipient_hash: approval.recipient_hash,
+    quote_snapshot: quoteSnapshot,
   }).select("id").single();
 
   if (intentError || !intent) throw createError({ statusCode: 502, statusMessage: `Unable to create mailing intent: ${intentError?.message || "unknown error"}` });
@@ -111,8 +154,8 @@ export default defineEventHandler(async (event) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
-      line_items: [{ price_data: { currency: "usd", product_data: { name: LABELS[method], description: `${input?.workflowTitle?.trim() || workflowId} · ${LABELS[method]}` }, unit_amount: PRICES[method] }, quantity: 1 }],
-      metadata: { mailing_intent_id: intent.id, owner_user_id: user.id, workflow_id: workflowId, approval_id: approvalId },
+      line_items: [{ price_data: { currency: "usd", product_data: { name: stripeLineItemName, description: stripeLineItemDescription }, unit_amount: quoteTotalCents }, quantity: 1 }],
+      metadata: { mailing_intent_id: intent.id, owner_user_id: user.id, workflow_id: workflowId, approval_id: approvalId, quote_total_cents: String(quoteTotalCents), pricing_source: profile ? "canonical" : "mailing-only" },
       success_url: `${appUrl}/workflows/${workflowId}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/workflows/${workflowId}?checkout=cancelled`,
     });
