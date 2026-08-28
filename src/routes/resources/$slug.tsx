@@ -1,3 +1,4 @@
+import { PRICES } from "@mailmypdf/pricing";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Clock, FileText, Mail, PackageCheck, ShieldCheck, Stamp, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -268,7 +269,7 @@ function CertifiedMailContent() {
             <tr><td className="px-4 py-3 font-semibold">Delivery record</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
             <tr><td className="px-4 py-3 font-semibold">Signature proof</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
             <tr><td className="px-4 py-3 font-semibold">Insured delivery</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3 text-muted-foreground">—</td><td className="px-4 py-3"><CheckCircle2 size={14} className="text-emerald-500" /></td></tr>
-            <tr><td className="px-4 py-3 font-semibold">Price</td><td className="px-4 py-3">$4.99</td><td className="px-4 py-3">$14.94</td><td className="px-4 py-3">$32.49</td></tr>
+            <tr><td className="px-4 py-3 font-semibold">Price</td><td className="px-4 py-3">{`${(PRICES.standard / 100).toFixed(2)}`}</td><td className="px-4 py-3">{`${(PRICES.certified / 100).toFixed(2)}`}</td><td className="px-4 py-3">{`${(PRICES.registered / 100).toFixed(2)}`}</td></tr>
           </tbody>
         </table>
       </div>

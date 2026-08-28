@@ -1,3 +1,4 @@
+import { PRICES } from "@mailmypdf/pricing";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { workflows } from "../../domain/workflows";
@@ -30,9 +31,9 @@ const STEPS = [
 ];
 
 const MAIL_OPTIONS = [
-  { id: "standard", label: "Standard", price: "$4.99", desc: "3–7 business days · Tracking included" },
-  { id: "certified", label: "Certified", price: "$14.94", desc: "Delivery tracking + confirmation · 3–7 days" },
-  { id: "registered", label: "Registered", price: "$32.49", desc: "Secure handling + tracking · 5–10 days" },
+  { id: "standard", label: "Standard", price: `${(PRICES.standard / 100).toFixed(2)}`, desc: "3–7 business days · Tracking included" },
+  { id: "certified", label: "Certified", price: `${(PRICES.certified / 100).toFixed(2)}`, desc: "Delivery tracking + confirmation · 3–7 days" },
+  { id: "registered", label: "Registered", price: `${(PRICES.registered / 100).toFixed(2)}`, desc: "Secure handling + tracking · 5–10 days" },
 ];
 
 const MAIL_PRICES_CENTS: Record<string, number> = {
