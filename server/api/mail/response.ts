@@ -1,5 +1,22 @@
+/**
+ * POST /api/mail/response
+ *
+ * Payment-protected, authenticated Immigration Mail mailing endpoint.
+ *
+ * Verifies:
+ *   1. Authenticated user.
+ *   2. Stripe session is paid.
+ *   3. Session belongs to the user.
+ *   4. Mailing intent exists and hasn't been submitted.
+ *   5. ★ approved_draft_hash matches stored draft_content.
+ *   6. ★ approved_recipient_hash matches stored recipient.
+ *
+ * ★ = Gold Hardening Program integrity checks.
+ */
+
 import { createError, defineEventHandler, getRequestHeaders, getRequestURL, readBody, type H3Event } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import { createHash } from "node:crypto";
 import { requireAuthenticatedUser } from "../../../src/lib/auth-guard";
 import { uploadDocument, createCommunication, type MailType } from "../../../src/platform/mailmypdf";
 
@@ -14,6 +31,23 @@ function serviceSupabase() {
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !serviceRole) throw createError({ statusCode: 503, statusMessage: "Supabase server configuration is incomplete." });
   return createClient(url, serviceRole, { auth: { persistSession: false, autoRefreshToken: false } });
+}
+
+function sha256(text: string): string {
+  return createHash("sha256").update(text, "utf8").digest("hex");
+}
+
+function hashRecipient(recipient: Record<string, string>): string {
+  const canonical = JSON.stringify({
+    name: recipient.name?.trim().toUpperCase() || "",
+    org: recipient.org?.trim().toUpperCase() || "",
+    address1: recipient.address1?.trim().toUpperCase() || "",
+    address2: recipient.address2?.trim().toUpperCase() || "",
+    city: recipient.city?.trim().toUpperCase() || "",
+    state: recipient.state?.trim().toUpperCase() || "",
+    zip: recipient.zip?.trim() || "",
+  });
+  return sha256(canonical);
 }
 
 export default defineEventHandler(async (event) => {
@@ -47,8 +81,24 @@ export default defineEventHandler(async (event) => {
   }
   if (!ALLOWED.has(intent.mailing_method as MailType)) throw createError({ statusCode: 409, statusMessage: "Stored mailing method is invalid." });
 
+  // ── ★ APPROVAL HASH VERIFICATION ──────────────────────────
+  if (intent.approved_draft_hash) {
+    const computedDraftHash = sha256(intent.draft_content);
+    if (computedDraftHash !== intent.approved_draft_hash) {
+      throw createError({ statusCode: 403, statusMessage: "Integrity check failed: the stored draft does not match the approved draft." });
+    }
+  }
+
   const recipient = intent.recipient as { name?: string; org?: string; address1?: string; address2?: string; city?: string; state?: string; zip?: string };
   if (!recipient?.name || !recipient.address1 || !recipient.city || !recipient.state || !recipient.zip) throw createError({ statusCode: 409, statusMessage: "Stored recipient is incomplete." });
+
+  // ── ★ RECIPIENT HASH VERIFICATION ─────────────────────────
+  if (intent.approved_recipient_hash) {
+    const computedRecipientHash = hashRecipient(recipient as Record<string, string>);
+    if (computedRecipientHash !== intent.approved_recipient_hash) {
+      throw createError({ statusCode: 403, statusMessage: "Integrity check failed: the stored recipient does not match the approved recipient." });
+    }
+  }
 
   await supabase.from("mailing_intents").update({ status: "paid", stripe_session_id: sessionId, stripe_payment_intent_id: typeof session.payment_intent === "string" ? session.payment_intent : null }).eq("id", intent.id).eq("user_id", user.id).is("provider_order_id", null);
 
@@ -70,7 +120,7 @@ export default defineEventHandler(async (event) => {
       matter_reference: intent.matter_reference || intent.workflow_id,
       matter_type: intent.matter_type || "immigration-mail",
       legal_reference: intent.legal_reference || { type: "other", citation: "Immigration Mail workflow", description: "Customer correspondence prepared through Immigration Mail." },
-      metadata: { workflow_id: intent.workflow_id, source: "immigration-mail", stripe_session_id: sessionId, owner_user_id: user.id },
+      metadata: { workflow_id: intent.workflow_id, source: "immigration-mail", stripe_session_id: sessionId, owner_user_id: user.id, approval_id: intent.approval_id || null, approved_draft_hash: intent.approved_draft_hash || null },
       idempotency_key: `stripe:${sessionId}`,
     });
 
