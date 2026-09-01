@@ -1,29 +1,53 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.');
-}
-
-// SSR-safe: only enable session persistence in the browser.
-// On Cloudflare Workers (SSR), localStorage/window don't exist and would crash.
 const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 
-// SupabaseClient throws if supabaseKey is empty/falsy. Use a placeholder
-// when env vars aren't set so the module can still load during SSR/build.
-const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
-const PLACEHOLDER_KEY = 'placeholder-anon-key';
-
-export const supabase: SupabaseClient = createClient(
-  supabaseUrl || PLACEHOLDER_URL,
-  supabaseAnonKey || PLACEHOLDER_KEY,
-  {
+function createSupabaseClient(url: string, anonKey: string): SupabaseClient {
+  return createClient(url, anonKey, {
     auth: {
       persistSession: isBrowser,
       autoRefreshToken: isBrowser,
       detectSessionInUrl: isBrowser,
     },
+  });
+}
+
+const envUrl = import.meta.env.VITE_SUPABASE_URL;
+const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+let _supabase: SupabaseClient | null = null;
+let _initPromise: Promise<void> | null = null;
+
+if (envUrl && envKey) {
+  _supabase = createSupabaseClient(envUrl, envKey);
+}
+
+async function ensureSupabase(): Promise<void> {
+  if (_supabase) return;
+  if (_initPromise) return _initPromise;
+  _initPromise = (async () => {
+    try {
+      const res = await fetch('/api/auth/config');
+      if (!res.ok) return;
+      const data = await res.json() as { configured: boolean; url: string; anonKey: string };
+      if (data.configured && data.url && data.anonKey) {
+        _supabase = createSupabaseClient(data.url, data.anonKey);
+      }
+    } catch { /* network error */ }
+  })();
+  return _initPromise;
+}
+
+if (isBrowser && !_supabase) {
+  void ensureSupabase();
+}
+
+export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
+  get(_, prop, receiver) {
+    if (!_supabase) {
+      if (isBrowser) void ensureSupabase();
+      return undefined;
+    }
+    return Reflect.get(_supabase, prop, receiver);
   },
-);
+});

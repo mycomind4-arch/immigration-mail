@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
+import { propagateSSOSession } from "./sso-propagate";
 import { supabase } from "./supabase";
 import type { User, Session } from "@supabase/supabase-js";
 
@@ -56,8 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (mounted) setLoading(false);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, nextSession) => {
       setSession(nextSession);
+    if (nextSession && event === "SIGNED_IN" && nextSession.access_token && nextSession.refresh_token) {
+      propagateSSOSession(nextSession.access_token, nextSession.refresh_token, nextSession.expires_in ?? 3600);
+    }
       setUser(nextSession?.user ? mapUser(nextSession.user) : null);
       setAccessToken(nextSession?.access_token ?? null);
       setLoading(false);

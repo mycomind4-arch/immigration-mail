@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useAuth } from "@/lib/auth";
+import { redirectToHubSSO } from "@/lib/sso-propagate";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Sign In — Immigration Mail" }, { name: "robots", content: "noindex,nofollow" }] }),
@@ -88,6 +89,25 @@ function AuthPage() {
               {mode === "password" && <div><label className="input-label" htmlFor="password">Password</label><input id="password" className="input-field" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={isSubmitting} /></div>}
               <button type="submit" disabled={isSubmitting || authLoading} className="btn-primary mt-2 w-full" style={{ background: "var(--navy)" }}>{isSubmitting ? "Working…" : mode === "magic" ? "Email me a sign-in link →" : isSignUp ? "Create account →" : "Sign in →"}</button>
             </form>
+          {mode !== "reset" && mode !== "magic" && (
+            <div className="mt-5">
+              <div className="relative flex items-center gap-3">
+                <div className="h-px flex-1 bg-border" />
+                <span className="text-xs text-muted-foreground">or</span>
+                <div className="h-px flex-1 bg-border" />
+              </div>
+              <button
+                type="button"
+                onClick={() => redirectToHubSSO(window.location.origin + "/dashboard")}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/50"
+              >
+                Continue with MailMyPDF Account
+              </button>
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                One account works across all MailMyPDF products.
+              </p>
+            </div>
+          )}
             <div className="mt-5 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
               <button type="button" onClick={() => { setMode(mode === "password" ? "magic" : "password"); setNotice(null); setError(null); }} className="text-brass underline">{mode === "password" ? "Use a magic link" : "Use password"}</button>
               {!isSignUp && mode === "password" && <button type="button" onClick={handleReset} disabled={isSubmitting} className="text-brass underline">Forgot password?</button>}
